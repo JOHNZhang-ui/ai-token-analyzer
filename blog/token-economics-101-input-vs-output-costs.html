@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token Economics 101: Why Output Costs 4x More Than Input — And How to Save | Token 经济学：为什么输出比输入贵4倍 | TokenCost</title>
+  <meta name="description" content="Understand AI token pricing: why output tokens cost more, how prompt caching works, and 5 actionable strategies to optimize your AI spend. 理解AI Token定价机制，输出为什么更贵，Prompt缓存如何省钱。">
+  <meta name="keywords" content="token economics, AI token pricing, prompt caching, input vs output tokens, LLM cost optimization, token cost, AI API pricing">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .article { max-width: 780px; margin: 0 auto; padding: 48px 24px; }
+    .article h1 { font-size: 2rem; line-height: 1.3; margin-bottom: 12px; }
+    .article .article-meta { color: var(--text-tertiary); font-size: 0.85rem; margin-bottom: 32px; display: flex; gap: 16px; flex-wrap: wrap; }
+    .article h2 { font-size: 1.4rem; margin: 40px 0 16px; color: var(--accent-blue); }
+    .article h3 { font-size: 1.1rem; margin: 28px 0 12px; }
+    .article p { color: var(--text-secondary); line-height: 1.85; margin-bottom: 16px; font-size: 1rem; }
+    .article ul, .article ol { color: var(--text-secondary); line-height: 1.85; margin-bottom: 16px; padding-left: 24px; }
+    .article li { margin-bottom: 8px; }
+    .article table { width: 100%; margin: 20px 0; }
+    .article table th { text-align: left; padding: 10px 14px; background: var(--bg-tertiary); color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase; }
+    .article table td { padding: 10px 14px; color: var(--text-primary); font-size: 0.9rem; font-family: var(--font-mono); }
+    .article .callout { background: rgba(88,166,255,0.08); border-left: 3px solid var(--accent-blue); padding: 16px 20px; margin: 24px 0; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+    .article .callout p { margin: 0; }
+    .article .cta-box { background: var(--bg-card); border: 1px solid var(--accent-purple); border-radius: var(--radius-md); padding: 28px; text-align: center; margin: 40px 0; }
+    .article .cta-box h3 { margin: 0 0 8px; color: var(--accent-purple); }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-secondary); text-decoration: none; margin-bottom: 24px; font-size: 0.9rem; }
+    .back-link:hover { color: var(--text-primary); }
+    .lang-badge { display: inline-block; padding: 2px 10px; background: rgba(163,113,247,0.15); color: var(--accent-purple); border-radius: 12px; font-size: 0.7rem; font-weight: 600; margin-left: 8px; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><div class="nav-logo-icon">T</div>TokenCost</a>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;">← Blog</a>
+      <a href="../index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;">← Analyzer</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+
+<h1>Token Economics 101: Why Output Costs 4x More Than Input — And How to Save</h1>
+
+<div class="article-meta">
+  <span>May 15, 2026</span>
+  <span>7 min read</span>
+  <span class="lang-badge">English + 中文</span>
+</div>
+
+<div class="callout">
+  <p><strong>TL;DR:</strong> Most developers overpay for AI by 40-60% simply because they don't understand token pricing mechanics. Output tokens cost 2-5x more than input tokens. Prompt caching can save 50-90% on input costs. And the difference between a $50/month AI bill and a $500/month one often comes down to prompt engineering — not model choice.</p>
+</div>
+
+<hr style="border-color:var(--border-secondary);margin:32px 0;">
+
+<!------------------- CHINESE VERSION ------------------->
+<h2>Token 经济学入门：为什么输出比输入贵 4 倍 — 以及如何省钱</h2>
+
+<div class="callout">
+  <p><strong>一句话总结：</strong> 大多数开发者的 AI 支出比实际需要高出 40-60%，仅仅因为他们不了解 Token 定价机制。输出 Token 的价格是输入 Token 的 2-5 倍。Prompt 缓存可以节省 50-90% 的输入成本。$50/月 和 $500/月 AI 账单之间的差距，往往来自 Prompt 工程而非模型选择。</p>
+</div>
+
+<hr style="border-color:var(--border-secondary);margin:32px 0;">
+
+<h2>The Basics: How AI Token Pricing Actually Works</h2>
+<h2>基础：AI Token 定价究竟如何运作</h2>
+
+<p>Every AI model API charges differently, but they all follow the same fundamental structure: you pay separately for <strong>input tokens</strong> (text you send to the model) and <strong>output tokens</strong> (text the model generates). This two-part pricing is the key to understanding your costs.</p>
+
+<p>每个 AI 模型 API 的收费标准不同，但都遵循相同的基本结构：<strong>输入 Token</strong>（你发给模型的文字）和 <strong>输出 Token</strong>（模型生成的文字）分开计费。这种两部分定价是理解成本的关键。</p>
+
+<p>Here's the current pricing for major models (per 1 million tokens):</p>
+<p>以下是当前主流模型的定价（每 100 万 Token）：</p>
+
+<table>
+  <thead>
+    <tr><th>Model / 模型</th><th>Input / 输入</th><th>Output / 输出</th><th>Ratio / 倍率</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>GPT-4o</td><td>$2.50</td><td>$10.00</td><td>4x</td></tr>
+    <tr><td>Claude Sonnet 4</td><td>$3.00</td><td>$15.00</td><td>5x</td></tr>
+    <tr><td>Claude Opus 4</td><td>$15.00</td><td>$75.00</td><td>5x</td></tr>
+    <tr><td>Gemini 2.5 Pro</td><td>$1.25</td><td>$10.00</td><td>8x</td></tr>
+    <tr><td>DeepSeek V3</td><td>$0.14</td><td>$0.28</td><td>2x</td></tr>
+    <tr><td>Gemini 2.5 Flash</td><td>$0.15</td><td>$0.60</td><td>4x</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <p><strong>Key Insight / 核心洞察:</strong> Output is always more expensive — 2x to 8x more. This means your project cost is dominated by how much text the model <em>generates</em>, not how much you send. A 500-token prompt with a 2000-token response costs more than a 2000-token prompt with a 500-token response.</p>
+  <p>输出永远更贵 — 2 倍到 8 倍。这意味着你的项目成本主要由模型<em>生成</em>的文字量决定，而非你发送的量。500 Token 的 prompt + 2000 Token 的回复，比 2000 Token 的 prompt + 500 Token 的回复更贵。</p>
+</div>
+
+<h2>Why Output Costs More / 为什么输出更贵</h2>
+
+<p>Three technical reasons:</p>
+<p>三个技术原因：</p>
+
+<ol>
+  <li><strong>Auto-regressive generation / 自回归生成：</strong> The model generates tokens one at a time, each depending on all previous tokens. This sequential process is computationally more expensive than the parallel processing of input tokens.<br>模型逐个生成 Token，每个 Token 依赖于前面所有 Token。这种顺序处理比输入的并行处理更消耗算力。</li>
+
+  <li><strong>No caching possible / 无法缓存：</strong> Input tokens can be cached (and enjoy 50-90% discounts). Output tokens are always fresh generation — no shortcuts.<br>输入 Token 可以被缓存（享受 50-90% 折扣），输出 Token 每次都是全新生成 — 没有捷径。</li>
+
+  <li><strong>Inference compute / 推理计算：</strong> During output generation, the model must maintain the full attention matrix and KV cache for the entire context window. This memory bandwidth dominates the cost.<br>输出生成期间，模型必须为整个上下文窗口维护完整的注意力矩阵和 KV 缓存。内存带宽是成本的主要因素。</li>
+</ol>
+
+<h2>5 Strategies to Optimize Your AI Token Costs / 优化 AI Token 成本的 5 个策略</h2>
+
+<h3>1. Minimize Output Tokens / 最小化输出 Token</h3>
+<p><strong>Savings potential / 节省潜力: 30-70%</strong></p>
+<p>This is the single biggest lever. Be specific about what you want:</p>
+<p>这是最大的杠杆。明确你想要的：</p>
+<ul>
+  <li>❌ "Explain the history of machine learning" <br>→ 可能产出 1500+ tokens</li>
+  <li>✅ "In 3 bullet points, summarize the 3 most important milestones in machine learning history" <br>→ 精准产出 60-100 tokens</li>
+  <li>Use <code>max_tokens</code> parameter to cap output</li>
+  <li>使用 <code>max_tokens</code> 参数限制输出长度</li>
+</ul>
+
+<h3>2. Leverage Prompt Caching / 利用 Prompt 缓存</h3>
+<p><strong>Savings potential / 节省潜力: 50-90% on input / 输入成本节省 50-90%</strong></p>
+<p>OpenAI and Anthropic both offer significant discounts on cached input tokens. If you have a long system prompt or repeated context (like a codebase or document), structure it so identical prefixes are reused:</p>
+<p>OpenAI 和 Anthropic 都对缓存的输入 Token 提供大幅折扣。如果你有长的系统提示或重复的上下文（如代码库或文档），将相同的前缀结构化以便复用：</p>
+<ul>
+  <li>Put static content (system prompt, docs) at the <strong>beginning</strong> of each request</li>
+  <li>将静态内容（系统提示、文档）放在每次请求的<strong>开头</strong></li>
+  <li>GPT-4o cached input: $1.25/1M vs $2.50/1M (50% off)</li>
+  <li>Claude cached input: $0.30/1M vs $3.00/1M (90% off!)</li>
+</ul>
+
+<h3>3. Choose the Right Model for the Task / 为任务选择正确的模型</h3>
+<p><strong>Savings potential / 节省潜力: 50-95%</strong></p>
+<p>Not every task needs GPT-4o or Claude Opus. A multi-model routing strategy:</p>
+<p>不是每个任务都需要 GPT-4o 或 Claude Opus。多模型路由策略：</p>
+<table>
+  <thead>
+    <tr><th>Task / 任务</th><th>Recommended Model / 推荐模型</th><th>Cost vs Opus / 对比 Opus 成本</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Simple classification / 简单分类</td><td>GPT-4o Mini</td><td>99% cheaper</td></tr>
+    <tr><td>Translation / 翻译</td><td>Gemini 2.5 Flash</td><td>99% cheaper</td></tr>
+    <tr><td>Code generation / 代码生成</td><td>Claude Sonnet 4</td><td>80% cheaper</td></tr>
+    <tr><td>Summarization / 摘要</td><td>DeepSeek V3</td><td>99% cheaper</td></tr>
+    <tr><td>Complex analysis / 复杂分析</td><td>Claude Opus 4</td><td>Baseline / 基准</td></tr>
+  </tbody>
+</table>
+
+<h3>4. Batch Processing / 批量处理</h3>
+<p><strong>Savings potential / 节省潜力: 50%</strong></p>
+<p>OpenAI's Batch API offers 50% discount for asynchronous processing with 24-hour turnaround. Perfect for non-real-time tasks like embedding generation, dataset labeling, and bulk analysis.</p>
+<p>OpenAI 的批量 API 为异步处理提供 50% 折扣，24 小时内返回结果。非常适合非实时任务，如嵌入向量生成、数据集标注和大批量分析。</p>
+
+<h3>5. Track and Alert / 追踪与预警</h3>
+<p><strong>Savings potential / 节省潜力: 20-40%</strong></p>
+<p>You can't optimize what you don't measure. Set up cost tracking:</p>
+<p>你无法优化你不测量的东西。建立成本追踪：</p>
+<ul>
+  <li>Log every API call with model, input_tokens, output_tokens, cost</li>
+  <li>记录每次 API 调用的模型、输入/输出 Token 数、成本</li>
+  <li>Set daily/weekly budget alerts</li>
+  <li>设置每日/每周预算预警</li>
+  <li>Review model usage weekly — are you using Opus for tasks Haiku could handle?</li>
+  <li>每周回顾模型使用情况 — 你是否在用 Opus 处理 Haiku 就能完成的任务？</li>
+</ul>
+
+<h2>Real-World Example / 实战案例</h2>
+
+<p>A typical SaaS chatbot handling 1,000 conversations/day:</p>
+<p>一个典型的 SaaS 客服机器人，每天处理 1000 次对话：</p>
+
+<table>
+  <thead>
+    <tr><th>Scenario / 场景</th><th>Model</th><th>Daily Cost / 日成本</th><th>Monthly / 月成本</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>No optimization / 无优化</td><td>GPT-4o</td><td style="color:var(--accent-red);">$18.50</td><td style="color:var(--accent-red);">$555</td></tr>
+    <tr><td>Prompt caching only / 仅加缓存</td><td>GPT-4o (cached)</td><td style="color:var(--accent-orange);">$12.80</td><td style="color:var(--accent-orange);">$384</td></tr>
+    <tr><td>Multi-model routing / 多模型路由</td><td>Mixed / 混合</td><td style="color:var(--accent-green);">$3.20</td><td style="color:var(--accent-green);">$96</td></tr>
+    <tr><td>Full optimization + batch / 全面优化</td><td>Mixed + batch / 混合+批量</td><td style="color:var(--accent-green);">$1.60</td><td style="color:var(--accent-green);">$48</td></tr>
+  </tbody>
+</table>
+
+<p><strong>From $555/month to $48/month — a 91% reduction — without changing the user experience.</strong></p>
+<p><strong>从 $555/月 降到 $48/月 — 降低 91% — 且不改变用户体验。</strong></p>
+
+<div class="cta-box">
+  <h3>Ready to optimize your AI costs? / 准备好优化你的 AI 成本了吗？</h3>
+  <p style="color:var(--text-secondary);margin-bottom:16px;">Use TokenCost's free calculator to find your optimal model mix in seconds.<br>使用 TokenCost 免费计算器，几秒内找到最佳模型组合。</p>
+  <a href="../index.html#calculator" class="btn btn-pro" style="display:inline-flex;">Calculate Your Costs / 计算成本</a>
+</div>
+
+</article>
+
+<footer class="footer" style="margin-top:0;">
+  <div class="footer-bottom" style="padding:24px;">
+    <span>2026 TokenCost — Built for developers, by developers.</span>
+    <span>Independent analysis. Not affiliated with any AI provider.</span>
+  </div>
+</footer>
+
+</body>
+</html>

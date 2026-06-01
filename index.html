@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Token Cost Analyzer — Compare AI Model Pricing | AI Token 成本分析器</title>
+  <meta name="description" content="Compare AI model API prices across OpenAI, Anthropic, Google, DeepSeek and more. Calculate project token costs. 对比主流AI模型API价格，计算Token成本。">
+  <meta name="keywords" content="AI token cost, model pricing, OpenAI pricing, Claude pricing, LLM cost calculator, AI价格对比, Token计算器">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23A371F7'/><text x='16' y='22' text-anchor='middle' fill='white' font-size='18' font-weight='700'>T</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">T</div>
+      TokenCost
+    </a>
+    <ul class="nav-links">
+      <li><a href="#compare" class="active" data-i18n="nav.compare">Compare</a></li>
+      <li><a href="#calculator" data-i18n="nav.calculator">Calculator</a></li>
+      <li><a href="#recommend" data-i18n="nav.recommend">Recommend</a></li>
+      <li><a href="#bundles" data-i18n="nav.bundles">Bundles</a></li>
+      <li><a href="#trends" data-i18n="nav.trends" data-pro-only style="display:none;">Trends</a></li>
+      <li><a href="#blog" data-i18n="nav.blog">Insights</a></li>
+      <li><a href="#pricing" data-i18n="nav.pricing">Pricing</a></li>
+    </ul>
+    <div class="nav-actions">
+      <!-- Logged-out state -->
+      <a href="auth.html" class="nav-auth-btn" data-auth-role="logged-out" data-i18n="auth.sign_in">Sign In</a>
+      <!-- Logged-in state -->
+      <div class="nav-user-menu" data-auth-role="logged-in" style="display:none;">
+        <span class="nav-pro-badge" data-auth-pro-badge style="display:none;" data-i18n="auth.pro_badge">PRO</span>
+        <span class="nav-user-name" data-auth-user-name>User</span>
+        <div class="nav-user-dropdown">
+          <a href="#" onclick="AUTH.signOut()" data-i18n="auth.sign_out">Sign Out</a>
+          <a href="#" onclick="PAYMENT.manageSubscription()" data-auth-pro-badge data-i18n="auth.manage_sub">Manage Subscription</a>
+        </div>
+      </div>
+      <div class="lang-switch">
+      <button class="lang-switch-btn active" data-lang="en" onclick="I18N.setLang('en')">EN</button>
+      <button class="lang-switch-btn" data-lang="zh" onclick="I18N.setLang('zh')">中</button>
+      <button class="lang-switch-btn" data-lang="ja" onclick="I18N.setLang('ja')">日</button>
+      <button class="lang-switch-btn" data-lang="ko" onclick="I18N.setLang('ko')">한</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge" data-i18n="hero.badge">Updated May 2026 — 20+ models tracked</div>
+  <h1 data-i18n="hero.title">Stop Overpaying for AI Tokens</h1>
+  <p class="hero-subtitle" data-i18n="hero.subtitle">
+    Compare prices across every major AI model. Calculate your exact project costs. Find the optimal model for your budget — in seconds.
+  </p>
+  <div class="hero-cta">
+    <a href="#compare" class="btn btn-primary" data-i18n="hero.cta_compare">Compare All Models</a>
+    <a href="#calculator" class="btn btn-secondary" data-i18n="hero.cta_calculate">Calculate Your Costs</a>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-number">20+</div>
+    <div class="stat-label" data-i18n="stats.models">AI models tracked</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">7</div>
+    <div class="stat-label" data-i18n="stats.providers">providers compared</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">90%</div>
+    <div class="stat-label" data-i18n="stats.savings">potential savings with optimization</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" data-i18n="stats.daily">Daily</div>
+    <div class="stat-label" data-i18n="stats.updates">price updates</div>
+  </div>
+</div>
+
+<!-- Price Comparison Table -->
+<section class="section" id="compare">
+  <div class="section-header">
+    <h2 data-i18n="compare.title">Model Pricing Comparison</h2>
+    <p data-i18n-html="compare.desc">Real-time pricing across all major AI providers. Sort by any column, filter by category. <span>Cached pricing</span> available for Pro users.</p>
+  </div>
+
+  <div class="table-controls">
+    <input type="text" class="search-input" id="tableSearch" data-i18n-placeholder="compare.search" placeholder="Search models... (e.g., GPT, Claude, Gemini)">
+    <select class="filter-select" id="providerFilter">
+      <option value="all" data-i18n="compare.all_providers">All Providers</option>
+      <option value="openai">OpenAI</option>
+      <option value="anthropic">Anthropic</option>
+      <option value="google">Google</option>
+      <option value="deepseek">DeepSeek</option>
+      <option value="meta">Meta</option>
+      <option value="mistral">Mistral AI</option>
+      <option value="cohere">Cohere</option>
+    </select>
+    <select class="filter-select" id="categoryFilter">
+      <option value="all" data-i18n="compare.all_categories">All Categories</option>
+      <option value="flagship" data-i18n="cat.flagship">Flagship</option>
+      <option value="small" data-i18n="cat.small">Small / Fast</option>
+      <option value="reasoning" data-i18n="cat.reasoning">Reasoning</option>
+      <option value="turbo" data-i18n="cat.turbo">Turbo</option>
+    </select>
+    <button class="sort-toggle active" id="sortByInput" onclick="sortTable('input')" data-i18n="compare.sort_input">Sort: Input $</button>
+    <button class="sort-toggle" id="sortByOutput" onclick="sortTable('output')" data-i18n="compare.sort_output">Sort: Output $</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="sortTable('name')"><span data-i18n="compare.th_model">Model</span> <span class="sort-indicator"></span></th>
+          <th onclick="sortTable('provider')"><span data-i18n="compare.th_provider">Provider</span></th>
+          <th><span data-i18n="compare.th_category">Category</span></th>
+          <th onclick="sortTable('input')"><span data-i18n="compare.th_input">Input /1M</span> <span class="sort-indicator">&#9660;</span></th>
+          <th onclick="sortTable('output')"><span data-i18n="compare.th_output">Output /1M</span> <span class="sort-indicator"></span></th>
+          <th class="pro-locked" style="position:relative;"><span data-i18n="compare.th_cached">Cached Input</span></th>
+          <th><span data-i18n="compare.th_context">Context</span></th>
+          <th><span data-i18n="compare.th_maxout">Max Output</span></th>
+        </tr>
+      </thead>
+      <tbody id="modelTableBody">
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Calculator -->
+<section class="section" id="calculator">
+  <div class="section-header">
+    <h2 data-i18n="calc.title">Token Cost Calculator</h2>
+    <p data-i18n="calc.desc">Estimate your exact costs. Pick models, input your token volumes, and see real-time pricing.</p>
+  </div>
+
+  <div class="calculator-grid">
+    <div class="calc-form">
+      <h3 data-i18n="calc.usage_profile">Your Usage Profile</h3>
+
+      <div class="form-group">
+        <label data-i18n="calc.quick_select">Quick Select — Common Use Cases</label>
+        <div class="use-case-chips" id="useCaseChips"></div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label data-i18n="calc.input_tokens">Input Tokens per Request</label>
+          <input type="number" class="form-input" id="calcInputTokens" value="1000" min="1">
+        </div>
+        <div class="form-group">
+          <label data-i18n="calc.output_tokens">Output Tokens per Request</label>
+          <input type="number" class="form-input" id="calcOutputTokens" value="500" min="1">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label data-i18n="calc.req_per_day">Requests per Day</label>
+          <input type="number" class="form-input" id="calcCallsPerDay" value="100" min="1">
+        </div>
+        <div class="form-group">
+          <label data-i18n="calc.models_select">Models to Compare</label>
+          <select class="form-input" id="calcModels" multiple style="min-height:120px;">
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="runCalculator()" style="width:100%;justify-content:center;" data-i18n="calc.run">Calculate Costs</button>
+
+      <div class="pro-upsell">
+        <p data-i18n="calc.pro_upsell">Pro users unlock batch comparison, CSV export, and historical cost trends</p>
+        <a href="#pricing" class="btn btn-pro" style="display:inline-flex;padding:8px 18px;font-size:0.8rem;" data-i18n="calc.upgrade_btn">Upgrade to Pro — $9.9/mo</a>
+      </div>
+    </div>
+
+    <div class="calc-results" id="calcResults">
+      <h3 data-i18n="calc.results_title">Cost Estimates</h3>
+      <div class="empty-state">
+        <div class="empty-state-icon">&#x1F4CA;</div>
+        <p data-i18n="calc.empty_text">Select models and click "Calculate Costs" to see results</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recommendation Engine -->
+<section class="section" id="recommend">
+  <div class="section-header">
+    <h2 data-i18n="rec.title">Model Recommendation Engine</h2>
+    <p data-i18n="rec.desc">Tell us your usage pattern and budget. We'll find the best models for your needs.</p>
+  </div>
+
+  <div class="recommend-grid">
+    <div class="recommend-form">
+      <h3 style="margin-bottom:20px;" data-i18n="rec.requirements">Your Requirements</h3>
+
+      <div class="form-group">
+        <label data-i18n="rec.input_tokens">Input Tokens per Call</label>
+        <input type="number" class="form-input" id="recInputTokens" value="2000" min="1">
+      </div>
+      <div class="form-group">
+        <label data-i18n="rec.output_tokens">Output Tokens per Call</label>
+        <input type="number" class="form-input" id="recOutputTokens" value="1000" min="1">
+      </div>
+      <div class="form-group">
+        <label data-i18n="rec.calls_per_day">Calls per Day</label>
+        <input type="number" class="form-input" id="recCallsPerDay" value="500" min="1">
+      </div>
+      <div class="form-group">
+        <label data-i18n="rec.budget_label">Monthly Budget (USD, optional)</label>
+        <input type="number" class="form-input" id="recBudget" data-i18n-placeholder="rec.budget_placeholder" placeholder="Leave blank for all models" min="1" step="1">
+      </div>
+
+      <button class="btn btn-primary" onclick="runRecommender()" style="width:100%;justify-content:center;" data-i18n="rec.run">Find Best Models</button>
+
+      <div class="pro-upsell" style="margin-top:16px;">
+        <p data-i18n="rec.pro_upsell">Pro users get personalized recommendations with quality scoring and latency data</p>
+        <a href="#pricing" class="btn btn-pro" style="display:inline-flex;padding:8px 18px;font-size:0.8rem;" data-i18n="nav.upgrade">Upgrade to Pro</a>
+      </div>
+    </div>
+
+    <div class="recommend-results" id="recommendResults">
+      <h3 style="margin-bottom:16px;" data-i18n="rec.title">Top Recommendations</h3>
+      <div class="empty-state">
+        <div class="empty-state-icon">&#x1F50D;</div>
+        <p data-i18n="rec.empty">Set your usage parameters and click "Find Best Models"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bundle Comparison -->
+<section class="section" id="bundles">
+  <div class="section-header">
+    <h2 data-i18n="bundles.title">Subscription Bundle Comparison</h2>
+    <p data-i18n="bundles.desc">Flat-rate subscriptions vs. pay-per-token API. Which saves you more?</p>
+  </div>
+
+  <div class="bundle-grid" id="bundleGrid"></div>
+</section>
+
+<!-- Historical Price Trends (Pro Feature) -->
+<section class="section section-trends" id="trends" data-pro-only style="display:none;">
+  <div class="section-header">
+    <h2 data-i18n="trends.title">Historical Price Trends</h2>
+    <p data-i18n="trends.desc">Track how AI model pricing has evolved over time. Spot patterns, predict future costs.</p>
+  </div>
+
+  <div class="trends-controls">
+    <div class="trends-model-select" id="trendsModelSelect"></div>
+  </div>
+
+  <div class="trends-grid">
+    <div class="trends-chart-container">
+      <h4 data-i18n="trends.input_chart">Input Price Trend ($/1M tokens)</h4>
+      <canvas id="trendsChartInput"></canvas>
+    </div>
+    <div class="trends-chart-container">
+      <h4 data-i18n="trends.output_chart">Output Price Trend ($/1M tokens)</h4>
+      <canvas id="trendsChartOutput"></canvas>
+    </div>
+  </div>
+
+  <div class="trends-insight" id="trendsInsight">
+    <div class="trends-insight-icon">💡</div>
+    <div>
+      <strong data-i18n="trends.insight_title">Price Trend Insight</strong>
+      <p id="trendsInsightText" data-i18n="trends.insight_default">Select models to see price trend analysis and savings opportunities.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Blog / Insights -->
+<section class="section" id="blog">
+  <div class="section-header">
+    <h2 data-i18n="blog.title">Token Economy Insights</h2>
+    <p data-i18n="blog.desc">Latest analysis on AI pricing trends, cost optimization strategies, and model comparisons.</p>
+  </div>
+
+  <div class="blog-grid" id="blogGrid"></div>
+
+  <div style="text-align:center;margin-top:32px;">
+    <a href="blog/index.html" class="btn btn-secondary" data-i18n="blog.view_all">View All Insights</a>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section" id="pricing">
+  <div class="section-header" style="text-align:center;">
+    <h2 data-i18n="pricing.title">Simple, Transparent Pricing</h2>
+    <p data-i18n="pricing.desc">Start free. Upgrade when you need more power.</p>
+  </div>
+
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-name" data-i18n="pricing.free_name">Free</div>
+      <div class="pricing-desc" data-i18n="pricing.free_desc">Essential tools for individual developers</div>
+      <div class="pricing-amount"><span class="currency">$</span>0</div>
+      <div class="pricing-period" data-i18n="pricing.free_period">forever free</div>
+      <ul class="pricing-features">
+        <li data-i18n="pricing.free_1">Full model price comparison table</li>
+        <li data-i18n="pricing.free_2">Basic token cost calculator (max 3 models)</li>
+        <li data-i18n="pricing.free_3">Bundle comparison</li>
+        <li data-i18n="pricing.free_4">1 use case preset</li>
+        <li class="disabled" data-i18n="pricing.free_5">Historical price trends</li>
+        <li class="disabled" data-i18n="pricing.free_6">Batch model comparison</li>
+        <li class="disabled" data-i18n="pricing.free_7">CSV/JSON export</li>
+        <li class="disabled" data-i18n="pricing.free_8">Project cost projections</li>
+        <li class="disabled" data-i18n="pricing.free_9">Email cost alerts</li>
+        <li class="disabled" data-i18n="pricing.free_10">Priority support</li>
+      </ul>
+      <a href="#compare" class="btn btn-secondary pricing-cta" data-i18n="pricing.free_cta">Get Started Free</a>
+    </div>
+
+    <div class="pricing-card pro">
+      <div class="pricing-badge" data-i18n="pricing.pro_badge">Most Popular</div>
+      <div class="pricing-name" data-i18n="pricing.pro_name">Pro</div>
+      <div class="pricing-desc" data-i18n="pricing.pro_desc">For teams and serious developers</div>
+      <div class="pricing-amount"><span class="currency">$</span><span data-i18n="pricing.pro_price">9.90</span></div>
+      <div class="pricing-period" data-i18n="pricing.pro_period">per month, cancel anytime</div>
+      <ul class="pricing-features">
+        <li data-i18n="pricing.pro_1">Everything in Free</li>
+        <li data-i18n="pricing.pro_2">Unlimited model comparison</li>
+        <li data-i18n="pricing.pro_3">Historical price trends & charts</li>
+        <li data-i18n="pricing.pro_4">Batch comparison (up to 10 models)</li>
+        <li data-i18n="pricing.pro_5">CSV/JSON export</li>
+        <li data-i18n="pricing.pro_6">Project cost projections (30/90/365 day)</li>
+        <li data-i18n="pricing.pro_7">All use case presets</li>
+        <li data-i18n="pricing.pro_8">Cached input cost analysis</li>
+        <li data-i18n="pricing.pro_9">Email alerts on price changes</li>
+        <li data-i18n="pricing.pro_10">Priority support</li>
+      </ul>
+      <a href="#" class="btn btn-pro pricing-cta" onclick="showProModal()" data-i18n="pricing.pro_cta">Upgrade to Pro</a>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px;">
+    <p style="color:var(--text-secondary);font-size:0.85rem;" data-i18n-html="pricing.annual_note">Annual billing saves 20% — $95/year. Need enterprise? <a href="#" style="color:var(--accent-blue);">Contact us</a>.</p>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="section">
+  <div class="newsletter">
+    <h3 data-i18n="newsletter.title">Stay Ahead of AI Pricing</h3>
+    <p data-i18n="newsletter.desc">Weekly AI token economy insights, price change alerts, and cost optimization tips — straight to your inbox.</p>
+    <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+      <input type="email" data-i18n-placeholder="newsletter.placeholder" placeholder="your@email.com" required id="newsletterEmail">
+      <button type="submit" class="btn btn-primary" data-i18n="newsletter.btn">Subscribe Free</button>
+    </form>
+  </div>
+</section>
+
+<!-- Pro Modal -->
+<div class="modal-overlay" id="proModal">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close" onclick="closeProModal()" style="position:absolute;top:16px;right:16px;">&#x2715;</button>
+    <h3 data-i18n="pro_modal.title">Upgrade to TokenCost Pro</h3>
+    <p data-i18n="pro_modal.desc">Unlock deep comparison, historical trends, and advanced cost projections.</p>
+
+    <div style="background:var(--bg-tertiary);border-radius:var(--radius-md);padding:20px;margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span style="font-weight:600;" data-i18n="pro_modal.monthly">Pro Monthly</span>
+        <span style="font-family:var(--font-mono);font-weight:700;font-size:1.2rem;color:var(--accent-purple);">$9.90/mo</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:600;" data-i18n="pro_modal.annual">Pro Annual</span> <span style="font-size:0.75rem;color:var(--accent-green);" data-i18n="pro_modal.save20">Save 20%</span>
+        <span style="font-family:var(--font-mono);font-weight:700;font-size:1.2rem;color:var(--accent-purple);">$7.92/mo</span>
+      </div>
+    </div>
+
+    <p style="font-size:0.8rem;color:var(--text-tertiary);margin-bottom:16px;" data-i18n="pro_modal.secure">Secure payment via Stripe. Cancel anytime. 7-day money-back guarantee.</p>
+
+    <button class="btn btn-pro" style="width:100%;justify-content:center;margin-bottom:8px;" onclick="PAYMENT.checkout('pro_monthly')" data-i18n="pro_modal.monthly_btn">Subscribe Monthly — $9.90/mo</button>
+    <button class="btn btn-secondary" style="width:100%;justify-content:center;" onclick="PAYMENT.checkout('pro_annual')" data-i18n="pro_modal.annual_btn">Subscribe Annually — $95/year</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo" style="margin-bottom:8px;">
+        <div class="nav-logo-icon">T</div>
+        TokenCost
+      </div>
+      <p data-i18n="footer.tagline">Helping developers make smarter AI infrastructure decisions. Track prices, optimize costs, ship faster.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.tools">Tools</h4>
+      <a href="#compare" data-i18n="footer.tools_compare">Price Comparison</a>
+      <a href="#calculator" data-i18n="footer.tools_calc">Cost Calculator</a>
+      <a href="#recommend" data-i18n="footer.tools_rec">Model Recommender</a>
+      <a href="#bundles" data-i18n="footer.tools_bundle">Bundle Compare</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.resources">Resources</h4>
+      <a href="#blog" data-i18n="footer.res_blog">Token Insights</a>
+      <a href="#" data-i18n="footer.res_api">API Reference</a>
+      <a href="#" data-i18n="footer.res_changelog">Changelog</a>
+      <a href="#" data-i18n="footer.res_docs">Documentation</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.company">Company</h4>
+      <a href="#" data-i18n="footer.comp_about">About</a>
+      <a href="#pricing" data-i18n="footer.comp_pricing">Pricing</a>
+      <a href="terms.html" data-i18n="footer.comp_terms">Terms</a>
+      <a href="privacy.html" data-i18n="footer.comp_privacy">Privacy Policy</a>
+      <a href="mailto:hello@tokencost.app" data-i18n="footer.comp_contact">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom" style="padding:0 24px;">
+    <span data-i18n="footer.bottom">2026 TokenCost. All prices updated daily. Not affiliated with any AI provider.</span>
+    <span data-i18n="footer.built">Built for developers, by developers.</span>
+    <a href="setup.html" style="font-size:0.75rem;color:var(--text-tertiary);margin-top:8px;display:inline-block;" data-i18n="footer.setup">Production Setup Guide</a>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="js/config.js"></script>
+<script src="js/models.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/stripe-payment.js"></script>
+<script>
+// ============================================================
+// Application Logic — i18n-aware
+// ============================================================
+
+let currentSort = { field: 'input', asc: true };
+let allModelRows = [];
+
+// --- Initialize ---
+document.addEventListener('DOMContentLoaded', () => {
+  // i18n.js handles its own init + language restore
+  initModelTable();
+  initCalculator();
+  initUseCaseChips();
+  initBundles();
+  initBlog();
+  initNavScroll();
+  initTrends();
+
+  // Re-render dynamic content after i18n settles
+  document.addEventListener('i18n:changed', () => {
+    document.title = I18N.current === 'zh'
+      ? 'AI Token 成本分析器 — 对比模型价格 | Token Cost Analyzer'
+      : 'AI Token Cost Analyzer — Compare Model API Pricing & Optimize Token Spend';
+    initBundles();
+    initBlog();
+    filterTable();
+  });
+
+  // Handle Stripe checkout return
+  if (typeof PAYMENT !== 'undefined') PAYMENT.handleReturn();
+});
+
+// --- Navigation scroll spy ---
+function initNavScroll() {
+  const navLinks = document.querySelectorAll('.nav-links a:not(.nav-pro-btn)');
+  const sections = [];
+
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#') && href.length > 1) {
+      const el = document.getElementById(href.slice(1));
+      if (el) sections.push({ link, el, id: href.slice(1) });
+    }
+  });
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      const rect = s.el.getBoundingClientRect();
+      if (rect.top <= 120) current = s.id;
+    });
+    navLinks.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  });
+}
+
+// --- Model Table ---
+function initModelTable() {
+  allModelRows = getAllModels();
+  renderTable(allModelRows);
+
+  document.getElementById('tableSearch').addEventListener('input', filterTable);
+  document.getElementById('providerFilter').addEventListener('change', filterTable);
+  document.getElementById('categoryFilter').addEventListener('change', filterTable);
+}
+
+function renderTable(models) {
+  const tbody = document.getElementById('modelTableBody');
+  const lang = I18N.current;
+  tbody.innerHTML = models.map(m => {
+    const inputClass = m.inputPrice < 1 ? 'price-low' : m.inputPrice < 5 ? 'price-mid' : 'price-high';
+    const outputClass = m.outputPrice < 3 ? 'price-low' : m.outputPrice < 15 ? 'price-mid' : 'price-high';
+    const catLabel = I18N.t('cat.' + m.category);
+    const providerLabel = m.providerId === 'meta' ? I18N.t('provider.meta_label') : m.provider;
+    return `
+      <tr>
+        <td>
+          <strong>${m.name}</strong>
+          <span class="category-badge category-${m.category}">${catLabel}</span>
+        </td>
+        <td>
+          <span style="display:inline-flex;align-items:center;gap:6px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:${m.providerColor};display:inline-block;"></span>
+            ${providerLabel}
+          </span>
+        </td>
+        <td><span class="category-badge category-${m.category}">${catLabel}</span></td>
+        <td class="price-cell ${inputClass}">$${m.inputPrice.toFixed(2)}</td>
+        <td class="price-cell ${outputClass}">$${m.outputPrice.toFixed(2)}</td>
+        <td class="pro-locked" style="position:relative;">${m.cachedInputPrice != null ? '$' + m.cachedInputPrice.toFixed(3) : '—'}</td>
+        <td>${formatContext(m.contextWindow)}</td>
+        <td>${formatContext(m.maxOutput)}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function sortTable(field) {
+  if (currentSort.field === field) {
+    currentSort.asc = !currentSort.asc;
+  } else {
+    currentSort.field = field;
+    currentSort.asc = (field === 'input' || field === 'output');
+  }
+
+  document.querySelectorAll('.sort-toggle').forEach(btn => btn.classList.remove('active'));
+  const activeBtn = document.getElementById(field === 'input' ? 'sortByInput' : (field === 'output' ? 'sortByOutput' : null));
+  if (activeBtn) activeBtn.classList.add('active');
+
+  const sorted = [...allModelRows].sort((a, b) => {
+    let valA, valB;
+    if (field === 'name') { valA = a.name; valB = b.name; }
+    else if (field === 'provider') { valA = a.provider; valB = b.provider; }
+    else { valA = a[field + 'Price']; valB = b[field + 'Price']; }
+
+    if (typeof valA === 'string') {
+      return currentSort.asc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+    }
+    return currentSort.asc ? valA - valB : valB - valA;
+  });
+
+  filterTableInner(sorted);
+}
+
+function filterTable() {
+  filterTableInner(allModelRows);
+}
+
+function filterTableInner(sourceModels) {
+  const search = document.getElementById('tableSearch').value.toLowerCase();
+  const provider = document.getElementById('providerFilter').value;
+  const category = document.getElementById('categoryFilter').value;
+
+  let filtered = sourceModels;
+
+  if (search) {
+    filtered = filtered.filter(m =>
+      m.name.toLowerCase().includes(search) ||
+      m.provider.toLowerCase().includes(search) ||
+      m.category.toLowerCase().includes(search)
+    );
+  }
+
+  if (provider !== 'all') {
+    filtered = filtered.filter(m => m.providerId === provider);
+  }
+
+  if (category !== 'all') {
+    filtered = filtered.filter(m => m.category === category);
+  }
+
+  renderTable(filtered);
+}
+
+function formatContext(tokens) {
+  if (tokens >= 1048576) return (tokens / 1048576).toFixed(1) + 'M';
+  if (tokens >= 1000) return (tokens / 1000).toFixed(0) + 'K';
+  return tokens.toString();
+}
+
+// --- Calculator ---
+function initCalculator() {
+  const select = document.getElementById('calcModels');
+  const allModels = getAllModels();
+  allModels.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    const label = m.providerId === 'meta' ? 'Meta' : m.provider;
+    opt.textContent = label + ' — ' + m.name;
+    select.appendChild(opt);
+  });
+
+  ['gpt-4o', 'gpt-4o-mini', 'claude-sonnet-4', 'gemini-2.5-flash', 'deepseek-v3'].forEach(id => {
+    const opt = select.querySelector('option[value="' + id + '"]');
+    if (opt) opt.selected = true;
+  });
+}
+
+function initUseCaseChips() {
+  const container = document.getElementById('useCaseChips');
+  MODEL_DATA.useCases.forEach((uc, i) => {
+    const chip = document.createElement('span');
+    chip.className = 'use-case-chip';
+    chip.textContent = uc.name;
+    chip.onclick = () => {
+      document.querySelectorAll('.use-case-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      document.getElementById('calcInputTokens').value = uc.inputTokens;
+      document.getElementById('calcOutputTokens').value = uc.outputTokens;
+    };
+    container.appendChild(chip);
+  });
+}
+
+function runCalculator() {
+  const inputTokens = parseInt(document.getElementById('calcInputTokens').value) || 0;
+  const outputTokens = parseInt(document.getElementById('calcOutputTokens').value) || 0;
+  const callsPerDay = parseInt(document.getElementById('calcCallsPerDay').value) || 1;
+  const select = document.getElementById('calcModels');
+  const selectedIds = Array.from(select.selectedOptions).map(o => o.value);
+
+  if (selectedIds.length === 0) {
+    showToast(I18N.t('toast.select_model'));
+    return;
+  }
+
+  const maxModels = 3;
+  const modelsToCompare = selectedIds.slice(0, maxModels);
+
+  const results = compareModels(modelsToCompare, inputTokens, outputTokens, callsPerDay);
+  const resultsDiv = document.getElementById('calcResults');
+
+  if (results.length === 0) {
+    resultsDiv.innerHTML = '<h3>' + I18N.t('calc.results_title') + '</h3><div class="empty-state"><p>No results. Check your inputs.</p></div>';
+    return;
+  }
+
+  const cheapest = results.reduce((min, r) => r.totalCost < min.totalCost ? r : min, results[0]);
+
+  let html = '<h3>' + I18N.t('calc.results_title') + '</h3>';
+  results.forEach(r => {
+    const costClass = r === cheapest ? 'result-cost' : 'result-cost result-cost-high';
+    html += `
+      <div class="result-row">
+        <div>
+          <div class="result-model">${r.model}</div>
+          <div class="result-provider">${r.provider} · ${r.callsPerDay} ${I18N.current === 'zh' ? '次/天' : 'calls/day'}</div>
+        </div>
+        <div class="${costClass}">$${r.totalCost.toFixed(4)}</div>
+      </div>
+      <div class="result-row" style="padding:4px 0;">
+        <div style="font-size:0.75rem;color:var(--text-tertiary);">${I18N.t('calc.per_call')}</div>
+        <div style="font-size:0.75rem;color:var(--text-secondary);font-family:var(--font-mono);">$${r.totalCost.toFixed(4)}</div>
+      </div>
+    `;
+  });
+
+  html += `
+    <div class="calc-summary">
+      <h4>${I18N.t('calc.best_value')}</h4>
+      <p>${cheapest.model} — $${cheapest.monthlyCost.toFixed(2)}/mo</p>
+      <small>${cheapest.provider} · ${(cheapest.yearlyCost).toFixed(0)} ${I18N.t('calc.yearly')} = $${cheapest.yearlyCost.toFixed(2)}/year</small>
+    </div>
+  `;
+
+  if (selectedIds.length > maxModels) {
+    html += `
+      <div class="pro-upsell">
+        <p>${I18N.t('calc.free_limit')} ${maxModels} ${I18N.current === 'zh' ? '个模型' : 'models'}. Pro ${I18N.current === 'zh' ? '无限制' : 'unlimited'}.</p>
+        <a href="#pricing" class="btn btn-pro" style="display:inline-flex;padding:8px 18px;font-size:0.8rem;">${I18N.t('nav.upgrade')}</a>
+      </div>
+    `;
+  }
+
+  resultsDiv.innerHTML = html;
+}
+
+// --- Recommendation Engine ---
+function runRecommender() {
+  const inputTokens = parseInt(document.getElementById('recInputTokens').value) || 2000;
+  const outputTokens = parseInt(document.getElementById('recOutputTokens').value) || 1000;
+  const callsPerDay = parseInt(document.getElementById('recCallsPerDay').value) || 500;
+  const budgetInput = document.getElementById('recBudget').value;
+  const budget = budgetInput ? parseFloat(budgetInput) : null;
+
+  const results = recommendModels(inputTokens, outputTokens, callsPerDay, budget);
+  const resultsDiv = document.getElementById('recommendResults');
+
+  if (results.length === 0) {
+    resultsDiv.innerHTML = '<h3 style="margin-bottom:16px;">' + I18N.t('rec.title') + '</h3><div class="empty-state"><p>' + I18N.t('rec.no_budget_fit') + '</p></div>';
+    return;
+  }
+
+  const top3 = results.slice(0, 3);
+
+  let html = '<h3 style="margin-bottom:16px;">' + I18N.t('rec.title') + '</h3><div class="recommend-list">';
+  top3.forEach((r, i) => {
+    const isBest = i === 0;
+    html += `
+      <div class="recommend-item ${isBest ? 'best' : ''}">
+        <div class="recommend-item-header">
+          <div>
+            <span class="recommend-model">${r.name}</span>
+            ${isBest ? '<span class="best-badge">' + I18N.t('rec.best_badge') + '</span>' : ''}
+            <span style="font-size:0.75rem;color:var(--text-secondary);margin-left:8px;">${r.provider}</span>
+          </div>
+          <span class="recommend-cost">$${r.monthlyCost.toFixed(2)}/mo</span>
+        </div>
+        <div class="recommend-meta">
+          <span>Input: $${r.inputPrice.toFixed(2)}/1M</span>
+          <span>Output: $${r.outputPrice.toFixed(2)}/1M</span>
+          <span>${I18N.current === 'zh' ? '上下文' : 'Context'}: ${formatContext(r.contextWindow)}</span>
+        </div>
+      </div>
+    `;
+  });
+
+  html += '</div>';
+
+  if (results.length > 3) {
+    html += `
+      <div class="pro-upsell" style="margin-top:16px;">
+        <p>${results.length - 3} ${I18N.t('rec.more_models')}</p>
+        <a href="#pricing" class="btn btn-pro" style="display:inline-flex;padding:8px 18px;font-size:0.8rem;">${I18N.t('nav.upgrade')}</a>
+      </div>
+    `;
+  }
+
+  resultsDiv.innerHTML = html;
+}
+
+// --- Bundles ---
+function initBundles() {
+  const grid = document.getElementById('bundleGrid');
+  if (!grid) return;
+  grid.innerHTML = MODEL_DATA.bundles.map(b => `
+    <div class="bundle-card">
+      <div class="bundle-provider" style="color:${getProviderColor(b.provider)}">${b.name.split(' ')[0]}</div>
+      <div class="bundle-name">${b.name}</div>
+      <div class="bundle-price">$${b.monthlyFee}</div>
+      <div class="bundle-period">${I18N.t('bundles.month')}</div>
+      <div class="bundle-models">
+        <strong>${I18N.t('bundles.models_included')}</strong><br>
+        ${b.includesModels.map(m => '<span style="display:inline-block;margin:2px 4px;padding:1px 8px;background:var(--bg-tertiary);border-radius:10px;font-size:0.75rem;">' + m + '</span>').join('')}
+        <br><br><span style="color:var(--text-tertiary);font-size:0.75rem;">${b.notes}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getProviderColor(providerId) {
+  const provider = MODEL_DATA.providers.find(p => p.id === providerId);
+  return provider ? provider.color : '#888';
+}
+
+// --- Blog ---
+function initBlog() {
+  const grid = document.getElementById('blogGrid');
+  if (!grid) return;
+  const posts = [
+    { key: 'blog.post1', tag: 'blog.tag.analysis', date: 'May 25, 2026', read: '6' },
+    { key: 'blog.post2', tag: 'blog.tag.guide',    date: 'May 20, 2026', read: '8' },
+    { key: 'blog.post3', tag: 'blog.tag.news',     date: 'May 18, 2026', read: '4' },
+    { key: 'blog.post4', tag: 'blog.tag.tutorial', date: 'May 15, 2026', read: '7' },
+    { key: 'blog.post5', tag: 'blog.tag.analysis', date: 'May 12, 2026', read: '5' },
+    { key: 'blog.post6', tag: 'blog.tag.strategy', date: 'May 8, 2026',  read: '9' },
+  ];
+
+  grid.innerHTML = posts.map(p => {
+    const slug = I18N.t(p.key + '.title').toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-').replace(/-+$/,'');
+    return `
+      <a href="blog/index.html" class="blog-card">
+        <div class="blog-card-tag">${I18N.t(p.tag)}</div>
+        <h3>${I18N.t(p.key + '.title')}</h3>
+        <p>${I18N.t(p.key + '.excerpt')}</p>
+        <div class="blog-card-meta">
+          <span>${p.date}</span>
+          <span>${p.read} ${I18N.t('blog.read_time')}</span>
+        </div>
+      </a>
+    `;
+  }).join('');
+}
+
+// --- Newsletter ---
+function subscribeNewsletter(e) {
+  e.preventDefault();
+  const email = document.getElementById('newsletterEmail').value;
+  if (email) {
+    showToast(I18N.t('newsletter.toast'));
+    document.getElementById('newsletterEmail').value = '';
+  }
+}
+
+// --- Pro Modal ---
+function showProModal() {
+  document.getElementById('proModal').classList.add('active');
+}
+
+function closeProModal() {
+  document.getElementById('proModal').classList.remove('active');
+}
+
+document.getElementById('proModal').addEventListener('click', function(e) {
+  if (e.target === this) closeProModal();
+});
+
+// --- Toast ---
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// --- Historical Price Trends (Pro) ---
+let trendsInputChart = null;
+let trendsOutputChart = null;
+
+function initTrends() {
+  if (typeof Chart === 'undefined') return;
+
+  const container = document.getElementById('trendsModelSelect');
+  const modelsWithHistory = MODEL_DATA.priceHistory
+    .map(h => h.modelId)
+    .filter((id, i, arr) => arr.indexOf(id) === i);
+
+  const allModels = getAllModels();
+
+  container.innerHTML = modelsWithHistory.map(id => {
+    const model = allModels.find(m => m.id === id);
+    return `<span class="trends-chip" data-model="${id}" onclick="selectTrendModel('${id}')">${model ? model.name : id}</span>`;
+  }).join('');
+
+  // Auto-select first 2 models
+  if (modelsWithHistory.length >= 2) {
+    selectTrendModel(modelsWithHistory[0]);
+    selectTrendModel(modelsWithHistory[1]);
+  }
+}
+
+function selectTrendModel(modelId) {
+  const chip = document.querySelector(`[data-model="${modelId}"]`);
+  if (!chip) return;
+
+  const wasActive = chip.classList.contains('active');
+  chip.classList.toggle('active');
+
+  renderTrendsCharts();
+  updateTrendsInsight();
+}
+
+function getSelectedTrendModels() {
+  const chips = document.querySelectorAll('.trends-chip.active');
+  return Array.from(chips).map(c => c.dataset.model);
+}
+
+function renderTrendsCharts() {
+  if (typeof Chart === 'undefined') return;
+
+  const selectedModels = getSelectedTrendModels();
+  if (selectedModels.length === 0) return;
+
+  const allModels = getAllModels();
+  const datasets = [];
+  const colors = ['#A371F7', '#10A37F', '#4285F4', '#D97706', '#4F46E5', '#FF6B00'];
+
+  selectedModels.forEach((modelId, i) => {
+    const model = allModels.find(m => m.id === modelId);
+    const history = MODEL_DATA.priceHistory
+      .filter(h => h.modelId === modelId)
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    if (history.length === 0) return;
+
+    const label = model ? model.name : modelId;
+    const color = colors[i % colors.length];
+
+    datasets.push({
+      label: label + ' — Input',
+      data: history.map(h => ({ x: h.date, y: h.inputPrice })),
+      borderColor: color,
+      backgroundColor: color + '20',
+      borderWidth: 2,
+      tension: 0.3,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      yAxisID: 'y',
+    });
+
+    datasets.push({
+      label: label + ' — Output',
+      data: history.map(h => ({ x: h.date, y: h.outputPrice })),
+      borderColor: color,
+      backgroundColor: 'transparent',
+      borderWidth: 2,
+      borderDash: [6, 3],
+      tension: 0.3,
+      pointRadius: 3,
+      pointHoverRadius: 5,
+      yAxisID: 'y',
+    });
+  });
+
+  if (datasets.length === 0) return;
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#9CA3AF', usePointStyle: true, padding: 20, font: { size: 11 } }
+      },
+      tooltip: {
+        backgroundColor: '#1F2937',
+        titleColor: '#F9FAFB',
+        bodyColor: '#D1D5DB',
+        borderColor: '#374151',
+        borderWidth: 1,
+        callbacks: {
+          label: function(ctx) {
+            return ctx.dataset.label + ': $' + ctx.parsed.y.toFixed(2) + '/1M';
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        type: 'time',
+        time: { unit: 'month', displayFormats: { month: 'MMM yyyy' } },
+        ticks: { color: '#6B7280', font: { size: 10 } },
+        grid: { color: '#37415120' }
+      },
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+        ticks: {
+          color: '#6B7280',
+          font: { size: 10 },
+          callback: function(v) { return '$' + v.toFixed(2); }
+        },
+        grid: { color: '#37415120' }
+      }
+    }
+  };
+
+  // Destroy existing charts
+  if (trendsInputChart) trendsInputChart.destroy();
+  if (trendsOutputChart) trendsOutputChart.destroy();
+
+  // Create input chart
+  const inputCtx = document.getElementById('trendsChartInput');
+  if (inputCtx) {
+    trendsInputChart = new Chart(inputCtx, {
+      type: 'line',
+      data: { datasets },
+      options: chartOptions
+    });
+  }
+
+  // Create output chart (same data, separate canvas for clarity)
+  const outputCtx = document.getElementById('trendsChartOutput');
+  if (outputCtx) {
+    trendsOutputChart = new Chart(outputCtx, {
+      type: 'line',
+      data: { datasets },
+      options: chartOptions
+    });
+  }
+}
+
+function updateTrendsInsight() {
+  const selectedModels = getSelectedTrendModels();
+  const el = document.getElementById('trendsInsightText');
+  if (!el) return;
+
+  if (selectedModels.length === 0) {
+    el.textContent = I18N.t('trends.insight_default');
+    return;
+  }
+
+  const allModels = getAllModels();
+  const lang = I18N.current;
+  let insightParts = [];
+
+  selectedModels.forEach(modelId => {
+    const model = allModels.find(m => m.id === modelId);
+    const history = MODEL_DATA.priceHistory
+      .filter(h => h.modelId === modelId)
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    if (history.length >= 2 && model) {
+      const first = history[0];
+      const last = history[history.length - 1];
+      const inputDrop = ((first.inputPrice - last.inputPrice) / first.inputPrice * 100).toFixed(0);
+      const outputDrop = ((first.outputPrice - last.outputPrice) / first.outputPrice * 100).toFixed(0);
+
+      if (inputDrop > 0 || outputDrop > 0) {
+        insightParts.push(
+          lang === 'zh'
+            ? `${model.name} 自 ${first.date} 以来输入价格降 ${inputDrop}%，输出降 ${outputDrop}%`
+            : `${model.name}: input -${inputDrop}%, output -${outputDrop}% since ${first.date}`
+        );
+      }
+    }
+  });
+
+  if (insightParts.length > 0) {
+    el.textContent = insightParts.join(' | ');
+  } else {
+    el.textContent = I18N.t('trends.insight_default');
+  }
+}
+</script>
+
+</body>
+</html>

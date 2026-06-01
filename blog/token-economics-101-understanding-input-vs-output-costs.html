@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token Economics 101: Understanding Input vs Output Costs — TokenCost Insights</title>
+  <meta name="description" content="A beginner-friendly guide to how AI token pricing works, why output tokens cost more, and how to structure prompts for maximum cost savings.">
+  <meta name="keywords" content="AI token pricing, token economics, LLM cost optimization, input vs output tokens, prompt engineering costs">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23A371F7'/><text x='16' y='22' text-anchor='middle' fill='white' font-size='18' font-weight='700'>T</text></svg>">
+  <style>
+    .article-container { max-width: 760px; margin: 0 auto; }
+    .article-header { text-align: center; padding: 60px 24px 40px; border-bottom: 1px solid var(--border-primary); margin-bottom: 40px; }
+    .article-header h1 { font-size: 2.2rem; line-height: 1.2; margin-bottom: 16px; }
+    .article-header .meta { color: var(--text-secondary); font-size: 0.85rem; }
+    .article-content { padding: 0 24px 60px; }
+    .article-content h2 { font-size: 1.4rem; margin: 40px 0 16px; color: var(--text-primary); }
+    .article-content h3 { font-size: 1.15rem; margin: 28px 0 12px; color: var(--text-primary); }
+    .article-content p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px; }
+    .article-content ul, .article-content ol { margin: 0 0 20px 24px; }
+    .article-content li { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 8px; }
+    .article-content .highlight-box { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: var(--radius-md); padding: 24px; margin: 28px 0; }
+    .article-content .highlight-box h4 { color: var(--accent-blue); margin-bottom: 8px; }
+    .article-content code { background: var(--bg-tertiary); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9rem; }
+    .article-content .cta-box { background: linear-gradient(135deg, rgba(163,113,247,0.1), rgba(88,166,255,0.1)); border: 1px solid rgba(163,113,247,0.25); border-radius: var(--radius-lg); padding: 28px; text-align: center; margin: 40px 0; }
+    .breadcrumb { padding: 40px 24px 0; max-width: 760px; margin: 0 auto; }
+    .breadcrumb a { color: var(--text-link); text-decoration: none; font-size: 0.85rem; }
+    .breadcrumb span { color: var(--text-tertiary); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">
+      <div class="nav-logo-icon">T</div>
+      TokenCost
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html#compare">Compare</a></li>
+      <li><a href="../index.html#calculator">Calculator</a></li>
+      <li><a href="../index.html#blog" class="active">Insights</a></li>
+      <li><a href="../index.html#pricing" class="nav-pro-btn">Upgrade to Pro</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <a href="../index.html">Home</a> <span>/</span>
+  <a href="../index.html#blog">Insights</a> <span>/</span>
+  <span>Token Economics 101</span>
+</div>
+
+<article>
+  <div class="article-header">
+    <span class="blog-card-tag" style="margin-bottom:12px;">Tutorial</span>
+    <h1>Token Economics 101: Understanding Input vs Output Costs</h1>
+    <div class="meta">May 15, 2026 · 7 min read · By TokenCost Team</div>
+  </div>
+
+  <div class="article-content article-container">
+
+    <p>You've probably noticed something odd about AI API pricing: output tokens cost <strong>3-5x more</strong> than input tokens. Why? And more importantly — how can you use this knowledge to dramatically reduce your AI bills?</p>
+
+    <p>In this guide, we'll break down the fundamentals of token economics, explain the pricing asymmetry, and give you actionable strategies to optimize your costs.</p>
+
+    <h2>What Exactly Is a Token?</h2>
+
+    <p>A token is the basic unit of text that AI models process. Think of it as a "word piece." In English, a token is roughly 3/4 of a word. So 100 tokens ≈ 75 words.</p>
+
+    <div class="highlight-box">
+      <h4>Token Quick Reference</h4>
+      <ul style="margin:0;list-style:none;padding:0;">
+        <li>1 token ≈ 0.75 English words</li>
+        <li>1 token ≈ 1 Chinese character</li>
+        <li>1,000 tokens ≈ 750 words ≈ 1.5 pages of text</li>
+        <li>1 million tokens ≈ 750,000 words ≈ "The Lord of the Rings" trilogy</li>
+      </ul>
+    </div>
+
+    <h2>The Input/Output Cost Gap</h2>
+
+    <p>Let's look at actual pricing data from major providers (May 2026):</p>
+
+    <div class="table-wrapper" style="margin-bottom:24px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Input (per 1M tokens)</th>
+            <th>Output (per 1M tokens)</th>
+            <th>Output Premium</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>GPT-4o</td><td>$2.50</td><td>$10.00</td><td><strong>4x</strong></td></tr>
+          <tr><td>Claude Sonnet 4</td><td>$3.00</td><td>$15.00</td><td><strong>5x</strong></td></tr>
+          <tr><td>Gemini 2.5 Pro</td><td>$1.25</td><td>$10.00</td><td><strong>8x</strong></td></tr>
+          <tr><td>DeepSeek V3</td><td>$0.14</td><td>$0.28</td><td><strong>2x</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The gap is real and significant. But <em>why</em>?</p>
+
+    <h2>Why Output Costs More: The Technical Reason</h2>
+
+    <h3>1. Decoding Is Computationally Expensive</h3>
+    <p>When a model reads your input, it processes all tokens in parallel (one forward pass). But when generating output, it must do it <strong>one token at a time, sequentially</strong>. Each output token requires a full forward pass through the entire model. If the model generates 1,000 tokens, that's 1,000 sequential computations — each depending on the previous one.</p>
+
+    <h3>2. Memory Bandwidth Bottleneck</h3>
+    <p>During text generation, the model's entire parameter set must be loaded from GPU memory for each token. For a 70B parameter model, that's gigabytes of data transferred for <em>every single output token</em>. This makes generation heavily memory-bandwidth-bound.</p>
+
+    <h3>3. The Attention Cache Problem</h3>
+    <p>The KV cache — which stores intermediate attention computations — grows linearly with output length. Longer outputs = larger caches = more GPU memory consumed = higher infrastructure costs for the provider.</p>
+
+    <h2>Practical Cost Optimization Strategies</h2>
+
+    <h3>Strategy 1: Front-load Context, Minimize Output</h3>
+    <p>Since input is cheaper than output, put as much context as possible in the system prompt or user message, and ask the model to be concise.</p>
+
+    <div class="highlight-box">
+      <h4>Example: Expensive vs Cheap</h4>
+      <p style="margin-bottom:4px;"><strong>Expensive (output-heavy):</strong></p>
+      <code style="display:block;padding:12px;margin-bottom:12px;">"Write a detailed blog post about token economics with examples, statistics, and actionable tips."</code>
+      <p style="margin-bottom:4px;"><strong>Cheaper (input-heavy, constrained output):</strong></p>
+      <code style="display:block;padding:12px;">System: You are an AI pricing expert. Tokens: 1T≈0.75 words. Output costs 3-8x input. Strategies: cache prompts, constrain output, use small models for drafts.\n\nUser: Summarize the above into 3 bullet points for a developer audience. 50 words max.</code>
+    </div>
+
+    <h3>Strategy 2: Use Cached Prompts</h3>
+    <p>Most providers offer <strong>50% discount</strong> on input tokens when the prompt prefix matches a previous request. This is perfect for:</p>
+    <ul>
+      <li>Long system prompts used across many requests</li>
+      <li>RAG applications where the retrieved context is reused</li>
+      <li>Chat applications where conversation history is repeated</li>
+    </ul>
+
+    <div class="highlight-box">
+      <h4>Savings Example: ChatGPT-like Chatbot</h4>
+      <p>Scenario: 100 conversations/day, 4-turn average, 2000-token system prompt, 500-token history per turn.</p>
+      <p><strong>Without caching:</strong> ~$45/month on GPT-4o</p>
+      <p><strong>With prompt caching:</strong> ~$28/month — a <strong>38% reduction</strong></p>
+    </div>
+
+    <h3>Strategy 3: Model Cascading</h3>
+    <p>Not every request needs GPT-4o or Claude Opus. Use a tiered approach:</p>
+    <ol>
+      <li><strong>Tier 1 (cheap):</strong> DeepSeek V3 or GPT-4o-mini for classification, summarization, drafts</li>
+      <li><strong>Tier 2 (mid):</strong> Claude Sonnet 4 for coding, analysis, content writing</li>
+      <li><strong>Tier 3 (premium):</strong> Claude Opus 4 or o3-mini for complex reasoning, math, science</li>
+    </ol>
+
+    <p>This strategy alone can cut costs by <strong>60-80%</strong> while maintaining quality where it matters.</p>
+
+    <h3>Strategy 4: Optimize Token Encoding</h3>
+    <p>Different languages encode differently. Chinese uses ~1 token per character, English uses ~1.3 tokens per word. When building multilingual apps, consider which language to use for system prompts and internal operations.</p>
+
+    <h2>The ROI of Token Optimization</h2>
+
+    <p>Let's put this in perspective with a real-world scenario:</p>
+
+    <div class="highlight-box">
+      <h4>Case Study: A SaaS Startup's AI Bill</h4>
+      <table style="width:100%;">
+        <thead><tr><th></th><th>Before Optimization</th><th>After Optimization</th></tr></thead>
+        <tbody>
+          <tr><td>Daily API calls</td><td>10,000</td><td>10,000</td></tr>
+          <tr><td>Average input tokens</td><td>2,000</td><td>3,000 (front-loaded)</td></tr>
+          <tr><td>Average output tokens</td><td>800</td><td>300 (constrained)</td></tr>
+          <tr><td>Model</td><td>GPT-4o</td><td>GPT-4o-mini (80%) + GPT-4o (20%)</td></tr>
+          <tr><td>Monthly cost</td><td style="color:var(--accent-red);">$1,080</td><td style="color:var(--accent-green);">$140</td></tr>
+          <tr><td><strong>Savings</strong></td><td></td><td><strong style="color:var(--accent-green);">87% — $940/month</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Start Optimizing Today</h2>
+
+    <p>Token economics isn't just theory — it's a skill that directly impacts your bottom line. Every prompt you optimize, every model choice you make, compounds into real savings.</p>
+
+    <div class="cta-box">
+      <h3 style="margin-bottom:8px;">Stop guessing. Start calculating.</h3>
+      <p style="color:var(--text-secondary);margin-bottom:20px;">Use our free calculator to estimate your exact costs across any model combination.</p>
+      <a href="../index.html#calculator" class="btn btn-primary">Try the Cost Calculator</a>
+      <a href="../index.html#pricing" class="btn btn-pro" style="margin-left:8px;">Get Pro — $9.90/mo</a>
+    </div>
+
+    <p style="font-size:0.85rem;color:var(--text-tertiary);border-top:1px solid var(--border-primary);padding-top:20px;">
+      <em>Disclaimer: All pricing data is based on publicly available API pricing pages as of May 2026. Prices may change. TokenCost is not affiliated with any AI provider.</em>
+    </p>
+
+  </div>
+</article>
+
+<footer class="footer">
+  <div class="footer-bottom" style="padding:0 24px;">
+    <span>2026 TokenCost. All prices updated daily.</span>
+    <span>Built for developers, by developers.</span>
+  </div>
+</footer>
+
+</body>
+</html>

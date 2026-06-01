@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Llama 4 Maverick: Open-Weight Model Pricing Analysis | TokenCost</title>
+<meta name="description" content="Meta's Llama 4 Maverick delivers GPT-4o-competitive performance at $0.20/$0.60. Deep analysis of API pricing, self-hosting costs, deployment platforms, and break-even calculations.">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  .highlight-box { background: var(--bg-secondary); border-left: 3px solid var(--accent-blue); padding: 20px 24px; border-radius: 0 8px 8px 0; margin: 24px 0; }
+  .highlight-box.green { border-left-color: var(--accent-green); }
+  .highlight-box.orange { border-left-color: var(--accent-orange); }
+  .highlight-box.purple { border-left-color: var(--accent-purple); }
+  .cost-savings { color: var(--accent-green); font-weight: 700; }
+  article h2 { font-size: 1.4rem; margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-primary); }
+  article h3 { font-size: 1.15rem; margin: 28px 0 10px; color: var(--accent-blue); }
+  article p { line-height: 1.8; margin: 12px 0; color: var(--text-secondary); }
+  article table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+  article th { background: var(--bg-tertiary); padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border-primary); }
+  article td { padding: 10px 12px; border-bottom: 1px solid var(--border-primary); }
+  article tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+  article ul, article ol { padding-left: 24px; line-height: 1.9; }
+  article li { margin: 6px 0; color: var(--text-secondary); }
+  .verdict-card { background: linear-gradient(135deg, rgba(57,211,83,0.08) 0%, rgba(88,166,255,0.08) 100%); border: 1px solid var(--accent-green); border-radius: var(--radius-md); padding: 28px; margin: 32px 0; }
+  .verdict-card h2 { border-bottom: none; margin-top: 0; }
+</style></head>
+<body style="background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-sans);">
+<nav class="nav"><div class="nav-inner">
+  <a href="../index.html" class="nav-logo"><div class="nav-logo-icon">T</div>TokenCost</a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;">← All Insights</a>
+  </div>
+</div></nav>
+
+<article style="max-width:760px;margin:0 auto;padding:80px 24px 60px;">
+
+<span style="color:var(--accent-blue);font-weight:700;font-size:0.8rem;">Analysis · May 8, 2026 · 8 min read</span>
+<h1 style="font-size:2rem;margin:16px 0 8px;line-height:1.3;">Llama 4 Maverick: The Open-Weight Contender Reshaping AI Economics</h1>
+<p style="color:var(--text-secondary);font-size:1.05rem;line-height:1.7;">Meta's Llama 4 Maverick delivers flagship performance at open-weight API pricing. We analyze when API beats self-hosting — and vice versa.</p>
+
+<div class="highlight-box">
+  <h3 style="margin:0 0 8px;font-size:1rem;">Key Numbers</h3>
+  <table style="margin:0;">
+    <tr><td style="font-weight:600;width:160px;">API Price</td><td>$0.20 input / $0.60 output per 1M tokens (Together AI)</td></tr>
+    <tr><td style="font-weight:600;">Context Window</td><td>1M tokens (8x GPT-4o's 128K)</td></tr>
+    <tr><td style="font-weight:600;">License</td><td>Open weights (Llama 3.3 Community License)</td></tr>
+    <tr><td style="font-weight:600;">Self-host Break-even</td><td>~500M tokens/month</td></tr>
+  </table>
+</div>
+
+<!-- Pricing Comparison Across Platforms -->
+<h2>API Pricing Across Platforms</h2>
+<p>Unlike proprietary models, Llama 4 Maverick is available from multiple inference providers — each with different pricing and performance:</p>
+
+<table>
+  <tr><th>Provider</th><th>Input / 1M</th><th>Output / 1M</th><th>Latency</th><th>Rate Limit</th></tr>
+  <tr>
+    <td><strong>Together AI</strong></td>
+    <td class="cost-savings">$0.20</td>
+    <td class="cost-savings">$0.60</td>
+    <td>~200ms</td>
+    <td>600 req/min</td>
+  </tr>
+  <tr>
+    <td><strong>Fireworks AI</strong></td>
+    <td>$0.20</td>
+    <td>$0.60</td>
+    <td>~180ms</td>
+    <td>300 req/min</td>
+  </tr>
+  <tr>
+    <td><strong>Groq</strong></td>
+    <td>$0.21</td>
+    <td>$0.65</td>
+    <td class="cost-savings">~80ms</td>
+    <td>200 req/min</td>
+  </tr>
+  <tr>
+    <td><strong>Replicate</strong></td>
+    <td>$0.25</td>
+    <td>$0.75</td>
+    <td>~500ms</td>
+    <td>No hard limit</td>
+  </tr>
+  <tr>
+    <td><strong>DeepInfra</strong></td>
+    <td>$0.18</td>
+    <td>$0.55</td>
+    <td>~300ms</td>
+    <td>500 req/min</td>
+  </tr>
+</table>
+
+<div class="highlight-box green">
+  <strong>Recommendation:</strong> Start with <strong>Together AI</strong> for best price-performance balance. Use <strong>Groq</strong> if sub-100ms latency matters (real-time chat). Use <strong>DeepInfra</strong> for pure cost optimization. Multi-provider failover is free insurance.
+</div>
+
+<!-- Comparison with Competitors -->
+<h2>Price vs Performance: The Competitive Landscape</h2>
+
+<table>
+  <tr><th>Model</th><th>Input / 1M</th><th>Output / 1M</th><th>Context</th><th>Quality Tier</th></tr>
+  <tr><td>Llama 4 Maverick</td><td class="cost-savings">$0.20</td><td class="cost-savings">$0.60</td><td>1M</td><td>Flagship</td></tr>
+  <tr><td>DeepSeek V3</td><td>$0.14</td><td>$0.28</td><td>128K</td><td>Flagship</td></tr>
+  <tr><td>Gemini 2.5 Flash</td><td>$0.15</td><td>$0.60</td><td>1M</td><td>Flagship-lite</td></tr>
+  <tr><td>GPT-4o Mini</td><td>$0.15</td><td>$0.60</td><td>128K</td><td>Small</td></tr>
+  <tr><td>GPT-4o</td><td>$2.50</td><td>$10.00</td><td>128K</td><td>Flagship</td></tr>
+  <tr><td>Claude Sonnet 4</td><td>$3.00</td><td>$15.00</td><td>200K</td><td>Flagship</td></tr>
+</table>
+
+<div class="highlight-box orange">
+  <strong>Context is everything:</strong> Llama 4 Maverick's 1M token window is a game-changer for RAG and document-heavy applications. GPT-4o and DeepSeek V3 cap at 128K — 8x less. For long-document analysis, Llama 4 Maverick is <em>the</em> budget option.
+</div>
+
+<h2>Performance Benchmarks</h2>
+
+<table>
+  <tr><th>Benchmark</th><th>Llama 4 Maverick</th><th>GPT-4o</th><th>DeepSeek V3</th></tr>
+  <tr><td>MMLU (General)</td><td>85.3%</td><td>88.7%</td><td>88.1%</td></tr>
+  <tr><td>HumanEval (Coding)</td><td>82.1%</td><td>90.2%</td><td>86.4%</td></tr>
+  <tr><td>GSM8K (Math)</td><td>88.5%</td><td>95.3%</td><td>92.7%</td></tr>
+  <tr><td>Long Context QA</td><td class="cost-savings">74.2%</td><td>72.3%</td><td>N/A (128K limit)</td></tr>
+  <tr><td>Multilingual MMLU</td><td>81.7%</td><td>85.6%</td><td>84.9%</td></tr>
+  <tr><td>IFEval (Instruction Following)</td><td>78.3%</td><td>83.4%</td><td>80.1%</td></tr>
+</table>
+
+<p>Llama 4 Maverick performs at <strong>~90-95% of GPT-4o's level</strong> on most benchmarks — at <strong>8% of the cost</strong>. For many production workloads, that quality gap is invisible to end users.</p>
+
+<!-- Self-Hosting Economics -->
+<h2>Self-Hosting: The Break-Even Analysis</h2>
+<p>The real economic advantage of open-weight models is the option to self-host. Here's the math:</p>
+
+<h3>Self-Hosting Costs (Monthly)</h3>
+<table>
+  <tr><th>Component</th><th>Low-End</th><th>Mid-Range</th><th>High-End</th></tr>
+  <tr><td>GPU (A100-80GB x2 or H100 x1)</td><td>$1,500/mo</td><td>$2,800/mo</td><td>$4,500/mo</td></tr>
+  <tr><td>Infrastructure (networking, storage)</td><td>$200</td><td>$400</td><td>$800</td></tr>
+  <tr><td>Engineering (part-time ops)</td><td>$1,000</td><td>$2,000</td><td>$4,000</td></tr>
+  <tr><td><strong>Total Monthly</strong></td><td><strong>$2,700</strong></td><td><strong>$5,200</strong></td><td><strong>$9,300</strong></td></tr>
+</table>
+
+<h3>API Costs at Different Scales (Together AI pricing)</h3>
+<table>
+  <tr><th>Monthly Volume</th><th>Tokens/Month</th><th>API Cost</th><th>Self-Host?</th></tr>
+  <tr><td>10M tokens</td><td>~330K/day</td><td>$3.50</td><td>❌ API is 770x cheaper</td></tr>
+  <tr><td>100M tokens</td><td>~3.3M/day</td><td>$35</td><td>❌ API is 77x cheaper</td></tr>
+  <tr><td>500M tokens</td><td>~16.7M/day</td><td>$175</td><td>⚠️ Break-even if you already have infra</td></tr>
+  <tr><td>1B tokens</td><td>~33M/day</td><td>$350</td><td>✅ Self-host saves 50-70%</td></tr>
+  <tr><td>5B tokens</td><td>~167M/day</td><td>$1,750</td><td>✅ Self-host saves 70-85%</td></tr>
+</table>
+
+<div class="highlight-box purple">
+  <strong>The Golden Rule:</strong> Self-hosting Llama 4 Maverick makes financial sense above ~500M tokens/month. Below that, API providers' economies of scale crush any self-hosted deployment. Most startups should use API; most enterprises should evaluate self-hosting.
+</div>
+
+<h2>When Open-Weight Wins (and When It Doesn't)</h2>
+
+<table>
+  <tr><th>Scenario</th><th>Recommendation</th><th>Reason</th></tr>
+  <tr><td>Classification / extraction at scale</td><td class="cost-savings">Llama 4 Maverick</td><td>92% of GPT-4o quality, 8% of price</td></tr>
+  <tr><td>Long document processing (>128K)</td><td class="cost-savings">Llama 4 Maverick</td><td>1M context window, no premium pricing</td></tr>
+  <tr><td>Privacy-sensitive data (on-prem)</td><td class="cost-savings">Self-host Llama 4</td><td>Data never leaves your infrastructure</td></tr>
+  <tr><td>Complex reasoning / math</td><td>GPT-4o / DeepSeek V3</td><td>Noticeable quality gap on hard problems</td></tr>
+  <tr><td>Code generation (production)</td><td>Sonnet 4</td><td>93.5% HumanEval vs Llama's 82.1%</td></tr>
+  <tr><td>Fine-tuning / customization</td><td class="cost-savings">Llama 4 Maverick</td><td>Open weights = full control over training</td></tr>
+  <tr><td>Low-latency real-time chat</td><td>Groq-hosted Llama 4</td><td>80ms response time, competitive price</td></tr>
+  <tr><td>Multi-modal (vision tasks)</td><td>GPT-4o</td><td>Mature vision pipeline, better accuracy</td></tr>
+</table>
+
+<!-- Deployment Guide -->
+<h2>Quick Deployment: 5-Minute Setup on Together AI</h2>
+<p>Getting started with Llama 4 Maverick through Together AI takes less than 5 minutes:</p>
+
+<div class="code-block"># Install Together AI Python SDK
+pip install together
+
+# Initialize client
+from together import Together
+client = Together(api_key="YOUR_API_KEY")
+
+# Basic chat completion
+response = client.chat.completions.create(
+    model="meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Explain transformer attention in 3 bullet points."}
+    ],
+    max_tokens=500,
+    temperature=0.7
+)
+
+print(response.choices[0].message.content)
+# Cost: ~$0.0004 for this request (500 in, 500 out)</div>
+
+<h2>For Chinese Developers</h2>
+<p>Llama 4 Maverick has specific advantages for the Chinese AI ecosystem:</p>
+<ul>
+  <li><strong>No API access restrictions:</strong> Unlike GPT-4o/Claude which require workarounds in China, open-weight models can be deployed anywhere</li>
+  <li><strong>Domestic alternatives:</strong> If Llama 4 performance is insufficient, DeepSeek V3 ($0.14/$0.28) offers better quality at lower cost — and is fully accessible in China</li>
+  <li><strong>Hybrid approach:</strong> Use Llama 4 Maverick for English/international workloads, DeepSeek V3 or Qwen3 for Chinese-language tasks</li>
+</ul>
+
+<div class="verdict-card">
+  <h2>Final Verdict</h2>
+  <p style="margin-top:0;">Llama 4 Maverick is the <strong>best open-weight model for cost-conscious teams</strong> that don't want to sacrifice quality. At $0.20/$0.60, it's <strong>12x cheaper than GPT-4o</strong> while delivering ~90% of the quality. The 1M context window is a unique advantage for document-heavy applications.</p>
+  <p><strong>Use API below 500M tokens/month.</strong> The economics of shared GPU clusters crush self-hosting at typical startup scales. Together AI or DeepInfra are the sweet spots.</p>
+  <p><strong>Self-host above ~500M tokens/month.</strong> At enterprise scale, the GPU math flips in your favor — especially if you can negotiate reserved instances or have existing infrastructure.</p>
+  <p><strong>Don't use it for critical code or math.</strong> The quality gap vs Sonnet 4 (coding) and GPT-4o (math) is real. Route those tasks to the appropriate specialist model.</p>
+</div>
+
+<h3 style="margin-top:40px;">Llama 4 Maverick：开源模型的性价比革命</h3>
+<p>$0.20/$0.60 的 API 价格仅为 GPT-4o 的 8%，1M 上下文窗口是 GPT-4o 的 8 倍。对分类、摘要、长文档处理等场景是绝佳选择。自部署的盈亏平衡点在月均 5 亿 Token 左右 — 大多数团队用 API 更划算。复杂推理和核心代码建议路由到 GPT-4o/Sonnet 4，其他任务全部交给 Llama 4 Maverick。中国开发者可直接部署，无访问限制，中文场景可搭配 DeepSeek V3 或 Qwen3 组成混合架构。</p>
+
+<p style="margin-top:40px;">
+  <a href="index.html" style="color:var(--accent-blue);">← All Insights</a>
+  &nbsp;&nbsp;
+  <a href="../index.html" style="color:var(--accent-blue);">← TokenCost Analyzer</a>
+</p>
+</article></body></html>

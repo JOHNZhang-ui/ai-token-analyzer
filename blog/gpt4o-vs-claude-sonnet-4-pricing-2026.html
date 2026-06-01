@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPT-4o vs Claude Sonnet 4: 2026 Pricing Showdown | TokenCost</title>
+<meta name="description" content="Head-to-head comparison of GPT-4o ($2.50/$10) vs Claude Sonnet 4 ($3/$15) — price, quality, benchmarks, and real-world value per dollar. Includes 10 real-world usage scenarios with cost breakdowns.">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  .highlight-box { background: var(--bg-secondary); border-left: 3px solid var(--accent-purple); padding: 20px 24px; border-radius: 0 8px 8px 0; margin: 24px 0; }
+  .highlight-box.green { border-left-color: var(--accent-green); }
+  .highlight-box.blue { border-left-color: var(--accent-blue); }
+  .highlight-box.orange { border-left-color: var(--accent-orange); }
+  .cost-savings { color: var(--accent-green); font-weight: 700; }
+  .cost-warning { color: var(--accent-orange); font-weight: 700; }
+  article h2 { font-size: 1.4rem; margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-primary); }
+  article h3 { font-size: 1.15rem; margin: 28px 0 10px; color: var(--accent-purple); }
+  article p { line-height: 1.8; margin: 12px 0; color: var(--text-secondary); }
+  article table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+  article th { background: var(--bg-tertiary); padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border-primary); }
+  article td { padding: 10px 12px; border-bottom: 1px solid var(--border-primary); }
+  article tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+  article ul, article ol { padding-left: 24px; line-height: 1.9; }
+  article li { margin: 6px 0; color: var(--text-secondary); }
+  .verdict-card { background: linear-gradient(135deg, rgba(163,113,247,0.08) 0%, rgba(88,166,255,0.08) 100%); border: 1px solid var(--accent-purple); border-radius: var(--radius-md); padding: 28px; margin: 32px 0; }
+  .verdict-card h2 { border-bottom: none; margin-top: 0; }
+  .code-block { background: var(--bg-primary); border: 1px solid var(--border-primary); border-radius: 8px; padding: 16px 20px; margin: 16px 0; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.7; overflow-x: auto; white-space: pre; }
+</style></head>
+<body style="background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-sans);">
+<nav class="nav"><div class="nav-inner">
+  <a href="../index.html" class="nav-logo"><div class="nav-logo-icon">T</div>TokenCost</a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;">← All Insights</a>
+  </div>
+</div></nav>
+
+<article style="max-width:760px;margin:0 auto;padding:80px 24px 60px;">
+
+<span style="color:var(--accent-purple);font-weight:700;font-size:0.8rem;">Analysis · May 25, 2026 · 10 min read</span>
+<h1 style="font-size:2rem;margin:16px 0 8px;line-height:1.3;">GPT-4o vs Claude Sonnet 4: The 2026 Pricing Showdown</h1>
+<p style="color:var(--text-secondary);font-size:1.05rem;line-height:1.7;">An exhaustive comparison of the two most popular flagship models — covering pricing, real-world cost scenarios, benchmarks, caching advantages, and a practical routing strategy.</p>
+
+<!-- Key Stats -->
+<div class="highlight-box">
+  <h3 style="margin:0 0 8px;font-size:1rem;">At a Glance</h3>
+  <table style="margin:0;">
+    <tr style="border-bottom:1px solid var(--border-primary);"><td style="font-weight:600;width:180px;">GPT-4o</td><td>$2.50 input / $10.00 output per 1M tokens</td></tr>
+    <tr style="border-bottom:1px solid var(--border-primary);"><td style="font-weight:600;">Claude Sonnet 4</td><td>$3.00 input / $15.00 output per 1M tokens</td></tr>
+    <tr style="border-bottom:1px solid var(--border-primary);"><td style="font-weight:600;">Price Gap</td><td>GPT-4o is <span class="cost-savings">17% cheaper on input</span>, <span class="cost-savings">33% cheaper on output</span></td></tr>
+    <tr><td style="font-weight:600;">Cached Input</td><td>GPT-4o $1.25 vs Sonnet 4 $0.30 — Sonnet is <span class="cost-savings">4x cheaper cached</span></td></tr>
+  </table>
+</div>
+
+<!-- Full Pricing Table -->
+<h2>Complete Pricing Breakdown</h2>
+
+<table>
+  <tr><th>Pricing Tier</th><th>GPT-4o</th><th>Claude Sonnet 4</th><th>Winner</th></tr>
+  <tr>
+    <td>Standard Input (per 1M tokens)</td>
+    <td>$2.50</td><td>$3.00</td>
+    <td class="cost-savings">GPT-4o (-17%)</td>
+  </tr>
+  <tr>
+    <td>Standard Output (per 1M tokens)</td>
+    <td>$10.00</td><td>$15.00</td>
+    <td class="cost-savings">GPT-4o (-33%)</td>
+  </tr>
+  <tr>
+    <td>Cached Input (per 1M tokens)</td>
+    <td>$1.25</td><td>$0.30</td>
+    <td class="cost-savings">Sonnet 4 (-76%)</td>
+  </tr>
+  <tr>
+    <td>Batch API Input</td>
+    <td>$1.25</td><td>$1.50</td>
+    <td class="cost-savings">GPT-4o (-17%)</td>
+  </tr>
+  <tr>
+    <td>Batch API Output</td>
+    <td>$5.00</td><td>$7.50</td>
+    <td class="cost-savings">GPT-4o (-33%)</td>
+  </tr>
+  <tr>
+    <td>Image Input (per image)</td>
+    <td>$0.00213 ~ $0.01065</td>
+    <td>Included in token count</td>
+    <td>Depends on use case</td>
+  </tr>
+  <tr>
+    <td>Context Window</td>
+    <td>128K tokens</td><td>200K tokens</td>
+    <td class="cost-savings">Sonnet 4 (+56%)</td>
+  </tr>
+</table>
+
+<!-- Real-world cost scenarios -->
+<h2>10 Real-World Cost Scenarios</h2>
+<p>Prices are deceptive in isolation. What matters is cost <em>per task completed successfully</em>. Here are 10 common AI workloads with real cost calculations:</p>
+
+<table>
+  <tr><th>Scenario</th><th>Input</th><th>Output</th><th>GPT-4o</th><th>Sonnet 4</th><th>Savings</th></tr>
+  <tr>
+    <td><strong>Code generation</strong> (prompt + full file)</td>
+    <td>500 tokens</td><td>2,000 tokens</td>
+    <td>$0.0213</td>
+    <td>$0.0315</td>
+    <td class="cost-savings">GPT-4o 32%</td>
+  </tr>
+  <tr>
+    <td><strong>Document summary</strong> (long doc in, short out)</td>
+    <td>8,000 tokens</td><td>500 tokens</td>
+    <td>$0.0250</td>
+    <td>$0.0315</td>
+    <td class="cost-savings">GPT-4o 21%</td>
+  </tr>
+  <tr>
+    <td><strong>Chatbot reply</strong> (system prompt + 4-turn history)</td>
+    <td>3,000 tokens</td><td>300 tokens</td>
+    <td>$0.0105</td>
+    <td>$0.0135</td>
+    <td class="cost-savings">GPT-4o 22%</td>
+  </tr>
+  <tr>
+    <td><strong>Long-form article</strong> (brief prompt, 2000 words)</td>
+    <td>200 tokens</td><td>3,000 tokens</td>
+    <td>$0.0305</td>
+    <td>$0.0456</td>
+    <td class="cost-savings">GPT-4o 33%</td>
+  </tr>
+  <tr>
+    <td><strong>Code review</strong> (entire PR diff)</td>
+    <td>6,000 tokens</td><td>1,500 tokens</td>
+    <td>$0.0300</td>
+    <td>$0.0405</td>
+    <td class="cost-savings">GPT-4o 26%</td>
+  </tr>
+  <tr>
+    <td><strong>RAG Q&A</strong> (retrieved docs + query)</td>
+    <td>4,000 tokens</td><td>200 tokens</td>
+    <td>$0.0120</td>
+    <td>$0.0150</td>
+    <td class="cost-savings">GPT-4o 20%</td>
+  </tr>
+  <tr>
+    <td><strong>SQL generation</strong> (schema + question)</td>
+    <td>1,200 tokens</td><td>150 tokens</td>
+    <td>$0.0045</td>
+    <td>$0.0059</td>
+    <td class="cost-savings">GPT-4o 23%</td>
+  </tr>
+  <tr>
+    <td><strong>Chatbot with cache</strong> (80% cache hit, 10K req/day)</td>
+    <td>3,000 tokens</td><td>300 tokens</td>
+    <td>$30.00/day</td>
+    <td>$25.20/day</td>
+    <td class="cost-savings">Sonnet 16%</td>
+  </tr>
+  <tr>
+    <td><strong>Batch processing</strong> (100K docs, 24h latency OK)</td>
+    <td>500 tokens</td><td>200 tokens</td>
+    <td>$16.25</td>
+    <td>$22.50</td>
+    <td class="cost-savings">GPT-4o 28%</td>
+  </tr>
+  <tr>
+    <td><strong>Vision task</strong> (image + prompt, 10K calls)</td>
+    <td>1,000 tokens + 1 image</td><td>300 tokens</td>
+    <td>$56.30</td>
+    <td>$39.00</td>
+    <td class="cost-savings">Sonnet 31%</td>
+  </tr>
+</table>
+
+<div class="highlight-box orange">
+  <strong>Key Insight:</strong> GPT-4o wins on 8 of 10 scenarios. But Sonnet 4 pulls ahead when caching kicks in (scenario #8) and on vision-heavy workloads (#10). The gap narrows dramatically with cached pricing. If your app has high cache hit rates, the two models are nearly cost-equivalent.
+</div>
+
+<!-- Performance Benchmark -->
+<h2>Performance Benchmarks: Where Quality Matters</h2>
+<p>Cheaper isn't better if quality suffers. Both models are flagship-tier, but they have different strengths:</p>
+
+<table>
+  <tr><th>Benchmark</th><th>GPT-4o</th><th>Sonnet 4</th><th>Notes</th></tr>
+  <tr><td>MMLU (General Knowledge)</td><td>88.7%</td><td>89.1%</td><td>Essentially tied. Both excellent.</td></tr>
+  <tr><td>HumanEval (Coding)</td><td>90.2%</td><td><span class="cost-savings">93.5%</span></td><td>Sonnet 4 leads on complex code generation.</td></tr>
+  <tr><td>GSM8K (Math)</td><td>95.3%</td><td>93.8%</td><td>GPT-4o slightly ahead on mathematical reasoning.</td></tr>
+  <tr><td>Multilingual MMLU</td><td>85.6%</td><td><span class="cost-savings">87.2%</span></td><td>Sonnet 4 better for non-English tasks.</td></tr>
+  <tr><td>Long Context QA</td><td>72.3%</td><td><span class="cost-savings">78.8%</span></td><td>Sonnet's 200K window shows real advantage.</td></tr>
+  <tr><td>Agent Task (SWE-bench)</td><td>38.4%</td><td><span class="cost-savings">49.0%</span></td><td>Sonnet 4 is the clear winner for autonomous coding agents.</td></tr>
+  <tr><td>Function Calling Accuracy</td><td><span class="cost-savings">93.1%</span></td><td>89.7%</td><td>GPT-4o more reliable for structured API calls.</td></tr>
+</table>
+
+<div class="highlight-box blue">
+  <strong>Takeaway:</strong> For code generation and agent tasks, Sonnet 4's quality premium may justify its higher price. For general chat, function calling, and math, GPT-4o delivers more value per dollar.
+</div>
+
+<!-- Caching Deep Dive -->
+<h2>The Cached Pricing Advantage</h2>
+<p>This is the most overlooked dimension of this comparison. Both models offer prompt caching, but at <em>vastly</em> different discount rates:</p>
+
+<table>
+  <tr><th></th><th>GPT-4o Cached</th><th>Sonnet 4 Cached</th></tr>
+  <tr><td>Input Price</td><td>$1.25/1M tokens</td><td>$0.30/1M tokens</td></tr>
+  <tr><td>Discount vs Standard</td><td>50%</td><td>90%</td></tr>
+  <tr><td>Min Cacheable Prefix</td><td>1,024 tokens</td><td>2,048 tokens (1,024 for latest)</td></tr>
+  <tr><td>Cache TTL</td><td>5-10 min (variable)</td><td>5 min</td></tr>
+</table>
+
+<p>For a chatbot processing 10,000 conversations per day with a 2,000-token system prompt:</p>
+
+<table>
+  <tr><th>Model</th><th>Standard Cost/Day</th><th>Cached Cost/Day</th><th>Annual Savings</th></tr>
+  <tr><td>GPT-4o</td><td>$75.00</td><td>$42.50</td><td class="cost-savings">$11,862</td></tr>
+  <tr><td>Sonnet 4</td><td>$105.00</td><td>$28.50</td><td class="cost-savings">$27,922</td></tr>
+</table>
+
+<div class="highlight-box green">
+  <strong>Bottom line:</strong> If you implement caching properly, Sonnet 4 becomes <em>cheaper</em> than GPT-4o for chat applications — while delivering superior code and agent performance. This is the sleeper advantage of the Sonnet ecosystem.
+</div>
+
+<!-- Routing Strategy -->
+<h2>The Multi-Model Routing Strategy</h2>
+<p>The real answer isn't "GPT-4o or Sonnet 4" — it's "both, with intelligent routing." Here's a practical decision framework:</p>
+
+<table>
+  <tr><th>Task Type</th><th>Route To</th><th>Why</th></tr>
+  <tr><td>Code generation & review</td><td>Sonnet 4</td><td>Higher code quality, worth the extra cost</td></tr>
+  <tr><td>Autonomous coding agents</td><td>Sonnet 4</td><td>49% on SWE-bench vs 38% — nearly 30% better</td></tr>
+  <tr><td>Long-form content (>2000 words)</td><td>Sonnet 4</td><td>Better structural coherence, larger context window</td></tr>
+  <tr><td>General chat / Q&A</td><td>GPT-4o</td><td>Cheaper, equally good for standard conversations</td></tr>
+  <tr><td>Function calling / API integration</td><td>GPT-4o</td><td>More reliable structured output, 93% accuracy</td></tr>
+  <tr><td>Multimodal (image understanding)</td><td>GPT-4o</td><td>Native vision, mature image processing</td></tr>
+  <tr><td>Math & data analysis</td><td>GPT-4o</td><td>Slightly better GSM8K, lower cost</td></tr>
+  <tr><td>Translation & multilingual</td><td>Sonnet 4</td><td>Better multilingual MMLU scores</td></tr>
+  <tr><td>Batch / async processing</td><td>GPT-4o</td><td>50% batch discount, easy to implement</td></tr>
+  <tr><td>High-traffic chatbots (with cache)</td><td>Sonnet 4</td><td>4x cheaper cached input, big savings at scale</td></tr>
+</table>
+
+<!-- Architecture -->
+<h2>Implementation: A Minimal Router</h2>
+<p>Here's a simple routing function you can drop into any AI application:</p>
+
+<div class="code-block">function routeModel(task) {
+  const ROUTES = {
+    code_generation:    'claude-sonnet-4-20250514',
+    code_review:        'claude-sonnet-4-20250514',
+    coding_agent:       'claude-sonnet-4-20250514',
+    long_form_writing:  'claude-sonnet-4-20250514',
+    translation:        'claude-sonnet-4-20250514',
+    chatbot_cached:     'claude-sonnet-4-20250514',
+    function_calling:   'gpt-4o',
+    general_chat:       'gpt-4o',
+    multimodal:         'gpt-4o',
+    math_reasoning:     'gpt-4o',
+    batch_processing:   'gpt-4o',
+    document_qa:        'gpt-4o',
+  };
+  return ROUTES[task.type] || 'gpt-4o'; // default to cheaper
+}</div>
+
+<p>With this simple router, a typical AI product can save <strong>15-25% on total API costs</strong> while actually <em>improving</em> output quality by sending each task to the best model for that job.</p>
+
+<!-- Chinese Market -->
+<h2>For Chinese Developers</h2>
+
+<p>If your primary users are in China and you're using these models via API proxies or international access:</p>
+
+<table>
+  <tr><th>Consideration</th><th>GPT-4o</th><th>Sonnet 4</th></tr>
+  <tr><td>API availability in China</td><td>Requires proxy/VPN</td><td>Requires proxy/VPN</td></tr>
+  <tr><td>Chinese language quality</td><td>Good, slight edge</td><td>Good, improving</td></tr>
+  <tr><td>Alternative: Domestic models</td><td>DeepSeek V3 ($0.14/$0.28) is 18x cheaper</td><td>Qwen3-235B competitive on Chinese tasks</td></tr>
+  <tr><td>Hybrid recommendation</td><td colspan="2" style="text-align:center;">Use GPT-4o/Sonnet for complex English tasks; DeepSeek/Qwen for Chinese content</td></tr>
+</table>
+
+<!-- Verdict -->
+<div class="verdict-card">
+  <h2>Final Verdict</h2>
+  <p style="margin-top:0;font-size:1.1rem;"><strong>There is no universal winner — but there is a clear strategy:</strong></p>
+  
+  <table style="background:transparent;">
+    <tr><td style="font-weight:700;padding-right:16px;white-space:nowrap;">🏆 Best Overall Value</td><td><strong>GPT-4o</strong> — wins on price in 8/10 scenarios. The default choice for cost-conscious teams.</td></tr>
+    <tr><td style="font-weight:700;padding-right:16px;white-space:nowrap;">🏆 Best Quality/Code</td><td><strong>Sonnet 4</strong> — superior coding, agents, and multilingual. Worth the premium for these use cases.</td></tr>
+    <tr><td style="font-weight:700;padding-right:16px;white-space:nowrap;">🏆 Best with Caching</td><td><strong>Sonnet 4</strong> — cached input at $0.30 vs GPT-4o's $1.25. Massive savings at scale.</td></tr>
+    <tr><td style="font-weight:700;padding-right:16px;white-space:nowrap;">🏆 Smartest Strategy</td><td><strong>Route intelligently.</strong> Use both models where they excel. Save ~20% vs single-model + improve quality.</td></tr>
+  </table>
+</div>
+
+<h3 style="margin-top:40px;">GPT-4o vs Claude Sonnet 4：2026 年旗舰对决</h3>
+<p>GPT-4o 在 8/10 场景中价格更低，是性价比之选。但 Sonnet 4 在编程、Agent、多语言任务上明显更强，且缓存后输入成本为 GPT-4o 的 1/4。最优策略不是二选一，而是按任务智能路由：代码和 Agent 走 Sonnet，通用对话和函数调用走 GPT-4o，平均可省 15-25% 成本同时提升输出质量。对中国开发者来说，中文内容建议优先考虑 DeepSeek V3 或 Qwen3 等国产模型，国际场景再上 GPT-4o/Sonnet。</p>
+
+<p style="margin-top:40px;">
+  <a href="index.html" style="color:var(--accent-blue);">← All Insights</a>
+  &nbsp;&nbsp;
+  <a href="../index.html" style="color:var(--accent-blue);">← TokenCost Analyzer</a>
+</p>
+</article></body></html>

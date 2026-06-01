@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise AI Procurement: TCO Framework | TokenCost</title>
+<meta name="description" content="Enterprise AI procurement TCO framework — beyond per-token pricing. Detailed cost breakdown, vendor comparison, negotiation playbook, and build vs buy decision framework.">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  .highlight-box { background: var(--bg-secondary); border-left: 3px solid var(--accent-purple); padding: 20px 24px; border-radius: 0 8px 8px 0; margin: 24px 0; }
+  .highlight-box.green { border-left-color: var(--accent-green); }
+  .highlight-box.blue { border-left-color: var(--accent-blue); }
+  .highlight-box.orange { border-left-color: var(--accent-orange); }
+  .cost-savings { color: var(--accent-green); font-weight: 700; }
+  .cost-warning { color: var(--accent-orange); font-weight: 700; }
+  article h2 { font-size: 1.4rem; margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-primary); }
+  article h3 { font-size: 1.15rem; margin: 28px 0 10px; color: var(--accent-purple); }
+  article h3.green { color: var(--accent-green); }
+  article p { line-height: 1.8; margin: 12px 0; color: var(--text-secondary); }
+  article table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+  article th { background: var(--bg-tertiary); padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border-primary); }
+  article td { padding: 10px 12px; border-bottom: 1px solid var(--border-primary); }
+  article tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+  article ul, article ol { padding-left: 24px; line-height: 1.9; }
+  article li { margin: 6px 0; color: var(--text-secondary); }
+  .playbook { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: var(--radius-md); padding: 28px; margin: 28px 0; }
+  .playbook h3 { margin-top: 0; }
+  .tco-formula { background: var(--bg-primary); border: 1px solid var(--border-primary); border-radius: 8px; padding: 16px 20px; margin: 16px 0; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.7; }
+</style></head>
+<body style="background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-sans);">
+<nav class="nav"><div class="nav-inner">
+  <a href="../index.html" class="nav-logo"><div class="nav-logo-icon">T</div>TokenCost</a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;">← All Insights</a>
+  </div>
+</div></nav>
+
+<article style="max-width:760px;margin:0 auto;padding:80px 24px 60px;">
+
+<span style="color:var(--accent-purple);font-weight:700;font-size:0.8rem;">Strategy · Apr 28, 2026 · 9 min read</span>
+<h1 style="font-size:2rem;margin:16px 0 8px;line-height:1.3;">Enterprise AI Procurement: The TCO Framework</h1>
+<p style="color:var(--text-secondary);font-size:1.05rem;line-height:1.7;">Per-token pricing is just the tip of the iceberg. Enterprise AI procurement requires a Total Cost of Ownership (TCO) lens — and the hidden costs can dwarf the API bill.</p>
+
+<!-- TCO Breakdown -->
+<div class="highlight-box">
+  <h3 style="margin:0 0 8px;font-size:1rem;">TCO Framework: 5 Cost Layers</h3>
+  <table style="margin:0;">
+    <tr style="border-bottom:1px solid var(--border-primary);"><td style="font-weight:600;width:180px;padding:6px 8px 6px 0;">Layer 1: API Usage</td><td style="padding:6px 0;">40-60% of TCO — what everyone focuses on</td></tr>
+    <tr style="border-bottom:1px solid var(--border-primary);"><td style="font-weight:600;padding:6px 8px 6px 0;">Layer 2: Engineering</td><td style="padding:6px 0;">20-30% — integration, eval infra, maintenance</td></tr>
+    <tr style="border-bottom:1px solid var(--border-primary);"><td style="font-weight:600;padding:6px 8px 6px 0;">Layer 3: Evaluation</td><td style="padding:6px 0;">10-15% — benchmarks, A/B testing, quality assurance</td></tr>
+    <tr style="border-bottom:1px solid var(--border-primary);"><td style="font-weight:600;padding:6px 8px 6px 0;">Layer 4: Compliance</td><td style="padding:6px 0;">5-10% — security review, data privacy, audit</td></tr>
+    <tr><td style="font-weight:600;padding:6px 8px 6px 0;">Layer 5: Vendor Mgmt</td><td style="padding:6px 0;">3-8% — negotiations, contracts, relationship management</td></tr>
+  </table>
+</div>
+
+<!-- Real Numbers: TCO Breakdown -->
+<h2>Real Numbers: TCO Breakdown (Monthly, 100M Tokens)</h2>
+<p>A typical mid-sized enterprise using AI across 3 product features, 100M tokens/month:</p>
+
+<table>
+  <tr><th>Cost Component</th><th>OpenAI (GPT-4o)</th><th>Anthropic (Sonnet 4)</th><th>Google (Gemini)</th><th>DeepSeek V3</th></tr>
+  <tr>
+    <td><strong>API Usage</strong></td>
+    <td>$625/month</td><td>$1,050/month</td><td>$312.5/month</td><td class="cost-savings">$21/month</td>
+  </tr>
+  <tr>
+    <td><strong>Engineering (2 FTEs @ $150K)</strong></td>
+    <td>$25,000/month</td><td>$25,000/month</td><td>$25,000/month</td><td>$26,500/month (self-host ops)</td>
+  </tr>
+  <tr>
+    <td><strong>Eval Infrastructure</strong></td>
+    <td>$1,200/month</td><td>$1,200/month</td><td>$1,200/month</td><td>$2,500/month (self-host)</td>
+  </tr>
+  <tr>
+    <td><strong>Compliance & Security</strong></td>
+    <td>$800/month</td><td>$800/month</td><td>$600/month</td><td>$0 (on-prem)</td>
+  </tr>
+  <tr>
+    <td><strong>Vendor Management</strong></td>
+    <td>$500/month</td><td>$500/month</td><td>$300/month</td><td>$0 (open weight)</td>
+  </tr>
+  <tr style="border-top:2px solid var(--border-primary);font-weight:700;">
+    <td><strong>TOTAL TCO/Month</strong></td>
+    <td>$28,125</td><td>$28,550</td><td>$27,412.5</td>
+    <td>$29,321</td>
+  </tr>
+  <tr style="font-weight:700;color:var(--accent-green);">
+    <td><strong>API as % of TCO</strong></td>
+    <td>2.2%</td><td>3.7%</td><td>1.1%</td>
+    <td class="cost-savings">0.07%</td>
+  </tr>
+</table>
+
+<div class="highlight-box orange">
+  <strong>The Shocker:</strong> API costs are typically <strong>only 1-4% of total TCO</strong> for enterprises. Obsessing over $2.50 vs $3.00 per 1M tokens is missing the forest for the trees. The real cost is engineering talent.
+</div>
+
+<!-- Vendor Comparison Matrix -->
+<h2>Vendor Comparison Matrix (Enterprise Edition)</h2>
+
+<table>
+  <tr><th>Dimension</th><th>OpenAI</th><th>Anthropic</th><th>Google</th><th>DeepSeek (API)</th></tr>
+  <tr><td><strong>SLA Uptime</strong></td><td>99.9% (tier)</td><td>99.9%</td><td>99.95%</td><td>99.5% (growing)</td></tr>
+  <tr><td><strong>Data Residency</strong></td><td>✅ EU, US</td><td>✅ EU, US</td><td>✅ Global</td><td>❌ China only</td></tr>
+  <tr><td><strong>Enterprise Support</strong></td><td>✅ Dedicated</td><td>✅ Dedicated</td><td>✅ Google Cloud</td><td>❌ Best effort</td></tr>
+  <tr><td><strong>Custom Models (Fine-tune)</strong></td><td>✅ (GPT-4o fine-tune)</td><td>❌ ( aligning only)</td><td>✅ (Gemini tuning)</td><td>✅ (open weight = full control)</td></tr>
+  <tr><td><strong>Contract Min.</strong></td><td>$5K/mo commit</td><td>$3K/mo commit</td><td>$2K/mo commit</td><td>None</td></tr>
+  <tr><td><strong>Negotiable?</strong></td><td>✅ At $20K/mo+</td><td>✅ At $15K/mo+</td><td>✅ At $10K/mo+</td><td>N/A (fixed price)</td></tr>
+</table>
+
+<!-- Pricing Negotiation Playbook -->
+<h2>Negotiation Playbook: 7 Tactics That Work</h2>
+<p>Enterprise AI vendors <em>expect</em> you to negotiate. Here's what actually works in 2026:</p>
+
+<div class="playbook">
+  <h3 class="green">Tactic #1: Committed Spend Discount</h3>
+  <p><strong>The Ask:</strong> "We'll commit to $X/month for 12 months in exchange for Y% discount."</p>
+  <p><strong>What Works:</strong> Most vendors offer 10-30% for committed spend. The threshold is typically $5K/month for OpenAI, $3K for Anthropic.</p>
+  <table>
+    <tr><th>Commit Level</th><th>OpenAI Discount</th><th>Anthropic Discount</th><th>Google Discount</th></tr>
+    <tr><td>$3K/mo</td><td>—</td><td>10%</td><td>15%</td></tr>
+    <tr><td>$5K/mo</td><td>10%</td><td>15%</td><td>20%</td></tr>
+    <tr><td>$10K/mo</td><td>15%</td><td>20%</td><td>25%</td></tr>
+    <tr><td>$25K/mo</td><td>20%</td><td>25%</td><td>30%</td></tr>
+    <tr><td>$50K/mo</td><td>25%</td><td>30%</td><td>35%</td></tr>
+  </table>
+</div>
+
+<div class="playbook">
+  <h3 class="green">Tactic #2: Multi-Year Lock-In (Reverse)</h3>
+  <p><strong>The Ask:</strong> "We'll sign a 24-month contract — but at <em>today's</em> rates, with a price cap clause."</p>
+  <p><strong>Why It Works:</strong> Vendors fear churn. Locking you in for 2 years is worth a 15-20% discount. But add a "most favored nation" clause — if they drop public pricing, your contract price drops too.</p>
+</div>
+
+<div class="playbook">
+  <h3 class="green">Tactic #3: Multi-Provider Posture (Real One)</h3>
+  <p><strong>The Ask:</strong> "We're actively evaluating Anthropic/Google/DeepSeek. Match this competitive offer or we split the workload."</p>
+  <p><strong>Why It Works:</strong> Nothing gets a sales rep's attention like a real competitive threat. Even a 20% multi-provider split gets you leverage. Bring data: "DeepSeek V3 is 94% cheaper and 87% as good."</p>
+  <div class="tco-formula">Email template:
+Subject: Enterprise AI Procurement — Multi-Provider Evaluation
+
+Hi [Sales Rep],
+
+We're currently evaluating our $50K/month AI API spend across multiple providers.
+DeepSeek V3 has demonstrated 87% of GPT-4o's MMLU accuracy at 6% of the cost.
+
+Before we commit to a 12-month contract, we need to align on:
+1. A committed spend discount that reflects our scale
+2. A most-favored-nation price-matching clause
+3. Priority access to new models (reasoning series)
+
+Can we schedule a discussion this week?
+
+Best,
+[Your Name]</div>
+</div>
+
+<div class="playbook">
+  <h3 class="green">Tactic #4: Free Tier Expansion</h3>
+  <p><strong>The Ask:</strong> "We need 10M free tokens/month for internal experimentation and prototyping."</p>
+  <p><strong>Why It Works:</strong> Vendors want you building on their platform. Free tokens for internal use (not production) cost them ~$0 marginal cost but create lock-in. Ask for 5-20M free tokens/month.</p>
+</div>
+
+<div class="playbook">
+  <h3 class="green">Tactic #5: Private Deployment (On-Prem)</h3>
+  <p><strong>The Ask:</strong> "We have data residency requirements. Provide a VPC deployment option or we go open-weight (Llama 4 / DeepSeek).""</p>
+  <p><strong>Why It Works:</strong> For enterprises in regulated industries (healthcare, finance), data residency is a must. Anthropic and OpenAI now offer VPC/private deployments — but you have to ask.</p>
+</div>
+
+<div class="playbook">
+  <h3 class="green">Tactic #6: Priority Access to New Models</h3>
+  <p><strong>The Ask:</strong> "We want early access to your reasoning models / GPT-5 / Claude Opus. Make it part of the enterprise contract."</p>
+  <p><strong>Why It Works:</strong> Enterprise customers get priority. But you have to put it in the contract — otherwise you're waiting in line with everyone else.</p>
+</div>
+
+<div class="playbook">
+  <h3 class="green">Tactic #7: SLA with Financial Penalties</h3>
+  <p><strong>The Ask:</strong> "We need a 99.9% uptime SLA with 5% credit for each 0.1% below that."</p>
+  <p><strong>Why It Works:</strong> Most enterprise contracts have SLAs but no teeth. Adding financial penalties makes reliability real. Vendors will push back — hold firm.</p>
+</div>
+
+<!-- Decision Framework: Build vs Buy -->
+<h2>Decision Framework: Build (Self-Host) vs Buy (API)</h2>
+<p>The classic enterprise question — with AI, the math has shifted dramatically since open-weight models caught up to proprietary ones.</p>
+
+<table>
+  <tr><th>Factor</th><th>Buy (API)</th><th>Build (Self-Host)</th><th>Breakeven</th></tr>
+  <tr>
+    <td><strong>Upfront Cost</strong></td>
+    <td class="cost-savings">$0</td>
+    <td class="cost-warning">$50K-200K (GPU cluster)</td>
+    <td>Immediate (buy wins)</td>
+  </tr>
+  <tr>
+    <td><strong>Monthly OpEx</strong></td>
+    <td class="cost-warning">$1K-50K (usage-based)</td>
+    <td class="cost-savings">$3K-15K (GPU rental)</td>
+    <td>~500M tokens/mo</td>
+  </tr>
+  <tr>
+    <td><strong>Engineering Cost</strong></td>
+    <td class="cost-savings">$5K/mo (integration)</td>
+    <td class="cost-warning">$25K/mo (2 FTEs ops)</td>
+    <td>Always (buy wins)</td>
+  </tr>
+  <tr>
+    <td><strong>Quality (MMLU)</strong></td>
+    <td class="cost-savings">88-89% (flagship)</td>
+    <td>85-88% (open-weight)</td>
+    <td>~5% quality gap</td>
+  </tr>
+  <tr>
+    <td><strong>Latency</strong></td>
+    <td class="cost-savings">80-200ms (managed)</td>
+    <td class="cost-warning">200-800ms (self-managed)</td>
+    <td>Buy wins (if latency matters)</td>
+  </tr>
+  <tr>
+    <td><strong>Data Privacy</strong></td>
+    <td class="cost-warning">❌ Sends to vendor</td>
+    <td class="cost-savings">✅ Full control</td>
+    <td>Depends on use case</td>
+  </tr>
+</table>
+
+<div class="highlight-box blue">
+  <strong>Rule of Thumb for 2026:</strong>
+  <ul style="margin:12px 0 0;padding-left:20px;">
+    <li><strong>&lt;500M tokens/mo:</strong> Buy (API). Self-hosting math doesn't work.</li>
+    <li><strong>500M-2B tokens/mo:</strong> Hybrid. API for latency-sensitive, self-host for batch/async.</li>
+    <li><strong>&gt;2B tokens/mo:</strong> Build (self-host Llama 4 / DeepSeek). Saves 60-80% on TCO.</li>
+    <li><strong>Regulated industry:</strong> Build (on-prem). No alternative for data residency.</li>
+  </ul>
+</div>
+
+<!-- SLA Comparison -->
+<h2>SLA Comparison: What Each Vendor Actually Guarantees</h2>
+
+<table>
+  <tr><th>Vendor</th><th>Uptime SLA</th><th>Latency (p50)</th><th>Support Response</th><th>Penalty for Breach</th></tr>
+  <tr>
+    <td><strong>OpenAI Enterprise</strong></td>
+    <td>99.9%</td><td>~150ms</td><td>4 hours (P1)</td><td>10% credit / month down</td>
+  </tr>
+  <tr>
+    <td><strong>Anthropic Enterprise</strong></td>
+    <td>99.9%</td><td>~180ms</td><td>2 hours (P1)</td><td>15% credit / month down</td>
+  </tr>
+  <tr>
+    <td><strong>Google (Gemini Enterprise)</strong></td>
+    <td>99.95%</td><td>~120ms</td><td>1 hour (P1)</td><td>20% credit / month down</td>
+  </tr>
+  <tr>
+    <td><strong>Together AI (Llama 4)</strong></td>
+    <td>99.5%</td><td>~200ms</td><td>8 hours</td><td>Best effort</td>
+  </tr>
+  <tr>
+    <td><strong>Self-Hosted</strong></td>
+    <td>Yours to define</td><td>Yours to optimize</td><td>Yours to staff</td><td>Yours to fix 😅</td>
+  </tr>
+</table>
+
+<!-- China-Specific Section -->
+<h2>For Chinese Enterprises</h2>
+<p>AI procurement in China has unique constraints. Here's what enterprise teams in China need to factor in:</p>
+
+<table>
+  <tr><th>Factor</th><th>International Models (GPT-4o/Claude)</th><th>Domestic Models (DeepSeek/Qwen/GLM)</th></tr>
+  <tr>
+    <td><strong>API Access</strong></td>
+    <td class="cost-warning">Needs proxy/VPN (+20-40% cost)</td>
+    <td class="cost-savings">Direct access, no proxy</td>
+  </tr>
+  <tr>
+    <td><strong>Compliance</strong></td>
+    <td class="cost-warning">❌ Data leaves China (PIPL risk)</td>
+    <td class="cost-savings">✅ Full PIPL compliance</td>
+  </tr>
+  <tr>
+    <td><strong>Chinese Language Quality</strong></td>
+    <td>Good but not optimized</td>
+    <td class="cost-savings">Native quality (Qwen3 best)</td>
+  </tr>
+  <tr>
+    <td><strong>Cost (Input/1M)</strong></td>
+    <td class="cost-warning">~¥25-35 (proxy markup)</td>
+    <td class="cost-savings">¥1-2 (DeepSeek V3)</td>
+  </tr>
+  <tr>
+    <td><strong>Procurement Strategy</strong></td>
+    <td>Negotiate proxy bulk discount</td>
+    <td class="cost-savings">Direct contract with model provider</td>
+  </tr>
+</table>
+
+<div class="highlight-box green">
+  <strong>China Enterprise Recommendation:</strong> Use <strong>Qwen3-235B or DeepSeek V3 for Chinese-language workloads</strong> (direct API, PIPL-compliant, 20x cheaper). Use <strong>GPT-4o/Claude via proxy only for English/international workloads</strong>. The hybrid approach typically saves 70-85% vs. all-international.
+</div>
+
+<!-- Final Verdict -->
+<div class="highlight-box" style="border-left-color:var(--accent-blue);">
+  <h2 style="margin-top:0;border-bottom:none;">Final Framework: 5-Step Enterprise Procurement</h2>
+  <ol style="margin:16px 0 0;padding-left:20px;">
+    <li><strong>Map TCO, not just API cost.</strong> Engineering talent is 10-50x the API bill. Factor it in.</li>
+    <li><strong>Multi-provider by default.</strong> Don't give any vendor >70% of your workload. It kills negotiation leverage.</li>
+    <li><strong>Negotiate committed spend.</strong> 10-30% discount at $3K-10K/mo threshold. Gets you enterprise support too.</li>
+    <li><strong>Add SLA penalties to contract.</strong> Most SLAs are toothless. Add financial penalties for breaches.</li>
+    <li><strong>Review quarterly, not annually.</strong> AI pricing changes faster than any other enterprise software category. Quarterly reviews let you capture savings.</li>
+  </ol>
+</div>
+
+<h3 style="margin-top:40px;">企业 AI 采购：Token 价格之外的 TCO 分析</h3>
+<p>企业的 AI 采购成本远高于 Token 单价。TCO（总拥有成本）包含 5 层：API 用量（1-4%）、工程人力（20-30%，这才是大头）、评测基础设施（10-15%）、合规安全（5-10%）、供应商管理（3-8%）。议价策略：承诺消费折扣（10-30% off）、多厂商备份增加筹码、加入 SLA 财务罚则、季度复盘（不按年）。中国企业应优先考虑国产模型（DeepSeek/Qwen，PIPL 合规且便宜 20 倍），国际工作负载再走代理访问 GPT-4o/Claude。</p>
+
+<p style="margin-top:40px;">
+  <a href="index.html" style="color:var(--accent-blue);">← All Insights</a>
+  &nbsp;&nbsp;
+  <a href="../index.html" style="color:var(--accent-blue);">← TokenCost Analyzer</a>
+</p>
+</article></body></html>

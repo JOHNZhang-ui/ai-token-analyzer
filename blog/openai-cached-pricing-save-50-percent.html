@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenAI Cached Pricing: Save 50% on Input Costs | TokenCost</title>
+<meta name="description" content="How OpenAI's prompt caching cuts input costs by 50%. Complete implementation guide with Python and Node.js code, optimization strategies, and real-world savings calculations.">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  .highlight-box { background: var(--bg-secondary); border-left: 3px solid var(--accent-green); padding: 20px 24px; border-radius: 0 8px 8px 0; margin: 24px 0; }
+  .highlight-box.blue { border-left-color: var(--accent-blue); }
+  .highlight-box.orange { border-left-color: var(--accent-orange); }
+  .cost-savings { color: var(--accent-green); font-weight: 700; }
+  .cost-warning { color: var(--accent-orange); font-weight: 700; }
+  article h2 { font-size: 1.4rem; margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-primary); }
+  article h3 { font-size: 1.15rem; margin: 28px 0 10px; color: var(--accent-green); }
+  article p { line-height: 1.8; margin: 12px 0; color: var(--text-secondary); }
+  article table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+  article th { background: var(--bg-tertiary); padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border-primary); }
+  article td { padding: 10px 12px; border-bottom: 1px solid var(--border-primary); }
+  article tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+  article ul, article ol { padding-left: 24px; line-height: 1.9; }
+  article li { margin: 6px 0; color: var(--text-secondary); }
+  .code-block { background: var(--bg-primary); border: 1px solid var(--border-primary); border-radius: 8px; padding: 16px 20px; margin: 16px 0; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.7; overflow-x: auto; white-space: pre; }
+  .anhropic-box { background: rgba(163,113,247,0.06); border: 1px solid rgba(163,113,247,0.2); border-radius: var(--radius-md); padding: 20px; margin: 24px 0; }
+</style></head>
+<body style="background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-sans);">
+<nav class="nav"><div class="nav-inner">
+  <a href="../index.html" class="nav-logo"><div class="nav-logo-icon">T</div>TokenCost</a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;">← All Insights</a>
+  </div>
+</div></nav>
+
+<article style="max-width:760px;margin:0 auto;padding:80px 24px 60px;">
+
+<span style="color:var(--accent-green);font-weight:700;font-size:0.8rem;">Tutorial · May 22, 2026 · 9 min read</span>
+<h1 style="font-size:2rem;margin:16px 0 8px;line-height:1.3;">OpenAI Cached Pricing: Cut Input Costs by 50%</h1>
+<p style="color:var(--text-secondary);font-size:1.05rem;line-height:1.7;">Prompt caching is the most underutilized cost-saving feature in the AI ecosystem. When enabled, GPT-4o's input price drops from $2.50 to $1.25 per 1M tokens — a 50% reduction with zero quality loss.</p>
+
+<!-- How it works -->
+<h2>How Prompt Caching Works</h2>
+<p>When you send repeated requests with the same system prompt or long prefix, OpenAI automatically caches those tokens. Subsequent requests that share the same prefix get billed at <strong>50% of the standard input rate</strong>.</p>
+
+<div class="highlight-box">
+  <h3 style="margin:0 0 8px;font-size:1rem;">The 1,024-Token Threshold</h3>
+  <p style="margin:0;">Only prefixes of <strong>1,024 tokens or longer</strong> are eligible for caching. The cached portion must be identical across requests. Even one token difference invalidates the cache for that request.</p>
+</div>
+
+<!-- Pricing Table -->
+<h2>Complete Cached Pricing Table</h2>
+
+<table>
+  <tr><th>Model</th><th>Standard Input</th><th>Cached Input</th><th>Savings</th><th>Cache Policy</th></tr>
+  <tr>
+    <td>GPT-4o</td>
+    <td>$2.50</td>
+    <td class="cost-savings">$1.25</td>
+    <td>50%</td>
+    <td>Auto, ≥1,024 tokens</td>
+  </tr>
+  <tr>
+    <td>GPT-4o Mini</td>
+    <td>$0.15</td>
+    <td class="cost-savings">$0.075</td>
+    <td>50%</td>
+    <td>Auto, ≥1,024 tokens</td>
+  </tr>
+  <tr>
+    <td>o3-mini</td>
+    <td>$1.10</td>
+    <td class="cost-savings">$0.55</td>
+    <td>50%</td>
+    <td>Auto, ≥1,024 tokens</td>
+  </tr>
+  <tr>
+    <td>Claude Sonnet 4</td>
+    <td>$3.00</td>
+    <td class="cost-savings">$0.30</td>
+    <td>90%</td>
+    <td>Auto prefix match, ≥2,048 tokens</td>
+  </tr>
+  <tr>
+    <td>DeepSeek V3</td>
+    <td>$0.14</td>
+    <td class="cost-savings">$0.014</td>
+    <td>90%</td>
+    <td>Explicit cache header</td>
+  </tr>
+</table>
+
+<div class="anhropic-box">
+  <h3 style="margin:0 0 8px;color:var(--accent-purple);">Anthropic's 90% Cache Advantage</h3>
+  <p style="margin:0;">While OpenAI offers 50% savings, Anthropic's Claude Sonnet 4 offers <strong class="cost-savings">90% off on cached input</strong> ($0.30 vs $3.00). For high-cache-hit-rate applications, Claude is dramatically cheaper. If you're not using Claude for cache-heavy workloads, you're overpaying.</p>
+</div>
+
+<!-- Implementation: Python -->
+<h2>Implementation: Python (OpenAI SDK)</h2>
+<p>OpenAI handles caching automatically — no code changes needed. Just ensure your system prompt is identical across requests:</p>
+
+<div class="code-block">from openai import OpenAI
+client = OpenAI(api_key="YOUR_API_KEY")
+
+# ✅ GOOD: System prompt is identical → cached after first request
+SYSTEM_PROMPT = "You are a helpful customer support agent. Be concise."
+
+for message in user_messages:
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},  # Cached from 2nd call
+            {"role": "user", "content": message}
+        ]
+    )
+
+# ❌ BAD: System prompt changes per request → NEVER cached
+for user in users:
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": f"You are support for {user.name}"},  # Different every time!
+            {"role": "user", "content": message}
+        ]
+    )</div>
+
+<!-- Implementation: Node.js -->
+<h2>Implementation: Node.js</h2>
+
+<div class="code-block">const OpenAI = require("openai");
+const client = new OpenAI({ apiKey: process.env.OPENAI_KEY });
+
+// ✅ Structure prompts so system prompt is a stable prefix
+const SYSTEM_PROMPT = `You are a code review assistant.
+Focus on: security, performance, readability.
+Output format: JSON with { issues: [], suggestions: [] }`;
+
+async function reviewCode(diff) {
+    // System prompt is identical → cache hit on 2nd+ call
+    const response = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: `Review this diff:\n${diff}` }
+        ],
+        max_tokens: 2000,
+    });
+    return JSON.parse(response.choices[0].message.content);
+}
+
+// Batch process 100 code reviews
+const reviews = await Promise.all(codeDiffs.map(diff => reviewCode(diff)));
+// Cost: 1st = $0.006, remaining 99 = $0.003 each (50% off)
+// Total: $0.303 instead of $0.600 — savings: $0.297 (49%)</div>
+
+<!-- Cache Hit Rate Optimization -->
+<h2>Optimizing Cache Hit Rate</h2>
+<p>The savings depend entirely on your cache hit rate. Here's how to maximize it:</p>
+
+<table>
+  <tr><th>Strategy</th><th>Hit Rate</th><th>Efffective Price</th><th>Implementation</th></tr>
+  <tr>
+    <td>Static system prompt only</td>
+    <td>95%+</td>
+    <td>$1.31/token</td>
+    <td>Move all dynamic content to user message</td>
+  </tr>
+  <tr>
+    <td>System + few-shot examples</td>
+    <td>80-90%</td>
+    <td>$1.38/token</td>
+    <td>Keep examples static; vary only user input</td>
+  </tr>
+  <tr>
+    <td>System + long document (RAG)</td>
+    <td>60-80%</td>
+    <td>$1.63/token</td>
+    <td>Cache the document; vary the query</td>
+  </tr>
+  <tr>
+    <td>Per-user personalized prompt</td>
+    <td>0%</td>
+    <td>$2.50/token</td>
+    <td>Don't vary system prompt per user</td>
+  </tr>
+</table>
+
+<!-- Real Savings: Multi-Turn Conversations -->
+<h2>Multi-Turn Conversations: The Hidden Gold Mine</h2>
+<p>Chatbots are the perfect caching use case. The entire conversation history becomes the prefix for the next turn — meaning turns 2+ are heavily discounted.</p>
+
+<div class="highlight-box blue">
+  <h3 style="margin:0 0 8px;font-size:1rem;">10-Turn Conversation Cost Breakdown</h3>
+  <p style="margin:0 0 12px 0;"><strong>Scenario:</strong> Chatbot, 500-token system prompt, 150 tokens per turn (user + assistant)</p>
+  <table style="margin:0;">
+    <tr style="border-bottom:1px solid var(--border-primary);"><td style="padding:6px 0;font-weight:600;">Turn</td><td style="padding:6px 0;">Tokens Billed</td><td style="padding:6px 0;">Cost (GPT-4o)</td><td style="padding:6px 0;">With Cache</td></tr>
+    <tr><td>1</td><td>500 + 75 + 75 = 650</td><td>$0.00163</td><td>(No cache yet)</td></tr>
+    <tr><td>2</td><td>650 + 75 + 75 = 800</td><td>$0.00200</td><td class="cost-savings">$0.00100 (50% off)</td></tr>
+    <tr><td>3-10</td><td>~950 each</td><td>$0.00238 each</td><td class="cost-savings">$0.00119 each</td></tr>
+    <tr style="border-top:1px solid var(--border-primary);font-weight:700;"><td>Total (10 turns)</td><td>—</td><td>$0.02153</td><td class="cost-savings">$0.01270</td></tr>
+  </table>
+  <p style="margin:12px 0 0 0;"><strong>Total savings over 10-turn conversation: 41%</strong> — and the savings compound with longer conversations.</p>
+</div>
+
+<!-- Real Savings: Production Scenarios -->
+<h2>Production Savings: 4 Common Scenarios</h2>
+
+<table>
+  <tr><th>Application</th><th>Volume</th><th>Monthly Cost (Standard)</th><th>Monthly Cost (Cached)</th><th>Annual Savings</th></tr>
+  <tr>
+    <td>Customer support chatbot</td>
+    <td>100K conversations/mo</td>
+    <td>$125.00</td>
+    <td class="cost-savings">$62.50</td>
+    <td class="cost-savings">$750</td>
+  </tr>
+  <tr>
+    <td>Code review assistant</td>
+    <td>50K reviews/mo</td>
+    <td>$93.75</td>
+    <td class="cost-savings">$46.88</td>
+    <td class="cost-savings">$563</td>
+  </tr>
+  <tr>
+    <td>RAG document Q&A</td>
+    <td>20K queries/mo</td>
+    <td>$300.00</td>
+    <td class="cost-savings">$150.00</td>
+    <td class="cost-savings">$1,800</td>
+  </tr>
+  <tr>
+    <td>Content moderation</td>
+    <td>500K requests/mo</td>
+    <td>$62.50</td>
+    <td class="cost-savings">$31.25</td>
+    <td class="cost-savings">$375</td>
+  </tr>
+</table>
+
+<!-- Edge Cases & Gotchas -->
+<h2>Edge Cases & Gotchas</h2>
+
+<div class="highlight-box orange">
+  <h3 style="margin:0 0 8px;font-size:1rem;">⚠️ Things That Break Caching</h3>
+  <ol style="margin:0;padding-left:20px;">
+    <li><strong>Varying system prompt:</strong> Even one word difference → cache miss. Solution: put all dynamic content in user message.</li>
+    <li><strong>Adding timestamps:</strong> `You are a bot. Current time: {now()}` → never cached. Solution: pass time in user message.</li>
+    <li><strong>Different tool definitions:</strong> If you vary function schemas per request → cache miss. Keep tools static.</li>
+    <li><strong>Short prompts:</strong> &lt;1,024 tokens → never cached. Only worth it for substantial system prompts or RAG contexts.</li>
+    <li><strong>Cache eviction:</strong> OpenAI doesn't guarantee cache retention. Popular prefixes are retained longer. No SLA.</li>
+  </ol>
+</div>
+
+<!-- Anthropic vs OpenAI Cache Comparison -->
+<h2>Anthropic vs OpenAI: Which Cache is Better?</h2>
+
+<table>
+  <tr><th>Feature</th><th>OpenAI (GPT-4o)</th><th>Anthropic (Sonnet 4)</th><th>Winner</th></tr>
+  <tr><td>Discount rate</td><td>50%</td><td class="cost-savings">90%</td><td>Anthropic</td></tr>
+  <tr><td>Min prefix length</td><td>1,024 tokens</td><td>2,048 tokens (1,024 for latest)</td><td>OpenAI (lower bar)</td></tr>
+  <tr><td>Automatic?</td><td class="cost-savings">✅ Yes</td><td class="cost-savings">✅ Yes</td><td>Tie</td></tr>
+  <tr><td>Cache TTL</td><td>~5-10 min (variable)</td><td>5 min (guaranteed)</td><td>Anthropic (predictable)</td></tr>
+  <tr><td>Effective price (cached)</td><td>$1.25/1M</td><td class="cost-savings">$0.30/1M</td><td>Anthropic (4x cheaper)</td></tr>
+</table>
+
+<div class="highlight-box blue">
+  <strong>Strategic takeaway:</strong> If your app has a high cache hit rate (>70%), <strong>switch to Claude Sonnet 4 for massive additional savings</strong>. The 90% cached discount makes Claude cheaper than even GPT-4o Mini for cached workloads.
+</div>
+
+<!-- Decision Framework -->
+<h2>Should You Use Caching? Decision Framework</h2>
+
+<table>
+  <tr><th>Your Situation</th><th>Recommendation</th><th>Expected Savings</th></tr>
+  <tr><td>Chatbot with static system prompt</td><td class="cost-savings">✅ Enable immediately</td><td>40-60%</td></tr>
+  <tr><td>RAG with static documents</td><td class="cost-savings">✅ Enable immediately</td><td>30-50%</td></tr>
+  <tr><td>Code assistant with standard instructions</td><td class="cost-savings">✅ Enable immediately</td><td>50-70%</td></tr>
+  <tr><td>Per-user personalized prompts</td><td>❌ Not worth it</td><td>0%</td></tr>
+  <tr><td>Short prompts (<1K tokens)</td><td>❌ Not eligible</td><td>0%</td></tr>
+  <tr><td>High cache hit rate (>70%)</td><td class="cost-savings">✅ Switch to Claude Sonnet 4</td><td>Extra 30-50%</td></tr>
+</table>
+
+<!-- Monitoring Cache Performance -->
+<h2>Monitoring: Track Your Cache Hit Rate</h2>
+<p>You can't optimize what you don't measure. Add cache tracking to your AI middleware:</p>
+
+<div class="code-block">import time
+from collections import defaultdict
+
+cache_stats = defaultdict(int)
+
+async def tracked_completion(messages, **kwargs):
+    start = time.time()
+    response = await openai.chat.completions.create(
+        model="gpt-4o",
+        messages=messages,
+        **kwargs
+    )
+    # OpenAI returns usage including cache hit info
+    usage = response.usage
+    cached_tokens = getattr(usage, "prompt_tokens_details", {}).get("cached_tokens", 0)
+    
+    cache_stats["total_calls"] += 1
+    cache_stats["cached_tokens"] += cached_tokens
+    cache_stats["total_tokens"] += usage.prompt_tokens
+    
+    if cached_tokens > 0:
+        cache_stats["cache_hits"] += 1
+    
+    return response
+
+def print_cache_report():
+    if cache_stats["total_calls"] == 0:
+        return
+    hit_rate = cache_stats["cache_hits"] / cache_stats["total_calls"] * 100
+    token_save_rate = cache_stats["cached_tokens"] / cache_stats["total_tokens"] * 100
+    print(f"Cache hit rate: {hit_rate:.1f}%")
+    print(f"Token savings: {token_save_rate:.1f}%")
+    print(f"Estimated cost savings: ${cache_stats['cached_tokens'] * 2.50 / 1_000_000:.4f}")</div>
+
+<!-- Verdict -->
+<h2>Final Verdict</h2>
+
+<div class="highlight-box" style="border-left-color:var(--accent-purple);">
+  <p style="margin:0;font-size:1.1rem;"><strong>Prompt caching is the single highest-ROI optimization for AI applications.</strong></p>
+  <ul style="margin:16px 0 0 0;">
+    <li><strong>Zero code change for OpenAI:</strong> just structure your prompts correctly</li>
+    <li><strong>50% savings on input tokens:</strong> often 30-40% of total API bill</li>
+    <li><strong>Anthropic's 90% discount:</strong> switch cached workloads to Claude for 4x additional savings</li>
+    <li><strong>Measure cache hit rate:</strong> add tracking before scaling up</li>
+  </ul>
+</div>
+
+<h3 style="margin-top:40px;">OpenAI 缓存定价：输入成本砍半的秘诀</h3>
+<p>Prompt 缓存是最被低估的省钱功能。GPT-4o 输入从 $2.50 降到 $1.25，直接砍半，质量零损失。实现方式：确保系统提示词在请求间完全相同（≥1,024 tokens 时自动触发）。对聊天机器人场景，缓存命中率可达 80%+，一年省下数千至数万美元。注意 Anthropic 的 90% 缓存折扣比 OpenAI 的 50% 更激进，高缓存命中率的工作负载应该考虑切换到 Claude Sonnet 4。</p>
+
+<p style="margin-top:40px;">
+  <a href="index.html" style="color:var(--accent-blue);">← All Insights</a>
+  &nbsp;&nbsp;
+  <a href="../index.html" style="color:var(--accent-blue);">← TokenCost Analyzer</a>
+</p>
+</article></body></html>

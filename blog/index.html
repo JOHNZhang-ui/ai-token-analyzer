@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Token Economy Insights — TokenCost Blog</title>
+  <meta name="description" content="Latest analysis on AI model pricing, token cost optimization, and LLM market trends.">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .blog-page { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+    .blog-page h1 { font-size: 2rem; margin-bottom: 8px; }
+    .blog-page .subtitle { color: var(--text-secondary); margin-bottom: 40px; }
+    .blog-post-full { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: var(--radius-md); padding: 32px; margin-bottom: 24px; }
+    .blog-post-full h2 { font-size: 1.3rem; margin-bottom: 8px; }
+    .blog-post-full .excerpt { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 16px; line-height: 1.7; }
+    .blog-post-full .meta { display: flex; gap: 16px; font-size: 0.8rem; color: var(--text-tertiary); margin-bottom: 16px; }
+    .blog-post-full .read-more { color: var(--accent-blue); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+    .blog-post-full .read-more:hover { text-decoration: underline; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-secondary); text-decoration: none; margin-bottom: 32px; font-size: 0.9rem; }
+    .back-link:hover { color: var(--text-primary); }
+    .lang-switch { display: flex; align-items: center; gap: 2px; padding: 2px; background: var(--bg-tertiary); border: 1px solid var(--border-primary); border-radius: var(--radius-sm); }
+    .lang-switch-btn { padding: 4px 10px; background: transparent; border: none; border-radius: 4px; color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+    .lang-switch-btn:hover { color: var(--text-primary); }
+    .lang-switch-btn.active { background: var(--accent-blue); color: #fff; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">
+      <div class="nav-logo-icon">T</div>
+      TokenCost
+    </a>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="../index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;" data-i18n="back">← Back to Analyzer</a>
+      <div class="lang-switch">
+        <button class="lang-switch-btn active" data-lang="en" onclick="switchLang('en')">EN</button>
+        <button class="lang-switch-btn" data-lang="zh" onclick="switchLang('zh')">中</button>
+        <button class="lang-switch-btn" data-lang="ja" onclick="switchLang('ja')">日</button>
+        <button class="lang-switch-btn" data-lang="ko" onclick="switchLang('ko')">한</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="blog-page">
+  <h1 data-i18n="blog.title">Token Economy Insights</h1>
+  <p class="subtitle" data-i18n="blog.desc">Latest analysis on AI model pricing, token cost optimization, and LLM market trends.</p>
+
+  <div id="postList"></div>
+</div>
+
+<footer class="footer" style="margin-top:0;">
+  <div class="footer-bottom" style="padding:24px;">
+    <span>2026 TokenCost. Built for developers, by developers.</span>
+    <span>All analysis independent. Not affiliated with any AI provider.</span>
+  </div>
+</footer>
+
+<script>
+const BLOG_POSTS = [
+  { slug: 'gpt-4o-vs-claude-sonnet-4-2026-pricing-showdown', file: 'gpt4o-vs-claude-sonnet-4-pricing-2026.html',
+    en_title: 'GPT-4o vs Claude Sonnet 4: 2026 Pricing Showdown',
+    zh_title: 'GPT-4o vs Claude Sonnet 4：2026 年大模型价格对决',
+    ja_title: 'GPT-4o vs Claude Sonnet 4：2026年価格対決',
+    ko_title: 'GPT-4o vs Claude Sonnet 4: 2026년 가격 대결',
+    en_excerpt: 'Head-to-head comparison of the two most popular flagship models. GPT-4o ($2.50/$10) vs Claude Sonnet 4 ($3/$15) — price, quality, benchmarks, and real-world value per dollar.',
+    zh_excerpt: '两大旗舰模型的正面对决。GPT-4o ($2.50/$10) vs Claude Sonnet 4 ($3/$15) — 价格、质量、基准测试和真实性价比分析。',
+    ja_excerpt: '2大フラッグシップモデルの直接比較。GPT-4o ($2.50/$10) vs Claude Sonnet 4 ($3/$15) — 価格、品質、ベンチマーク、実質的な費用対効果。',
+    ko_excerpt: '두 인기 플래그십 모델의 정면 비교. GPT-4o ($2.50/$10) vs Claude Sonnet 4 ($3/$15) — 가격, 품질, 벤치마크, 실제 달러당 가치.',
+    date: '2026-05-25', read: 6, tag: 'Analysis', zh_tag: '分析', ja_tag: '分析', ko_tag: '분석' },
+  { slug: 'cut-ai-costs-87-percent-deepseek-v3-migration', file: 'cut-ai-costs-87-percent-deepseek-v3-migration.html',
+    en_title: 'How We Cut AI Costs by 87%: Migration from GPT-4 to DeepSeek V3',
+    zh_title: '降低 87% AI 成本的实战记录：从 GPT-4 到 DeepSeek V3',
+    ja_title: 'AIコストを87%削減：GPT-4からDeepSeek V3への移行',
+    ko_title: 'AI 비용 87% 절감: GPT-4에서 DeepSeek V3로의 마이그레이션',
+    en_excerpt: 'Real production data from a SaaS company that migrated 200K daily API calls. Strategy, trade-offs, and the $47K annual savings achieved.',
+    zh_excerpt: '一家 SaaS 公司每日 20 万次 API 调用的真实迁移数据。策略、权衡以及每年 4.7 万美元的成本节省。',
+    ja_excerpt: '1日20万回のAPI呼び出しを移行したSaaS企業の実運用データ。戦略、トレードオフ、年間$47Kのコスト削減。',
+    ko_excerpt: '일일 20만 건의 API 호출을 마이그레이션한 SaaS 기업의 실제 데이터. 전략, 절충점, 연간 $47K 절감 달성.',
+    date: '2026-05-20', read: 8, tag: 'Guide', zh_tag: '指南', ja_tag: 'ガイド', ko_tag: '가이드' },
+  { slug: 'google-slashes-gemini-2.5-pro-pricing-market-impact', file: 'gemini-2.5-pro-price-drop-analysis.html',
+    en_title: 'Google Slashes Gemini 2.5 Pro Pricing — Market Impact Analysis',
+    zh_title: 'Google 大幅降低 Gemini 2.5 Pro 定价 — 市场影响分析',
+    ja_title: 'GoogleがGemini 2.5 Proの価格を大幅値下げ — 市場影響分析',
+    ko_title: 'Google, Gemini 2.5 Pro 가격 대폭 인하 — 시장 영향 분석',
+    en_excerpt: 'Google cut Gemini 2.5 Pro to $1.25/$10 with 1M context. We analyze the competitive implications for OpenAI, Anthropic, and what enterprise buyers should do now.',
+    zh_excerpt: 'Google 将 Gemini 2.5 Pro 降至 $1.25/$10，附带 100 万上下文。分析对 OpenAI、Anthropic 的竞争影响和企业采购方应如何应对。',
+    ja_excerpt: 'GoogleがGemini 2.5 Proを$1.25/$10に値下げ、100万コンテキスト付き。OpenAI、Anthropicへの競争影響と企業が取るべき行動を分析。',
+    ko_excerpt: 'Google이 Gemini 2.5 Pro를 $1.25/$10로 인하, 100만 컨텍스트 제공. OpenAI, Anthropic에 대한 경쟁 영향과 기업 구매자가 지금 해야 할 일 분석.',
+    date: '2026-05-18', read: 8, tag: 'News', zh_tag: '新闻', ja_tag: 'ニュース', ko_tag: '뉴스' },
+  { slug: 'deepseek-r1-vs-o3-mini-cost-analysis', file: 'deepseek-r1-vs-o3-mini-cost-analysis.html',
+    en_title: 'DeepSeek R1 vs o3-mini: The Rise of Cheap Reasoning',
+    zh_title: 'DeepSeek R1 vs o3-mini：廉价推理的崛起',
+    ja_title: 'DeepSeek R1 vs o3-mini：安価な推論の台頭',
+    ko_title: 'DeepSeek R1 vs o3-mini: 저렴한 추론의 부상',
+    en_excerpt: 'Both excel at math and coding. But R1 costs 50% less than o3-mini. We ran 100+ benchmarks to find the real value winner.',
+    zh_excerpt: '两个模型都擅长数学和编程。但 R1 比 o3-mini 便宜 50%。我们跑了 100+ 基准测试来找真正的性价比之王。',
+    ja_excerpt: '両方とも数学とコーディングに優れています。しかしR1はo3-miniより50%安い。100以上のベンチマークで本当の勝者を見つけました。',
+    ko_excerpt: '둘 다 수학과 코딩에 뛰어납니다. 하지만 R1은 o3-mini보다 50% 저렴합니다. 100개 이상의 벤치마크로 진정한 가성비 승자를 찾았습니다.',
+    date: '2026-05-18', read: 7, tag: 'Analysis', zh_tag: '分析', ja_tag: '分析', ko_tag: '분석' },
+  { slug: 'multi-model-architecture-routing-strategy', file: 'multi-model-architecture-cost-optimization.html',
+    en_title: 'Multi-Model Architecture: Cut Costs 65% by Routing Tasks',
+    zh_title: '多模型架构：任务路由省下 65% 成本',
+    ja_title: 'マルチモデルアーキテクチャ：タスクルーティングで65%のコスト削減',
+    ko_title: '멀티 모델 아키텍처: 작업 라우팅으로 65% 비용 절감',
+    en_excerpt: 'Why smart AI teams use different models for different tasks. A practical guide to model routing that saves thousands.',
+    zh_excerpt: '为什么聪明的 AI 团队用不同模型处理不同任务。实用的模型路由指南，节省数千美元。',
+    ja_excerpt: 'なぜ賢いAIチームはタスクごとに異なるモデルを使うのか。数千ドルを節約するモデルルーティングの実践ガイド。',
+    ko_excerpt: '똑똑한 AI 팀이 작업별로 다른 모델을 사용하는 이유. 수천 달러를 절약하는 모델 라우팅 실용 가이드.',
+    date: '2026-05-15', read: 9, tag: 'Strategy', zh_tag: '策略', ja_tag: '戦略', ko_tag: '전략' },
+  { slug: 'token-economics-101-input-vs-output-costs', file: 'token-economics-101-input-vs-output-costs.html',
+    en_title: 'Token Economics 101: Understanding Input vs Output Costs',
+    zh_title: 'Token 经济学入门：理解输入与输出成本',
+    ja_title: 'トークン経済学101：入力と出力のコストを理解する',
+    ko_title: '토큰 경제학 101: 입력과 출력 비용 이해하기',
+    en_excerpt: 'Why output costs 4x more than input, how prompt caching halves costs, and 5 actionable strategies to optimize AI spend.',
+    zh_excerpt: '为什么输出比输入贵 4 倍、Prompt 缓存如何减半成本、以及 5 个可立即上手的省钱策略。',
+    ja_excerpt: '出力が入力の4倍高い理由、プロンプトキャッシュでコスト半減、AI支出を最適化する5つの実践戦略。',
+    ko_excerpt: '출력이 입력보다 4배 비싼 이유, 프롬프트 캐싱으로 비용 절반 절감, AI 지출 최적화를 위한 5가지 실행 전략.',
+    date: '2026-05-15', read: 7, tag: 'Tutorial', zh_tag: '教程', ja_tag: 'チュートリアル', ko_tag: '튜토리얼' },
+  { slug: 'ai-subscription-bundles-flat-rate-vs-api', file: 'ai-subscription-bundles-flat-rate-vs-api.html',
+    en_title: 'AI Subscriptions: Flat Rate vs Pay-Per-Token — The Real Math',
+    zh_title: 'AI 订阅：固定月费 vs 按量付费 — 真实成本计算',
+    ja_title: 'AIサブスクリプション：定額制 vs 従量課金 — 本当の計算',
+    ko_title: 'AI 구독: 정액제 vs 토큰별 결제 — 실제 계산',
+    en_excerpt: 'ChatGPT Plus ($20), Pro ($200), Claude Pro ($20) — a break-even analysis showing at what usage level each plan makes financial sense.',
+    zh_excerpt: 'ChatGPT Plus ($20)、Pro ($200)、Claude Pro ($20) — 盈亏平衡分析，每种方案在什么用量水平下才是划算的。',
+    ja_excerpt: 'ChatGPT Plus ($20)、Pro ($200)、Claude Pro ($20) — 各プランが経済的に意味を持つ使用量レベルを示す損益分岐分析。',
+    ko_excerpt: 'ChatGPT Plus ($20), Pro ($200), Claude Pro ($20) — 각 요금제가 경제적으로 의미 있는 사용량 수준을 보여주는 손익분기 분석.',
+    date: '2026-05-12', read: 5, tag: 'Guide', zh_tag: '指南', ja_tag: 'ガイド', ko_tag: '가이드' },
+  { slug: 'openai-cached-pricing-save-50-percent', file: 'openai-cached-pricing-save-50-percent.html',
+    en_title: 'OpenAI Cached Pricing: Save 50% on Input Costs',
+    zh_title: 'OpenAI 缓存定价：输入成本直降 50%',
+    ja_title: 'OpenAIキャッシュ価格：入力コストを50%削減',
+    ko_title: 'OpenAI 캐시 가격: 입력 비용 50% 절감',
+    en_excerpt: 'The most underutilized cost-saving feature. How prompt caching works, which models support it, and real savings calculations.',
+    zh_excerpt: '最被低估的省钱功能。Prompt 缓存如何工作、哪些模型支持、以及真实节省金额计算。',
+    ja_excerpt: '最も活用されていないコスト削減機能。プロンプトキャッシュの仕組み、対応モデル、実際の節約額計算。',
+    ko_excerpt: '가장 활용도가 낮은 비용 절감 기능. 프롬프트 캐싱 작동 방식, 지원 모델, 실제 절감액 계산.',
+    date: '2026-05-10', read: 5, tag: 'Tutorial', zh_tag: '教程', ja_tag: 'チュートリアル', ko_tag: '튜토리얼' },
+  { slug: 'llama-4-maverick-pricing-analysis', file: 'llama-4-maverick-pricing-analysis.html',
+    en_title: 'Llama 4 Maverick: Open-Weight Model Pricing Analysis',
+    zh_title: 'Llama 4 Maverick：开源模型定价深度分析',
+    ja_title: 'Llama 4 Maverick：オープンウェイトモデル価格分析',
+    ko_title: 'Llama 4 Maverick: 오픈웨이트 모델 가격 분석',
+    en_excerpt: 'Meta\'s open-weight flagship at $0.20/$0.60 delivers GPT-4o-competitive performance. When self-hosting beats API costs.',
+    zh_excerpt: 'Meta 的开源旗舰模型 $0.20/$0.60 对标 GPT-4o。自部署何时比 API 更划算？',
+    ja_excerpt: 'Metaのオープンウェイトフラッグシップ$0.20/$0.60がGPT-4o並みの性能を実現。セルフホスティングがAPIより安くなるのはいつ？',
+    ko_excerpt: 'Meta의 오픈웨이트 플래그십 $0.20/$0.60이 GPT-4o급 성능 제공. 자체 호스팅이 API보다 저렴해지는 시점은?',
+    date: '2026-05-08', read: 4, tag: 'Analysis', zh_tag: '分析', ja_tag: '分析', ko_tag: '분석' },
+  { slug: '5-ai-cost-optimization-mistakes', file: '5-ai-cost-optimization-mistakes.html',
+    en_title: '5 AI Cost Optimization Mistakes Most Developers Make',
+    zh_title: '5 个大多数开发者会犯的 AI 成本优化错误',
+    ja_title: '開発者がよく犯す5つのAIコスト最適化のミス',
+    ko_title: '대부분의 개발자가 저지르는 5가지 AI 비용 최적화 실수',
+    en_excerpt: 'From using flagship models for classification to ignoring cached pricing. Fix these and save 40-70% on your AI API bill immediately.',
+    zh_excerpt: '从用旗舰模型做分类到忽略缓存定价。修正这些错误，立即节省 40-70% 的 AI API 费用。',
+    ja_excerpt: '分類にフラッグシップモデルを使うことからキャッシュ価格を無視することまで。これらを修正すればAIのAPI料金を即座に40-70%節約。',
+    ko_excerpt: '분류에 플래그십 모델을 사용하는 것부터 캐시 가격을 무시하는 것까지. 이것들을 고치면 AI API 비용을 즉시 40-70% 절감.',
+    date: '2026-05-05', read: 4, tag: 'Guide', zh_tag: '指南', ja_tag: 'ガイド', ko_tag: '가이드' },
+  { slug: 'ai-cost-forecasting-2026-2027-budget', file: 'ai-cost-forecasting-2026-2027-budget.html',
+    en_title: 'AI Cost Forecasting: Budgeting for 2026-2027 API Expenses',
+    zh_title: 'AI 成本预测：2026-2027 年 API 预算规划',
+    ja_title: 'AIコスト予測：2026-2027年のAPI予算計画',
+    ko_title: 'AI 비용 예측: 2026-2027년 API 예산 계획',
+    en_excerpt: 'How to forecast AI API costs for the next 12 months. The formula: Current Cost × Usage Growth × (1 - Price Drop).',
+    zh_excerpt: '如何预测未来 12 个月的 AI API 成本。公式：当前成本 × 用量增长率 × (1 - 降价率)。',
+    ja_excerpt: '今後12ヶ月のAI APIコストを予測する方法。計算式：現在のコスト × 使用量成長率 × (1 - 価格下落率)。',
+    ko_excerpt: '향후 12개월간 AI API 비용을 예측하는 방법. 공식: 현재 비용 × 사용량 증가율 × (1 - 가격 하락률).',
+    date: '2026-05-01', read: 5, tag: 'Strategy', zh_tag: '策略', ja_tag: '戦略', ko_tag: '전략' },
+  { slug: 'enterprise-ai-procurement-tco-framework', file: 'enterprise-ai-procurement-tco-framework.html',
+    en_title: 'Enterprise AI Procurement: Total Cost of Ownership Framework',
+    zh_title: '企业 AI 采购：总拥有成本 (TCO) 分析框架',
+    ja_title: 'エンタープライズAI調達：総所有コスト（TCO）フレームワーク',
+    ko_title: '엔터프라이즈 AI 조달: 총소유비용(TCO) 프레임워크',
+    en_excerpt: 'Beyond per-token pricing: engineering costs, compliance, negotiation leverage, and when self-hosting beats API.',
+    zh_excerpt: '超越 Token 定价：工程成本、合规、谈判筹码、以及何时自部署比 API 更划算。',
+    ja_excerpt: 'トークン単価を超えて：エンジニアリングコスト、コンプライアンス、交渉力、セルフホスティングがAPIより有利になるタイミング。',
+    ko_excerpt: '토큰당 가격을 넘어: 엔지니어링 비용, 컴플라이언스, 협상력, 자체 호스팅이 API보다 유리한 시점.',
+    date: '2026-04-28', read: 5, tag: 'Strategy', zh_tag: '策略', ja_tag: '戦略', ko_tag: '전략' },
+];
+
+function switchLang(lang) {
+  document.querySelectorAll('.lang-switch-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+      el.textContent = TRANSLATIONS[lang][key];
+    }
+  });
+  renderPosts(lang);
+  // Save preference
+  try { localStorage.setItem('tokenCostLang', lang); } catch(e) {}
+}
+
+const TRANSLATIONS = {
+  en: {
+    back: '← Back to Analyzer',
+    'blog.title': 'Token Economy Insights',
+    'blog.desc': 'Latest analysis on AI model pricing, token cost optimization, and LLM market trends.'
+  },
+  zh: {
+    back: '← 返回分析器',
+    'blog.title': 'Token 经济洞察',
+    'blog.desc': '最新 AI 模型定价分析、Token 成本优化策略和 LLM 市场趋势。'
+  },
+  ja: {
+    back: '← 分析ツールに戻る',
+    'blog.title': 'トークンエコノミーインサイト',
+    'blog.desc': 'AIモデル価格動向、トークンコスト最適化戦略、LLM市場トレンドの最新分析。'
+  },
+  ko: {
+    back: '← 분석기로 돌아가기',
+    'blog.title': '토큰 경제 인사이트',
+    'blog.desc': 'AI 모델 가격 동향, 토큰 비용 최적화 전략, LLM 시장 트렌드에 대한 최신 분석.'
+  }
+};
+
+function renderPosts(lang) {
+  document.getElementById('postList').innerHTML = BLOG_POSTS.map(p => {
+    const title = p[lang + '_title'] || p.en_title;
+    const excerpt = p[lang + '_excerpt'] || p.en_excerpt;
+    const tag = p[lang + '_tag'] || p.tag;
+    const readLabels = { en: 'min read', zh: '分钟阅读', ja: '分で読了', ko: '분 읽기' };
+    const readMore = { en: 'Read article →', zh: '阅读全文 →', ja: '記事を読む →', ko: '기사 읽기 →' };
+    return `
+      <div class="blog-post-full">
+        <div class="blog-card-tag" style="display:inline-block;margin-bottom:8px;">${tag}</div>
+        <h2><a href="${p.file}" style="color:inherit;text-decoration:none;">${title}</a></h2>
+        <div class="meta">
+          <span>${p.date}</span>
+          <span>${p.read} ${readLabels[lang] || readLabels.en}</span>
+        </div>
+        <div class="excerpt">${excerpt}</div>
+        <a href="${p.file}" class="read-more">${readMore[lang] || readMore.en}</a>
+      </div>
+    `;
+  }).join('');
+}
+
+// Init — restore saved lang preference or detect browser
+let initLang = 'en';
+try {
+  const saved = localStorage.getItem('tokenCostLang');
+  if (saved && ['en','zh','ja','ko'].includes(saved)) initLang = saved;
+} catch(e) {
+  initLang = (navigator.language || 'en').startsWith('zh') ? 'zh' : 'en';
+}
+switchLang(initLang);
+</script>
+
+</body>
+</html>

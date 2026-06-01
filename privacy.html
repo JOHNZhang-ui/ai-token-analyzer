@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — TokenCost</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23A371F7'/><text x='16' y='22' text-anchor='middle' fill='white' font-size='18' font-weight='700'>T</text></svg>">
+  <style>
+    .legal-page { min-height: 100vh; background: var(--bg-primary); }
+    .legal-hero {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-primary);
+      padding: 60px 24px 40px;
+      text-align: center;
+    }
+    .legal-hero h1 { font-size: 2rem; margin-bottom: 8px; }
+    .legal-hero p { color: var(--text-secondary); max-width: 560px; margin: 0 auto; }
+    .legal-container { max-width: 800px; margin: 0 auto; padding: 48px 24px 80px; }
+    .legal-section { margin-bottom: 36px; }
+    .legal-section h2 { font-size: 1.15rem; margin-bottom: 12px; color: var(--accent-purple); }
+    .legal-section p, .legal-section li { color: var(--text-secondary); line-height: 1.7; font-size: 0.9rem; }
+    .legal-section ul { padding-left: 20px; margin: 8px 0; }
+    .legal-section li { margin-bottom: 6px; }
+    .legal-nav {
+      position: sticky; top: 0; background: var(--bg-secondary); border-bottom: 1px solid var(--border-primary);
+      padding: 12px 24px; z-index: 10; display: flex; justify-content: space-between; align-items: center;
+    }
+    .legal-nav .nav-logo { font-size: 1rem; }
+    .legal-nav .nav-logo-icon { width: 28px; height: 28px; font-size: 14px; }
+    .legal-switcher { display: flex; gap: 0; border: 1px solid var(--border-primary); border-radius: 6px; overflow: hidden; }
+    .legal-switcher button {
+      background: transparent; border: none; color: var(--text-secondary); font-size: 0.75rem; font-weight: 600;
+      padding: 6px 14px; cursor: pointer; transition: all 0.15s;
+    }
+    .legal-switcher button.active { background: var(--accent-purple); color: #fff; }
+    .legal-switcher button:not(.active):hover { background: var(--bg-tertiary); color: var(--text-primary); }
+    .legal-footer { text-align: center; padding: 24px; border-top: 1px solid var(--border-primary); color: var(--text-tertiary); font-size: 0.8rem; }
+    .legal-footer a { color: var(--accent-blue); text-decoration: none; }
+    .legal-content { display: none; }
+    .legal-content.active { display: block; }
+    .effective-date { display: inline-block; background: var(--bg-tertiary); padding: 4px 12px; border-radius: 4px; font-size: 0.8rem; color: var(--text-tertiary); margin-top: 12px; }
+  </style>
+</head>
+<body>
+<div class="legal-page">
+  <div class="legal-nav">
+    <a href="index.html" class="nav-logo"><div class="nav-logo-icon">T</div>TokenCost</a>
+    <div class="legal-switcher">
+      <button class="active" onclick="setLang('en')">English</button>
+      <button onclick="setLang('zh')">中文</button>
+      <button onclick="setLang('ja')">日本語</button>
+      <button onclick="setLang('ko')">한국어</button>
+    </div>
+  </div>
+
+  <div class="legal-hero">
+    <h1>Privacy Policy</h1>
+    <p>Your privacy matters. Here's how we handle your data.</p>
+    <div class="effective-date">Last Updated: May 28, 2026</div>
+  </div>
+
+  <div class="legal-container">
+    <!-- English -->
+    <div class="legal-content active" data-lang="en">
+      <div class="legal-section">
+        <h2>1. Overview</h2>
+        <p>TokenCost ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and services.</p>
+      </div>
+      <div class="legal-section">
+        <h2>2. Information We Collect</h2>
+        <p><strong>Account Information:</strong> When you create an account, we collect your email address, name, and password (encrypted).</p>
+        <p><strong>Usage Data:</strong> We collect anonymous usage statistics such as page views, feature usage, and browser type to improve our services.</p>
+        <p><strong>Payment Information:</strong> When you subscribe to Pro, payment processing is handled by Stripe. We do not store your full credit card details.</p>
+        <p><strong>Cookies:</strong> We use essential cookies to maintain your session and preferences. We do not use third-party tracking cookies.</p>
+      </div>
+      <div class="legal-section">
+        <h2>3. How We Use Your Information</h2>
+        <ul>
+          <li>To provide and maintain our Services.</li>
+          <li>To authenticate users and manage subscriptions.</li>
+          <li>To analyze usage patterns and improve product features.</li>
+          <li>To communicate with you about updates, security alerts, and support.</li>
+          <li>To comply with legal obligations.</li>
+        </ul>
+      </div>
+      <div class="legal-section">
+        <h2>4. Data Sharing</h2>
+        <p>We do not sell your personal data. We only share data with:</p>
+        <ul>
+          <li><strong>Stripe</strong> — for payment processing.</li>
+          <li><strong>Supabase</strong> — for database and authentication infrastructure.</li>
+          <li><strong>Legal authorities</strong> — when required by law or to protect our rights.</li>
+        </ul>
+      </div>
+      <div class="legal-section">
+        <h2>5. Data Security</h2>
+        <p>We implement industry-standard security measures including SSL encryption, hashed passwords, and row-level security in our database. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.</p>
+      </div>
+      <div class="legal-section">
+        <h2>6. Your Rights</h2>
+        <p>Depending on your location, you may have the right to:</p>
+        <ul>
+          <li>Access, correct, or delete your personal data.</li>
+          <li>Withdraw consent for data processing.</li>
+          <li>Export your data in a portable format.</li>
+          <li>Lodge a complaint with a data protection authority.</li>
+        </ul>
+        <p>To exercise these rights, contact us at <a href="mailto:hello@tokencost.app">hello@tokencost.app</a>.</p>
+      </div>
+      <div class="legal-section">
+        <h2>7. Data Retention</h2>
+        <p>We retain your account data for as long as your account is active. If you delete your account, we will remove your personal data within 30 days, except where retention is required by law.</p>
+      </div>
+      <div class="legal-section">
+        <h2>8. Children's Privacy</h2>
+        <p>Our Services are not intended for children under 13. We do not knowingly collect data from children under 13. If you believe we have collected such data, please contact us immediately.</p>
+      </div>
+      <div class="legal-section">
+        <h2>9. International Data Transfers</h2>
+        <p>Your data may be processed on servers located outside your country. By using our Services, you consent to the transfer of your data to these locations.</p>
+      </div>
+      <div class="legal-section">
+        <h2>10. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you of significant changes by posting the updated policy on this page. Continued use of the Services after changes constitutes acceptance.</p>
+      </div>
+      <div class="legal-section">
+        <h2>11. Contact Us</h2>
+        <p>If you have questions about this Privacy Policy, please contact us at <a href="mailto:hello@tokencost.app">hello@tokencost.app</a>.</p>
+      </div>
+    </div>
+
+    <!-- Chinese -->
+    <div class="legal-content" data-lang="zh">
+      <div class="legal-section">
+        <h2>1. 概述</h2>
+        <p>TokenCost（"我们"）致力于保护您的隐私。本隐私政策说明我们如何收集、使用、披露和保护您使用我们网站和服务时的信息。</p>
+      </div>
+      <div class="legal-section">
+        <h2>2. 我们收集的信息</h2>
+        <p><strong>账户信息：</strong>创建账户时，我们收集您的电子邮箱、姓名和密码（已加密）。</p>
+        <p><strong>使用数据：</strong>我们收集匿名的使用统计信息，如页面浏览量、功能使用情况和浏览器类型，以改进服务。</p>
+        <p><strong>支付信息：</strong>订阅 Pro 时，支付处理由 Stripe 负责。我们不存储您的完整信用卡信息。</p>
+        <p><strong>Cookie：</strong>我们使用必要的 Cookie 来维持您的会话和偏好设置。我们不使用第三方跟踪 Cookie。</p>
+      </div>
+      <div class="legal-section">
+        <h2>3. 我们如何使用您的信息</h2>
+        <ul>
+          <li>提供和维护我们的服务。</li>
+          <li>验证用户身份并管理订阅。</li>
+          <li>分析使用模式并改进产品功能。</li>
+          <li>与您沟通更新、安全警报和支持事项。</li>
+          <li>遵守法律义务。</li>
+        </ul>
+      </div>
+      <div class="legal-section">
+        <h2>4. 数据共享</h2>
+        <p>我们不会出售您的个人数据。我们仅在以下情况下共享数据：</p>
+        <ul>
+          <li><strong>Stripe</strong> — 用于支付处理。</li>
+          <li><strong>Supabase</strong> — 用于数据库和认证基础设施。</li>
+          <li><strong>法律机构</strong> — 在法律要求或保护我们权利时。</li>
+        </ul>
+      </div>
+      <div class="legal-section">
+        <h2>5. 数据安全</h2>
+        <p>我们实施了行业标准的安全措施，包括 SSL 加密、哈希密码和数据库行级安全。然而，互联网传输方法并非 100% 安全，我们无法保证绝对安全。</p>
+      </div>
+      <div class="legal-section">
+        <h2>6. 您的权利</h2>
+        <p>根据您所在的地区，您可能有权：</p>
+        <ul>
+          <li>访问、更正或删除您的个人数据。</li>
+          <li>撤回对数据处理的同意。</li>
+          <li>以便携格式导出您的数据。</li>
+          <li>向数据保护机构投诉。</li>
+        </ul>
+        <p>如需行使这些权利，请通过 <a href="mailto:hello@tokencost.app">hello@tokencost.app</a> 联系我们。</p>
+      </div>
+      <div class="legal-section">
+        <h2>7. 数据保留</h2>
+        <p>我们会在您的账户处于活动期间保留您的账户数据。如果您删除账户，我们将在 30 天内删除您的个人数据，除非法律要求保留。</p>
+      </div>
+      <div class="legal-section">
+        <h2>8. 儿童隐私</h2>
+        <p>我们的服务不面向 13 岁以下儿童。我们不会故意收集 13 岁以下儿童的数据。如果您认为我们收集了此类数据，请立即联系我们。</p>
+      </div>
+      <div class="legal-section">
+        <h2>9. 国际数据传输</h2>
+        <p>您的数据可能会在位于您所在国家/地区之外的服务器上处理。使用我们的服务即表示您同意将您的数据传输到这些地点。</p>
+      </div>
+      <div class="legal-section">
+        <h2>10. 政策变更</h2>
+        <p>我们可能会不时更新本隐私政策。我们将通过在此页面上发布更新后的政策来通知您重大变更。在变更后继续使用服务即表示接受。</p>
+      </div>
+      <div class="legal-section">
+        <h2>11. 联系我们</h2>
+        <p>如果您对本隐私政策有疑问，请通过 <a href="mailto:hello@tokencost.app">hello@tokencost.app</a> 联系我们。</p>
+      </div>
+    </div>
+
+    <!-- Japanese -->
+    <div class="legal-content" data-lang="ja">
+      <div class="legal-section">
+        <h2>1. 概要</h2>
+        <p>TokenCost（以下「当社」）は、お客様のプライバシー保護に取り組んでいます。本プライバシーポリシーでは、当社のウェブサイトおよびサービスをご利用いただく際に、どのように情報を収集、使用、開示、保護するかを説明します。</p>
+      </div>
+      <div class="legal-section">
+        <h2>2. 収集する情報</h2>
+        <p><strong>アカウント情報：</strong>アカウント作成時に、メールアドレス、氏名、パスワード（暗号化済み）を収集します。</p>
+        <p><strong>利用データ：</strong>ページビュー、機能の利用状況、ブラウザの種類などの匿名の利用統計を収集し、サービスの改善に役立てています。</p>
+        <p><strong>支払い情報：</strong>Pro プランのお申し込み時、支払い処理は Stripe が行います。当社はクレジットカードの詳細情報を保存しません。</p>
+        <p><strong>Cookie：</strong>セッションおよび設定を維持するために必要な Cookie を使用します。第三者のトラッキング Cookie は使用しません。</p>
+      </div>
+      <div class="legal-section">
+        <h2>3. 情報の利用目的</h2>
+        <ul>
+          <li>サービスの提供および維持。</li>
+          <li>ユーザー認証およびサブスクリプション管理。</li>
+          <li>利用パターンの分析および製品機能の改善。</li>
+          <li>アップデート、セキュリティ警告、サポートに関する連絡。</li>
+          <li>法的義務の遵守。</li>
+        </ul>
+      </div>
+      <div class="legal-section">
+        <h2>4. データの共有</h2>
+        <p>当社はお客様の個人データを販売しません。データは以下の場合にのみ共有されます：</p>
+        <ul>
+          <li><strong>Stripe</strong> — 支払い処理のため。</li>
+          <li><strong>Supabase</strong> — データベースおよび認証インフラストラクチャのため。</li>
+          <li><strong>法的機関</strong> — 法律で要求された場合、または当社の権利を保護する場合。</li>
+        </ul>
+      </div>
+      <div class="legal-section">
+        <h2>5. データセキュリティ</h2>
+        <p>SSL 暗号化、ハッシュ化されたパスワード、データベースの行レベルセキュリティなど、業界標準のセキュリティ対策を実施しています。ただし、インターネット経由の送信方法は 100% 安全ではなく、絶対的なセキュリティを保証することはできません。</p>
+      </div>
+      <div class="legal-section">
+        <h2>6. お客様の権利</h2>
+        <p>お住まいの地域によっては、以下の権利がある場合があります：</p>
+        <ul>
+          <li>個人データへのアクセス、訂正、または削除。</li>
+          <li>データ処理に対する同意の撤回。</li>
+          <li>ポータブル形式でのデータのエクスポート。</li>
+          <li>データ保護機関への苦情の申し立て。</li>
+        </ul>
+        <p>これらの権利を行使するには、<a href="mailto:hello@tokencost.app">hello@tokencost.app</a> までご連絡ください。</p>
+      </div>
+      <div class="legal-section">
+        <h2>7. データの保持</h2>
+        <p>アカウントが有効な間、アカウントデータを保持します。アカウントを削除された場合、法律で要求される場合を除き、30日以内に個人データを削除します。</p>
+      </div>
+      <div class="legal-section">
+        <h2>8. 子どものプライバシー</h2>
+        <p>当社のサービスは 13 歳未満のお子様を対象としていません。当社は故意に 13 歳未満のお子様からデータを収集することはありません。このようなデータが収集されたと思われる場合は、直ちに当社までご連絡ください。</p>
+      </div>
+      <div class="legal-section">
+        <h2>9. 国際データ転送</h2>
+        <p>お客様のデータは、お客様の国以外の場所にあるサーバーで処理される場合があります。当社のサービスをご利用いただくことで、お客様のデータをこれらの場所に転送することに同意したものとみなされます。</p>
+      </div>
+      <div class="legal-section">
+        <h2>10. 本ポリシーの変更</h2>
+        <p>当社は、本プライバシーポリシーを随時更新する場合があります。重要な変更については、このページに更新されたポリシーを掲載してお知らせします。変更後もサービスの継続的な使用は、受諾を構成します。</p>
+      </div>
+      <div class="legal-section">
+        <h2>11. お問い合わせ</h2>
+        <p>本プライバシーポリシーに関するご質問がある場合は、<a href="mailto:hello@tokencost.app">hello@tokencost.app</a> までご連絡ください。</p>
+      </div>
+    </div>
+
+    <!-- Korean -->
+    <div class="legal-content" data-lang="ko">
+      <div class="legal-section">
+        <h2>1. 개요</h2>
+        <p>TokenCost("당사")는 귀하의 개인정보 보호를 위해 최선을 다하고 있습니다. 본 개인정보 처리방침은 당사의 웹사이트 및 서비스를 이용할 때 당사가 정보를 어떻게 수집, 사용, 공개 및 보호하는지 설명합니다.</p>
+      </div>
+      <div class="legal-section">
+        <h2>2. 수집하는 정보</h2>
+        <p><strong>계정 정보:</strong> 계정을 생성할 때 이메일 주소, 이름, 비밀번호(암호화됨)를 수집합니다.</p>
+        <p><strong>사용 데이터:</strong> 페이지 조회수, 기능 사용량, 브라우저 유형과 같은 익명의 사용 통계를 수집하여 서비스를 개선합니다.</p>
+        <p><strong>결제 정보:</strong> Pro 구독 시 결제 처리는 Stripe에서 담당합니다. 당사는 귀하의 전체 신용카드 정보를 저장하지 않습니다.</p>
+        <p><strong>쿠키:</strong> 세션 및 기본 설정을 유지하기 위해 필수 쿠키를 사용합니다. 제3자 추적 쿠키는 사용하지 않습니다.</p>
+      </div>
+      <div class="legal-section">
+        <h2>3. 정보 사용 방법</h2>
+        <ul>
+          <li>서비스 제공 및 유지</li>
+          <li>사용자 인증 및 구독 관리</li>
+          <li>사용 패턴 분석 및 제품 기능 개선</li>
+          <li>업데이트, 보안 알림 및 지원에 대한 소통</li>
+          <li>법적 의무 준수</li>
+        </ul>
+      </div>
+      <div class="legal-section">
+        <h2>4. 데이터 공유</h2>
+        <p>당사는 귀하의 개인 데이터를 판매하지 않습니다. 데이터는 다음의 경우에만 공유됩니다:</p>
+        <ul>
+          <li><strong>Stripe</strong> — 결제 처리를 위해</li>
+          <li><strong>Supabase</strong> — 데이터베이스 및 인증 인프라를 위해</li>
+          <li><strong>법적 당국</strong> — 법률에 의해 요구되거나 당사의 권리를 보호하기 위해</li>
+        </ul>
+      </div>
+      <div class="legal-section">
+        <h2>5. 데이터 보안</h2>
+        <p>당사는 SSL 암호화, 해시된 비밀번호, 데이터베이스의 행 수준 보안을 포함한 업계 표준 보안 조치를 구현하고 있습니다. 그러나 인터넷을 통한 전송 방법은 100% 안전하지 않으며, 절대적인 보안을 보장할 수 없습니다.</p>
+      </div>
+      <div class="legal-section">
+        <h2>6. 귀하의 권리</h2>
+        <p>귀하가 거주하는 지역에 따라 다음의 권리가 있을 수 있습니다:</p>
+        <ul>
+          <li>개인 데이터에 대한 접근, 정정 또는 삭제</li>
+          <li>데이터 처리에 대한 동의 철회</li>
+          <li>이식 가능한 형식으로 데이터 내보내기</li>
+          <li>데이터 보호 기관에 불만 제기</li>
+        </ul>
+        <p>이러한 권리를 행사하려면 <a href="mailto:hello@tokencost.app">hello@tokencost.app</a>으로 문의해 주십시오.</p>
+      </div>
+      <div class="legal-section">
+        <h2>7. 데이터 보관</h2>
+        <p>귀하의 계정이 활성 상태인 동안 계정 데이터를 보관합니다. 계정을 삭제하시면 법률에서 요구하는 경우를 제외하고 30일 이내에 개인 데이터를 삭제합니다.</p>
+      </div>
+      <div class="legal-section">
+        <h2>8. 아동의 개인정보</h2>
+        <p>당사의 서비스는 13세 미만의 어린이를 대상으로 하지 않습니다. 당사는 13세 미만 어린이의 데이터를 의도적으로 수집하지 않습니다. 당사가 이러한 데이터를 수집했다고 생각되시면 즉시 당사에 연락해 주십시오.</p>
+      </div>
+      <div class="legal-section">
+        <h2>9. 국제 데이터 전송</h2>
+        <p>귀하의 데이터는 귀하가 거주하는 국가 외부에 위치한 서버에서 처리될 수 있습니다. 당사의 서비스를 사용함으로써 귀하는 귀하의 데이터가 이러한 위치로 전송되는 것에 동의하는 것입니다.</p>
+      </div>
+      <div class="legal-section">
+        <h2>10. 본 정책의 변경</h2>
+        <p>당사는 수시로 본 개인정보 처리방침을 업데이트할 수 있습니다. 중요한 변경 사항은 이 페이지에 업데이트된 정책을 게시하여 알려드립니다. 변경 후에도 서비스를 계속 사용하면 수락한 것으로 간주됩니다.</p>
+      </div>
+      <div class="legal-section">
+        <h2>11. 연락처</h2>
+        <p>본 개인정보 처리방침에 대해 질문이 있으시면 <a href="mailto:hello@tokencost.app">hello@tokencost.app</a>으로 문의해 주십시오.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="legal-footer">
+    &copy; 2026 TokenCost. <a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Service</a>
+  </div>
+</div>
+
+<script>
+  const content = document.querySelectorAll('.legal-content');
+  const btns = document.querySelectorAll('.legal-switcher button');
+  const title = document.querySelector('.legal-hero h1');
+  const subtitle = document.querySelector('.legal-hero p');
+  const dateLabel = document.querySelector('.effective-date');
+
+  const i18n = {
+    en: { title: 'Privacy Policy', subtitle: 'Your privacy matters. Here\'s how we handle your data.', date: 'Last Updated: May 28, 2026' },
+    zh: { title: '隐私政策', subtitle: '您的隐私很重要。以下是我们处理您数据的方式。', date: '最后更新：2026年5月28日' },
+    ja: { title: 'プライバシーポリシー', subtitle: 'お客様のプライバシーは重要です。当社がデータをどのように取り扱うかをご説明します。', date: '最終更新日：2026年5月28日' },
+    ko: { title: '개인정보 처리방침', subtitle: '귀하의 개인정보가 중요합니다. 당사가 데이터를 어떻게 처리하는지 알려드립니다.', date: '최종 업데이트: 2026년 5월 28일' }
+  };
+
+  function setLang(lang) {
+    localStorage.setItem('tc_legal_lang', lang);
+    content.forEach(el => el.classList.toggle('active', el.dataset.lang === lang));
+    btns.forEach((b, i) => b.classList.toggle('active', ['en','zh','ja','ko'][i] === lang));
+    if (i18n[lang]) {
+      title.textContent = i18n[lang].title;
+      subtitle.textContent = i18n[lang].subtitle;
+      dateLabel.textContent = i18n[lang].date;
+    }
+  }
+
+  setLang(localStorage.getItem('tc_legal_lang') || 'en');
+</script>
+</body>
+</html>

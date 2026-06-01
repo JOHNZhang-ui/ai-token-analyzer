@@ -1,0 +1,16 @@
+{
+  "name": "tokencost-server",
+  "version": "1.0.0",
+  "description": "TokenCost backend — Stripe webhooks & Supabase sync",
+  "main": "webhook.js",
+  "scripts": {
+    "start": "node webhook.js",
+    "dev": "node --watch webhook.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.0",
+    "stripe": "^17.0.0",
+    "dotenv": "^16.4.0",
+    "express": "^4.21.0"
+  }
+}
