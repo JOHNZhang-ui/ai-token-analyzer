@@ -376,7 +376,7 @@
       </div>
     </div>
 
-    <p style="font-size:0.8rem;color:var(--text-tertiary);margin-bottom:16px;" data-i18n="pro_modal.secure">Secure payment via Stripe. Cancel anytime. 7-day money-back guarantee.</p>
+    <p style="font-size:0.8rem;color:var(--text-tertiary);margin-bottom:16px;" data-i18n="pro_modal.secure">Secure payment via Lemon Squeezy. Cancel anytime. 7-day money-back guarantee.</p>
 
     <button class="btn btn-pro" style="width:100%;justify-content:center;margin-bottom:8px;" onclick="PAYMENT.checkout('pro_monthly')" data-i18n="pro_modal.monthly_btn">Subscribe Monthly — $9.90/mo</button>
     <button class="btn btn-secondary" style="width:100%;justify-content:center;" onclick="PAYMENT.checkout('pro_annual')" data-i18n="pro_modal.annual_btn">Subscribe Annually — $95/year</button>
@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
     filterTable();
   });
 
-  // Handle Stripe checkout return
+  // Handle checkout return
   if (typeof PAYMENT !== 'undefined') PAYMENT.handleReturn();
 });
 

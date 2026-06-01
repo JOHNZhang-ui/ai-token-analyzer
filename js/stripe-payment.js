@@ -1,5 +1,5 @@
 // ============================================================
-// TokenCost — Stripe Payment Integration
+// TokenCost — Lemon Squeezy Payment Integration
 // Handles checkout initiation, subscription status polling,
 // and Pro feature unlocking after successful payment.
 // ============================================================
@@ -12,9 +12,9 @@ const PAYMENT = {
       price: 9.90,
       interval: 'month',
       features: ['unlimited_compare', 'history_trends', 'csv_export', 'alerts'],
-      get stripePriceId() {
+      get variantId() {
         const cfg = window.TC_CONFIG || {};
-        return cfg.prices?.proMonthly || 'price_PRO_MONTHLY';
+        return cfg.variants?.proMonthly || '';
       },
     },
     pro_annual: {
@@ -23,17 +23,16 @@ const PAYMENT = {
       price: 95.00,
       interval: 'year',
       features: ['unlimited_compare', 'history_trends', 'csv_export', 'alerts', 'priority_support'],
-      get stripePriceId() {
+      get variantId() {
         const cfg = window.TC_CONFIG || {};
-        return cfg.prices?.proAnnual || 'price_PRO_ANNUAL';
+        return cfg.variants?.proAnnual || '';
       },
     }
   },
 
-  // ── Start checkout for a plan ──
+  // -- Start checkout for a plan --
   async checkout(planId) {
     if (!AUTH.user) {
-      // Store intended plan and redirect to auth
       localStorage.setItem('tc_intended_plan', planId);
       window.location.href = 'auth.html';
       return;
@@ -52,10 +51,9 @@ const PAYMENT = {
     }
 
     try {
-      // Call Supabase Edge Function to create Stripe Checkout Session
       const { data, error } = await AUTH.client.functions.invoke('create-checkout', {
         body: {
-          priceId: plan.stripePriceId,
+          variantId: plan.variantId,
           planId: plan.id,
           successUrl: window.location.origin + '?checkout=success',
           cancelUrl: window.location.origin + '?checkout=canceled',
@@ -74,13 +72,12 @@ const PAYMENT = {
     }
   },
 
-  // ── Handle return from Stripe checkout ──
+  // -- Handle return from Lemon Squeezy checkout --
   handleReturn() {
     const params = new URLSearchParams(window.location.search);
     const status = params.get('checkout');
 
     if (status === 'success') {
-      // Clear query params
       window.history.replaceState({}, '', window.location.pathname);
       this._refreshSubscription();
 
@@ -92,7 +89,6 @@ const PAYMENT = {
       window.history.replaceState({}, '', window.location.pathname);
     }
 
-    // Handle intended plan after auth redirect
     const intendedPlan = localStorage.getItem('tc_intended_plan');
     if (intendedPlan && AUTH.user) {
       localStorage.removeItem('tc_intended_plan');
@@ -100,7 +96,7 @@ const PAYMENT = {
     }
   },
 
-  // ── Refresh subscription status ──
+  // -- Refresh subscription status --
   async _refreshSubscription() {
     if (!AUTH.client || !AUTH.user) return;
 
@@ -113,7 +109,6 @@ const PAYMENT = {
       .single();
 
     if (data && data.status === 'active') {
-      // Update profile plan
       await AUTH.client
         .from('profiles')
         .update({ plan: data.plan === 'pro_monthly' || data.plan === 'pro_annual' ? 'pro' : 'free' })
@@ -124,7 +119,7 @@ const PAYMENT = {
     }
   },
 
-  // ── Manage subscription (Stripe Customer Portal) ──
+  // -- Manage subscription (Lemon Squeezy customer portal) --
   async manageSubscription() {
     if (!AUTH.user) return;
 

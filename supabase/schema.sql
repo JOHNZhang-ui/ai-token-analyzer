@@ -41,9 +41,9 @@ CREATE TRIGGER on_auth_user_created
 CREATE TABLE IF NOT EXISTS subscriptions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
-  stripe_customer_id TEXT,
-  stripe_subscription_id TEXT UNIQUE,
-  stripe_price_id TEXT,
+  ls_customer_id TEXT,
+  ls_subscription_id TEXT UNIQUE,
+  ls_variant_id TEXT,
   status TEXT DEFAULT 'inactive' CHECK (status IN ('active', 'past_due', 'canceled', 'inactive', 'trialing')),
   plan TEXT DEFAULT 'free' CHECK (plan IN ('free', 'pro_monthly', 'pro_annual', 'enterprise')),
   current_period_start TIMESTAMPTZ,
@@ -98,5 +98,5 @@ CREATE POLICY "Users can manage own alerts"
 
 -- ── Indexes ──
 CREATE INDEX IF NOT EXISTS idx_subscriptions_user_id ON subscriptions(user_id);
-CREATE INDEX IF NOT EXISTS idx_subscriptions_stripe ON subscriptions(stripe_subscription_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_ls ON subscriptions(ls_subscription_id);
 CREATE INDEX IF NOT EXISTS idx_profiles_plan ON profiles(plan);

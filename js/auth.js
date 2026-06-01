@@ -220,7 +220,7 @@ const AUTH = {
     this._renderAuthState();
   },
 
-  // ── Stripe checkout (initiates from frontend) ──
+  // ── Payment checkout (initiates from frontend) ──
   async startCheckout(plan) {
     if (!this.user) {
       showToast('Please sign in first');

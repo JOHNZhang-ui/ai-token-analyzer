@@ -234,9 +234,9 @@ CREATE TRIGGER on_auth_user_created
 CREATE TABLE IF NOT EXISTS subscriptions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
-  stripe_customer_id TEXT,
-  stripe_subscription_id TEXT UNIQUE,
-  stripe_price_id TEXT,
+  ls_customer_id TEXT,
+  ls_subscription_id TEXT UNIQUE,
+  ls_variant_id TEXT,
   status TEXT DEFAULT 'inactive',
   plan TEXT DEFAULT 'free',
   current_period_start TIMESTAMPTZ,
@@ -273,13 +273,13 @@ CREATE POLICY "Users read own subs" ON subscriptions FOR SELECT USING (auth.uid(
     <div class="step-header">
       <div class="step-number" id="step2Num">2</div>
       <div>
-        <div class="step-title">注册 Stripe（收款）</div>
+        <div class="step-title">注册 Lemon Squeezy（收款）</div>
         <div class="step-subtitle">创建账号 + 产品 + 获取 Key，10 分钟</div>
       </div>
     </div>
     <div class="step-body">
       <ol style="padding-left:20px;color:var(--text-secondary);">
-        <li style="margin-bottom:8px;">访问 <a href="https://dashboard.stripe.com/register" target="_blank" style="color:var(--accent-blue);">dashboard.stripe.com/register</a> → 注册（建议先用 Test Mode 测试）</li>
+        <li style="margin-bottom:8px;">访问 <a href="https://www.lemonsqueezy.com" target="_blank" style="color:var(--accent-blue);">www.lemonsqueezy.com</a> → 注册（建议先用 Test Mode 测试）</li>
         <li style="margin-bottom:8px;">左侧菜单 → <strong style="color:#fff;">Developers → API keys</strong> → 复制 <strong style="color:#fff;">Publishable key</strong>（以 <code style="background:#0D1117;padding:1px 6px;border-radius:3px;color:var(--accent-blue);">pk_test_</code> 或 <code style="background:#0D1117;padding:1px 6px;border-radius:3px;color:var(--accent-blue);">pk_live_</code> 开头）</li>
         <li style="margin-bottom:8px;">左侧菜单 → <strong style="color:#fff;">Products</strong> → Add product → 创建两个产品：</li>
       </ol>
@@ -302,19 +302,19 @@ CREATE POLICY "Users read own subs" ON subscriptions FOR SELECT USING (auth.uid(
         </tr>
       </table>
 
-      <p>创建后，点击每个产品 → 复制 <strong style="color:#fff;">Price ID</strong>（以 <code style="background:#0D1117;padding:1px 6px;border-radius:3px;color:var(--accent-blue);">price_</code> 开头）：</p>
+      <p>创建后，点击每个产品 → 复制 <strong style="color:#fff;">Variant ID</strong>（以 <code style="background:#0D1117;padding:1px 6px;border-radius:3px;color:var(--accent-blue);">price_</code> 开头）：</p>
 
       <div class="input-group">
-        <label class="input-label">Publishable Key</label>
-        <input class="config-input" id="stripePublishableKey" placeholder="pk_test_xxxxxxxxxxxxxxxx" oninput="checkConfig()">
+        <label class="input-label">Lemon Squeezy Store ID</label>
+        <input class="config-input" id="lsStoreId" placeholder="YOUR_STORE_ID" oninput="checkConfig()">
       </div>
       <div class="input-group">
-        <label class="input-label">Pro Monthly Price ID</label>
-        <input class="config-input" id="stripePriceMonthly" placeholder="price_xxxxxxxxxxxxx" oninput="checkConfig()">
+        <label class="input-label">Pro Monthly Variant ID</label>
+        <input class="config-input" id="lsVariantMonthly" placeholder="YOUR_VARIANT_ID" oninput="checkConfig()">
       </div>
       <div class="input-group">
-        <label class="input-label">Pro Annual Price ID</label>
-        <input class="config-input" id="stripePriceAnnual" placeholder="price_xxxxxxxxxxxxx" oninput="checkConfig()">
+        <label class="input-label">Pro Annual Variant ID</label>
+        <input class="config-input" id="lsVariantAnnual" placeholder="YOUR_VARIANT_ID" oninput="checkConfig()">
       </div>
     </div>
   </div>
@@ -325,7 +325,7 @@ CREATE POLICY "Users read own subs" ON subscriptions FOR SELECT USING (auth.uid(
       <div class="step-number" id="step3Num">3</div>
       <div>
         <div class="step-title">部署 Supabase Edge Function（支付中间层）</div>
-        <div class="step-subtitle">部署一个云函数处理 Stripe 结账，5 分钟</div>
+        <div class="step-subtitle">部署一个云函数处理 Lemon Squeezy 结账，5 分钟</div>
       </div>
     </div>
     <div class="step-body">
@@ -345,8 +345,8 @@ cd ai-token-analyzer
 supabase init
 supabase link --project-ref YOUR_PROJECT_REF
 
-# 5. 设置环境变量（Stripe Secret Key）
-supabase secrets set STRIPE_SECRET_KEY=sk_test_xxxxxxxxx
+# 5. 设置环境变量（Lemon Squeezy API Key）
+supabase secrets set LEMONSQUEEZY_API_KEY=ls_key_xxxxxxxxx
 supabase secrets set SUPABASE_URL=https://xxxxxxxxx.supabase.co
 supabase secrets set SUPABASE_ANON_KEY=eyJhbGci...
 
@@ -354,7 +354,7 @@ supabase secrets set SUPABASE_ANON_KEY=eyJhbGci...
 supabase functions deploy create-checkout
       </div>
 
-      <p style="color:var(--accent-orange);">⚠ Stripe Secret Key 在 Stripe Dashboard → Developers → API keys → <strong>Secret key</strong>（以 sk_test_ 或 sk_live_ 开头）。这个不要公开，只放云函数环境变量里。</p>
+      <p style="color:var(--accent-orange);">⚠ Lemon Squeezy API Key 在 Stripe Dashboard → Developers → API keys → <strong>Secret key</strong>（以 sk_test_ 或 sk_live_ 开头）。这个不要公开，只放云函数环境变量里。</p>
 
       <p>部署成功后，复制 Edge Function URL：</p>
 
@@ -371,7 +371,7 @@ supabase functions deploy create-checkout
       <div class="step-number" id="step4Num">4</div>
       <div>
         <div class="step-title">部署 Webhook 服务 + 上线</div>
-        <div class="step-subtitle">接收 Stripe 支付回调，部署网站，10 分钟</div>
+        <div class="step-subtitle">接收 Lemon Squeezy 支付回调，部署网站，10 分钟</div>
       </div>
     </div>
     <div class="step-body">
@@ -384,12 +384,12 @@ supabase functions deploy create-checkout
 # 1. 去 railway.app → New Project → Deploy from GitHub
 # 2. 选择你的仓库 → 设置 Root Directory = server/
 # 3. 添加环境变量：
-#    STRIPE_SECRET_KEY=sk_test_xxx
-#    STRIPE_WEBHOOK_SECRET=whsec_xxx  (从 Stripe Dashboard → Webhooks 获取)
+#    LEMONSQUEEZY_API_KEY=sk_test_xxx
+#    LEMONSQUEEZY_WEBHOOK_SECRET=ls_whsec_xxx  (从 Lemon Squeezy Settings → Webhooks 获取)
 #    SUPABASE_URL=https://xxx.supabase.co
 #    SUPABASE_SERVICE_ROLE_KEY=xxx    (Supabase → Settings → API → service_role key)
 # 4. Deploy → 拿到 URL（如 https://tokencost-webhook.up.railway.app）
-# 5. 去 Stripe Dashboard → Webhooks → Add endpoint
+# 5. 去 Lemon Squeezy Settings → Webhooks → Add endpoint
 #    URL = https://tokencost-webhook.up.railway.app/webhook
 #    Events = checkout.session.completed, customer.subscription.updated, customer.subscription.deleted
       </div>
@@ -447,9 +447,9 @@ function loadConfig() {
     const cfg = JSON.parse(saved);
     setVal('supabaseUrl', cfg.supabase?.url || '');
     setVal('supabaseAnonKey', cfg.supabase?.anonKey || '');
-    setVal('stripePublishableKey', cfg.stripe?.publishableKey || '');
-    setVal('stripePriceMonthly', cfg.prices?.proMonthly || '');
-    setVal('stripePriceAnnual', cfg.prices?.proAnnual || '');
+    setVal('lsStoreId', cfg.lemonsqueezy?.storeId || cfg.stripe?.publishableKey || '');
+    setVal('lsVariantMonthly', cfg.variants?.proMonthly || cfg.prices?.proMonthly || '');
+    setVal('lsVariantAnnual', cfg.variants?.proAnnual || cfg.prices?.proAnnual || '');
     setVal('edgeFunctionUrl', cfg.edgeFunctionUrl || '');
   } catch (e) {}
 }
@@ -468,7 +468,7 @@ function getVal(id) {
 
 // ── Check progress ──
 function checkConfig() {
-  const fields = ['supabaseUrl','supabaseAnonKey','stripePublishableKey','stripePriceMonthly','stripePriceAnnual','edgeFunctionUrl'];
+  const fields = ['supabaseUrl','supabaseAnonKey','lsStoreId','lsVariantMonthly','lsVariantAnnual','edgeFunctionUrl'];
   let filled = 0;
   fields.forEach(id => {
     const el = document.getElementById(id);
@@ -497,7 +497,7 @@ function checkConfig() {
 
   // Update step numbers
   const s1fill = (getVal('supabaseUrl') && getVal('supabaseAnonKey'));
-  const s2fill = (getVal('stripePublishableKey') && getVal('stripePriceMonthly') && getVal('stripePriceAnnual'));
+  const s2fill = (getVal('lsStoreId') && getVal('lsVariantMonthly') && getVal('lsVariantAnnual'));
   const s3fill = (getVal('edgeFunctionUrl'));
   document.getElementById('step1Num').classList.toggle('done', s1fill);
   document.getElementById('step2Num').classList.toggle('done', s2fill);
@@ -507,7 +507,7 @@ function checkConfig() {
 
 // ── Save config ──
 function saveConfig() {
-  const fields = ['supabaseUrl','supabaseAnonKey','stripePublishableKey','stripePriceMonthly','stripePriceAnnual','edgeFunctionUrl'];
+  const fields = ['supabaseUrl','supabaseAnonKey','lsStoreId','lsVariantMonthly','lsVariantAnnual','edgeFunctionUrl'];
   const allFilled = fields.every(id => getVal(id));
   if (!allFilled) {
     const indicator = document.getElementById('saveIndicator');
@@ -522,8 +522,8 @@ function saveConfig() {
 
   const config = {
     supabase: { url: getVal('supabaseUrl'), anonKey: getVal('supabaseAnonKey') },
-    stripe: { publishableKey: getVal('stripePublishableKey') },
-    prices: { proMonthly: getVal('stripePriceMonthly'), proAnnual: getVal('stripePriceAnnual') },
+    lemonsqueezy: { storeId: getVal('lsStoreId'), apiKey: '' },
+    variants: { proMonthly: getVal('lsVariantMonthly'), proAnnual: getVal('lsVariantAnnual') },
     edgeFunctionUrl: getVal('edgeFunctionUrl'),
   };
 
@@ -542,8 +542,8 @@ function saveConfig() {
 function downloadConfig() {
   const config = {
     supabase: { url: getVal('supabaseUrl'), anonKey: getVal('supabaseAnonKey') },
-    stripe: { publishableKey: getVal('stripePublishableKey') },
-    prices: { proMonthly: getVal('stripePriceMonthly'), proAnnual: getVal('stripePriceAnnual') },
+    lemonsqueezy: { storeId: getVal('lsStoreId'), apiKey: '' },
+    variants: { proMonthly: getVal('lsVariantMonthly'), proAnnual: getVal('lsVariantAnnual') },
     edgeFunctionUrl: getVal('edgeFunctionUrl'),
   };
 

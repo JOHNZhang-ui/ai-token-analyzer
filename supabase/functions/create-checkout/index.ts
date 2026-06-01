@@ -1,9 +1,9 @@
 // ============================================================
 // TokenCost — Supabase Edge Function: create-checkout
+// Creates a Lemon Squeezy checkout and returns the URL.
 // ============================================================
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import Stripe from 'npm:stripe@17';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -17,15 +17,16 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { priceId, planId, successUrl, cancelUrl } = await req.json();
+    const { variantId, planId, successUrl, cancelUrl } = await req.json();
 
-    if (!priceId || !planId) {
+    if (!variantId || !planId) {
       return new Response(
-        JSON.stringify({ error: 'Missing priceId or planId' }),
+        JSON.stringify({ error: 'Missing variantId or planId' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
+    // -- Verify user auth --
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
       return new Response(
@@ -51,25 +52,75 @@ Deno.serve(async (req) => {
       );
     }
 
-    // ── Stripe Checkout ──
-    const stripeKey = Deno.env.get('STRIPE_SECRET_KEY') ?? '';
-    const stripe = new Stripe(stripeKey);
+    // -- Lemon Squeezy Checkout --
+    const lsApiKey = Deno.env.get('LEMONSQUEEZY_API_KEY') ?? '';
+    const lsStoreId = Deno.env.get('LEMONSQUEEZY_STORE_ID') ?? '';
 
-    const session = await stripe.checkout.sessions.create({
-      mode: 'subscription',
-      payment_method_types: ['card'],
-      line_items: [{ price: priceId, quantity: 1 }],
-      client_reference_id: user.id,
-      customer_email: user.email,
-      metadata: { plan: planId, user_id: user.id },
-      success_url: successUrl || `${req.headers.get('origin')}?checkout=success`,
-      cancel_url: cancelUrl || `${req.headers.get('origin')}?checkout=canceled`,
-      allow_promotion_codes: true,
-      billing_address_collection: 'auto',
+    if (!lsApiKey || !lsStoreId) {
+      console.error('Lemon Squeezy config missing');
+      return new Response(
+        JSON.stringify({ error: 'Payment system not configured' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const lsRes = await fetch('https://api.lemonsqueezy.com/v1/checkouts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/vnd.api+json',
+        'Content-Type': 'application/vnd.api+json',
+        'Authorization': `Bearer ${lsApiKey}`,
+      },
+      body: JSON.stringify({
+        data: {
+          type: 'checkouts',
+          attributes: {
+            product_options: {
+              enabled_variants: [Number(variantId)],
+            },
+            checkout_options: {
+              button_color: '#2563eb',
+            },
+            checkout_data: {
+              email: user.email || '',
+              custom: {
+                user_id: user.id,
+                plan: planId,
+              },
+            },
+          },
+          relationships: {
+            store: {
+              data: { type: 'stores', id: String(lsStoreId) },
+            },
+            variant: {
+              data: { type: 'variants', id: String(variantId) },
+            },
+          },
+        },
+      }),
     });
 
+    const lsData = await lsRes.json();
+
+    if (!lsRes.ok) {
+      console.error('LS checkout error:', JSON.stringify(lsData));
+      return new Response(
+        JSON.stringify({ error: lsData?.errors?.[0]?.detail || 'Checkout creation failed' }),
+        { status: lsRes.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const checkoutUrl = lsData?.data?.attributes?.url;
+    if (!checkoutUrl) {
+      return new Response(
+        JSON.stringify({ error: 'No checkout URL in LS response' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     return new Response(
-      JSON.stringify({ url: session.url }),
+      JSON.stringify({ url: checkoutUrl }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
