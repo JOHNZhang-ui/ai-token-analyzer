@@ -1033,5 +1033,64 @@ function updateTrendsInsight() {
 }
 </script>
 
+<!-- Feedback FAB -->
+<button class="feedback-fab" id="feedbackFab" onclick="openFeedbackModal()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  <span data-i18n="feedback.title">反馈建议</span>
+</button>
+
+<!-- Feedback Modal -->
+<div class="feedback-modal-overlay" id="feedbackModal" style="display:none;">
+  <div class="feedback-modal">
+    <h3 data-i18n="feedback.title">反馈建议</h3>
+    <p class="subtitle" data-i18n="feedback.subtitle">你的意见帮助我们做得更好</p>
+    <div id="feedbackForm">
+      <label data-i18n="feedback.type_label">反馈类型</label>
+      <select id="feedbackType">
+        <option value="suggestion" data-i18n="feedback.type_suggestion">功能建议</option>
+        <option value="bug" data-i18n="feedback.type_bug">Bug 反馈</option>
+        <option value="pricing" data-i18n="feedback.type_pricing">定价咨询</option>
+        <option value="other" data-i18n="feedback.type_other">其他</option>
+      </select>
+      <label data-i18n="feedback.email_label">联系邮箱（选填）</label>
+      <input type="email" id="feedbackEmail" placeholder="your@email.com" />
+      <label data-i18n="feedback.content_label">详细内容</label>
+      <textarea id="feedbackContent" data-i18n-placeholder="feedback.content_placeholder" placeholder="请描述你的建议或问题..."></textarea>
+      <div class="btn-row">
+        <button class="btn-cancel" onclick="closeFeedbackModal()" data-i18n="feedback.cancel">取消</button>
+        <button class="btn-submit" onclick="submitFeedback()" data-i18n="feedback.submit">提交反馈</button>
+      </div>
+    </div>
+    <div id="feedbackSuccess" class="success-msg" style="display:none;" data-i18n="feedback.success">✅ 感谢反馈！我们会尽快处理。</div>
+  </div>
+</div>
+
+<script>
+function openFeedbackModal() {
+  document.getElementById('feedbackModal').style.display = 'flex';
+  document.getElementById('feedbackContent').value = '';
+  document.getElementById('feedbackEmail').value = '';
+}
+function closeFeedbackModal() {
+  document.getElementById('feedbackModal').style.display = 'none';
+  document.getElementById('feedbackSuccess').style.display = 'none';
+  document.getElementById('feedbackForm').style.display = 'block';
+}
+function submitFeedback() {
+  var type = document.getElementById('feedbackType').value;
+  var email = document.getElementById('feedbackEmail').value;
+  var content = document.getElementById('feedbackContent').value.trim();
+  if (!content) { alert('请填写反馈内容'); return; }
+  var body = '类型：' + type + '%0D%0A邮箱：' + (email || '匿名') + '%0D%0A内容：' + encodeURIComponent(content);
+  window.location.href = 'mailto:hello@tokencost.hk.cn?subject=TokenCost 用户反馈&body=' + body;
+  document.getElementById('feedbackForm').style.display = 'none';
+  document.getElementById('feedbackSuccess').style.display = 'block';
+  setTimeout(closeFeedbackModal, 2500);
+}
+document.getElementById('feedbackModal').addEventListener('click', function(e) {
+  if (e.target === this) closeFeedbackModal();
+});
+</script>
+
 </body>
 </html>
