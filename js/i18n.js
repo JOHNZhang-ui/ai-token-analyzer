@@ -16,6 +16,7 @@ const I18N = {
     'nav.trends':         { en: 'Trends',          zh: '价格趋势',      ja: '価格推移',          ko: '가격 추세' },
     'nav.blog':           { en: 'Insights',        zh: '行业洞察',      ja: 'インサイト',        ko: '인사이트' },
     'nav.pricing':        { en: 'Pricing',         zh: '定价方案',      ja: '料金プラン',        ko: '요금제' },
+    'nav.flowbot':        { en: 'FlowBot',        zh: 'FlowBot 工作流', ja: 'FlowBot',         ko: 'FlowBot' },
     'nav.upgrade':        { en: 'Upgrade to Pro',  zh: '升级 Pro',      ja: 'Proにアップグレード', ko: 'Pro 업그레이드' },
 
     // ── Hero ──

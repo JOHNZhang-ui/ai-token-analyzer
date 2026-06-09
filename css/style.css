@@ -134,7 +134,16 @@ body {
   background: rgba(88, 166, 255, 0.1);
 }
 
-.nav-pro-btn {
+.nav-flowbot-link {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.15));
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: var(--radius-md) !important;
+  font-weight: 600 !important;
+}
+.nav-flowbot-link:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(59, 130, 246, 0.25)) !important;
+  color: var(--text-primary) !important;
+}
   background: var(--gradient-pro);
   color: #fff !important;
   padding: 6px 18px !important;
