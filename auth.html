@@ -266,6 +266,15 @@
   function hideMessages() {
     document.getElementById('authError').style.display = 'none';
     document.getElementById('authSuccess').style.display = 'none';
+    document.getElementById('authInfo').style.display = 'none';
+  }
+
+  function showInfo(msg) {
+    const el = document.getElementById('authInfo');
+    el.innerHTML = msg;
+    el.style.display = 'block';
+    document.getElementById('authError').style.display = 'none';
+    document.getElementById('authSuccess').style.display = 'none';
   }
 
   // ── Login ──
@@ -299,13 +308,38 @@
     const email = document.getElementById('signupEmail').value.trim();
     const password = document.getElementById('signupPassword').value;
 
-    const { error } = await AUTH.signUp(email, password, name);
+    const { data, error } = await AUTH.signUp(email, password, name);
     if (error) {
       showError(error.message || 'Signup failed.');
-    } else {
-      showSuccess('Account created! Check your email for confirmation, then sign in.');
-      // Switch to login tab
+    } else if (data && data.user && !data.session) {
+      // Email confirmation required — show info with resend option
+      showInfo(
+        '注册成功！请检查邮箱 ' + email + ' 中的确认链接。未收到邮件？' +
+        '<a href="#" onclick="resendVerification(\'' + email + '\');return false;" style="color:#A371F7;text-decoration:underline;">重新发送</a>'
+      );
       document.querySelector('.auth-tab[data-tab="login"]').click();
+    } else {
+      showSuccess('Account created! Redirecting...');
+      setTimeout(function() {
+        var intended = localStorage.getItem('tc_intended_plan');
+        if (intended) {
+          PAYMENT.checkout(intended);
+        } else {
+          window.location.href = 'index.html';
+        }
+      }, 800);
+    }
+  }
+
+  // ── Resend verification ──
+  async function resendVerification(email) {
+    hideMessages();
+    showInfo('正在重新发送验证邮件...');
+    var result = await AUTH.resendVerification(email);
+    if (result.error) {
+      showError('发送失败：' + result.error.message);
+    } else {
+      showInfo('验证邮件已重新发送到 ' + email + '，请检查收件箱（包括垃圾邮件文件夹）。');
     }
   }
 

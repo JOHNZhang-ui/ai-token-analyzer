@@ -42,6 +42,18 @@ const AUTH = {
         this.user = session.user;
         await this._loadProfile();
       }
+      // Listen for auth state changes (email confirmation, OAuth redirect, multi-tab sync)
+      this.client.auth.onAuthStateChange((_event, session) => {
+        if (session) {
+          this.user = session.user;
+          this._loadProfile().then(() => this._renderAuthState());
+        } else {
+          this.user = null;
+          this.profile = null;
+          this.isPro = false;
+          this._renderAuthState();
+        }
+      });
     } catch (e) {
       console.warn('[TokenCost Auth] Supabase init failed, falling back to demo:', e.message);
       this.isDemo = true;
@@ -133,12 +145,18 @@ const AUTH = {
     if (!this.client) return { error: { message: 'Auth not configured' } };
     const { data, error } = await this.client.auth.signUp({
       email, password,
-      options: { data: { full_name: fullName || '' } }
+      options: {
+        data: { full_name: fullName || '' },
+        emailRedirectTo: window.location.origin + '/auth.html'
+      }
     });
     if (!error && data.user) {
-      this.user = data.user;
-      await this._loadProfile();
-      this._renderAuthState();
+      // Only auto-login if a session was created (email confirmation disabled)
+      if (data.session) {
+        this.user = data.user;
+        await this._loadProfile();
+        this._renderAuthState();
+      }
     }
     return { data, error };
   },
@@ -202,6 +220,16 @@ const AUTH = {
     this.profile = null;
     this.isPro = false;
     this._renderAuthState();
+  },
+
+  async resendVerification(email) {
+    if (this.isDemo || !this.client) return { error: { message: 'Not available in demo mode' } };
+    const { error } = await this.client.auth.resend({
+      type: 'signup',
+      email,
+      options: { emailRedirectTo: window.location.origin + '/auth.html' }
+    });
+    return { error };
   },
 
   // ── Demo: simulate Pro upgrade ──
